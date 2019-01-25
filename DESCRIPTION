@@ -25,3 +25,5 @@ Imports:
     tidyr (>= 0.8.2)
 Suggests: 
     testthat
+URL: http://github.com/ReasonFoundation/pensionviewr
+BugReports: http://github.com/ReasonFoundation/pensionviewr/issues
