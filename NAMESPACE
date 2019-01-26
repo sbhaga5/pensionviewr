@@ -1,1 +1,5 @@
 exportPattern("^[[:alpha:]]+")
+importFrom("stats", "approx")
+importFrom(magrittr,"%>%")
+importFrom(rlang, "!!")
+importFrom(rlang, ".data")
