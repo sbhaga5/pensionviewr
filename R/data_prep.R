@@ -47,6 +47,9 @@ planList <- function() {
 #'
 #' @param pl A datafram containing the list of plan names, states, and ids in the form produced by the planList() function.
 #' @param plan_name A string enclosed in quotation marks containing a plan name as it is listed in the Reason pension database.
+#' @return A wide data frame with each year as a row and variables as columns.
+#' @export
+#' @importFrom rlang .data
 #' @examples
 #' \dontrun{
 #' pullData(pl)
@@ -86,7 +89,7 @@ pullData <-
   inner join data_source
   on plan_attribute.data_source_id = data_source.id
   where cast(plan_annual_attribute.year as integer) >= 1980 and
-  data_source_id <> 1 and
+  data_source_id = 2 and
   plan_id = $1"
 
     plan_id <- pl$id[pl$display_name == plan_name]
@@ -101,7 +104,7 @@ pullData <-
       dplyr::group_by_at(dplyr::vars(-.data$attribute_value)) %>%  # group by everything other than the value column.
       dplyr::mutate(row_id = 1:dplyr::n()) %>%
       dplyr::ungroup() %>%  # build group index
-      tidyr::spread(.data, .data$attribute_name, .data$attribute_value, convert = TRUE) %>%    # spread
+      tidyr::spread(.data$attribute_name, .data$attribute_value, convert = TRUE) %>%    # spread
       dplyr::select(-.data$row_id) %>%  # drop the index
       janitor::clean_names()
   }
@@ -110,6 +113,7 @@ pullData <-
 #' Load the data for a specified plan from an Excel file.
 #'
 #' @param filename A string enclosed in quotation marks containing a file name with path of a pension plan Excel data file.
+#' @export
 #' @examples
 #' \dontrun{
 #' allWide <- loadData('data/NorthCarolina_PensionDatabase_TSERS.xlsx')
@@ -127,6 +131,8 @@ loadData <- function(filename) {
 #' @param .aal_var the name of the column containing the AAL, default is Reason db column name
 #' @param .asset_var the name of the column containing the Actuarial Assets, default to Reason db name.
 #' @param base Does the plan report their numbers by the thousand dollar or by the dollar? default is 1000, change to 1 for plans that report by the dollar
+#' @return A data frame containing the columns: year, actuarial_assets, aal, uaal, funded_ratio
+#' @export
 #' @examples
 #' \dontrun{
 #' data <- modData(wide_data,
@@ -172,6 +178,8 @@ modData <- function(wide_data,
 #' @param .adec_var column name for ADEC. Default: 'Employer Annual Required Contribution'
 #' @param .emp_cont_var column name for employer contributions. Default: 'Employer Contributions'
 #' @param .payroll_var column name for payroll. Default: 'Covered Payroll'
+#' @return A data frame containing the columns: year, valuation_date, actuarial_assets, aal, adec, emp_cont, payroll, uaal, funded_ratio, adec_contribution_rates, actual_contribution_rates
+#' @export
 #' @examples
 #' \dontrun{
 #' data <- selected_Data(wide_data,

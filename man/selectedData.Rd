@@ -27,6 +27,9 @@ selectedData(wide_data,
 
 \item{.payroll_var}{column name for payroll. Default: 'Covered Payroll'}
 }
+\value{
+A data frame containing the columns: year, valuation_date, actuarial_assets, aal, adec, emp_cont, payroll, uaal, funded_ratio, adec_contribution_rates, actual_contribution_rates
+}
 \description{
 Selects the data used in several graphs.
 }

@@ -11,6 +11,9 @@ pullData(pl, plan_name = "Texas Employees Retirement System")
 
 \item{plan_name}{A string enclosed in quotation marks containing a plan name as it is listed in the Reason pension database.}
 }
+\value{
+A wide data frame with each year as a row and variables as columns.
+}
 \description{
 Pull the data for a specified plan from the Reason pension databse.
 }

@@ -27,8 +27,6 @@ Imports:
     scales (>= 1.0.0),
     stringr (>= 1.3.1),
     tidyr (>= 0.8.2)
-Suggests: 
-    testthat
 URL: http://github.com/ReasonFoundation/pensionviewr
 BugReports: http://github.com/ReasonFoundation/pensionviewr/issues
 RoxygenNote: 6.1.1

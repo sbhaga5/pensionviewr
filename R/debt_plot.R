@@ -1,11 +1,11 @@
 #' Create the 'Mountain of Debt' plot.
 #' @param data a dataframe produced by the selectedData function or in the same format containing year, uaal, funded ratio columns.
+#' @export
 #' @examples
 #' \dontrun{
 #' debtPlot(data)
 #' }
 #' @importFrom rlang .data
-#' @export
 debtPlot <- function(data) {
   reasonTheme <- get("reasonTheme")
   # extrapolate between years linearly
@@ -70,6 +70,7 @@ debtPlot <- function(data) {
 
 #' Create a table comntaining the data used in the 'Mountain of Debt' plot.
 #' @param data a dataframe produced by the selectedData function or in the same format containing year, uaal, funded ratio columns.
+#' @export
 #' @examples
 #' \dontrun{
 #' debtTable(data)

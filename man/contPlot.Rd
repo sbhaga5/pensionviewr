@@ -4,18 +4,13 @@
 \alias{contPlot}
 \title{Create a plot comparing ADEC contribution rates with actual contribution rates.}
 \usage{
-contPlot(data, y1 = "ADEC Contribution Rates",
-  y2 = "Actual Contribution Rates (Statutory)", y3 = NULL,
-  labelY = NULL, label1 = NULL, label2 = NULL, label3 = NULL)
+contPlot(data, .adec_var = "adec_contribution_rates",
+  .actual_var = "actual_contribution_rates", labelY = NULL,
+  label1 = "ADEC Contribution Rate",
+  label2 = "Actual Contribution Rate")
 }
 \arguments{
-\item{data}{a dataframe produced by the selectedData function or in the same format containing columns for ADEC, actual and optionally a third column to plot.}
-
-\item{y1}{The name of the ADEC variable}
-
-\item{y2}{The name of the actual contribution variable}
-
-\item{y3}{The name of an optional third variable}
+\item{data}{a dataframe produced by the selectedData function or in the same format containing columns for ADEC, and actual contributions to plot.}
 
 \item{labelY}{A label for the Y-axis}
 
@@ -23,7 +18,9 @@ contPlot(data, y1 = "ADEC Contribution Rates",
 
 \item{label2}{A label for the actual contribution variable}
 
-\item{label3}{A label for the third variable}
+\item{y1}{The name of the ADEC variable}
+
+\item{y2}{The name of the actual contribution variable}
 }
 \description{
 Create a plot comparing ADEC contribution rates with actual contribution rates.

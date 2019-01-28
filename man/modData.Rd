@@ -19,6 +19,9 @@ modData(wide_data, .year_var = "year",
 
 \item{base}{Does the plan report their numbers by the thousand dollar or by the dollar? default is 1000, change to 1 for plans that report by the dollar}
 }
+\value{
+A data frame containing the columns: year, actuarial_assets, aal, uaal, funded_ratio
+}
 \description{
 Select the data used in the 'mountain of debt' graph.
 }
