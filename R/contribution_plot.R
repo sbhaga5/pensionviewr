@@ -1,8 +1,8 @@
 #' Create a plot comparing ADEC contribution rates with actual contribution rates.
 #'
 #' @param data a dataframe produced by the selectedData function or in the same format containing columns for ADEC, and actual contributions to plot.
-#' @param y1 The name of the ADEC variable
-#' @param y2 The name of the actual contribution variable
+#' @param .adec_var The name of the ADEC variable
+#' @param .actual_var The name of the actual contribution variable
 #' @param labelY A label for the Y-axis
 #' @param label1 A label for the ADEC variable
 #' @param label2 A label for the actual contribution variable

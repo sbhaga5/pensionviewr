@@ -123,52 +123,6 @@ loadData <- function(filename) {
     janitor::clean_names()
 }
 
-
-#' Select the data used in the 'mountain of debt' graph.
-#'
-#' @param wide_data a datasource in wide format
-#' @param .year_var the name of the column conatining the year
-#' @param .aal_var the name of the column containing the AAL, default is Reason db column name
-#' @param .asset_var the name of the column containing the Actuarial Assets, default to Reason db name.
-#' @param base Does the plan report their numbers by the thousand dollar or by the dollar? default is 1000, change to 1 for plans that report by the dollar
-#' @return A data frame containing the columns: year, actuarial_assets, aal, uaal, funded_ratio
-#' @export
-#' @examples
-#' \dontrun{
-#' data <- modData(wide_data,
-#'                 .year_var = 'Fiscal Year End',
-#'                 .aal_var = 'Actuarial Accrued Liability',
-#'                 .asset_var = 'Actuarial Value of Assets',
-#'                  base = 1
-#'                  )
-#' }
-
-modData <- function(wide_data,
-  .year_var = "year",
-  .aal_var = "actuarial_accrued_liabilities_under_gasb_standards",
-  .asset_var = "actuarial_assets_under_gasb_standards",
-  base = 1000){
-
-  year_var <- rlang::sym(.year_var)
-  aal_var <- rlang::sym(.aal_var)
-  asset_var <- rlang::sym(.asset_var)
-
-  wide_data %>%
-    dplyr::select(year = !!year_var, actuarial_assets = !!asset_var, aal = !!aal_var) %>%
-    dplyr::mutate(
-      uaal = as.numeric(.data$aal) - as.numeric(.data$actuarial_assets),
-      # create a UAAL column as AAL-Actuarial Assets
-      funded_ratio = as.numeric(.data$actuarial_assets) / as.numeric(.data$aal),
-      # create a fundedRatio column as Actuarial Assets divided by AAL
-    ) %>%
-    dplyr::mutate(
-      actuarial_assets = as.numeric(.data$actuarial_assets) * base,
-      aal = as.numeric(.data$aal) * base,
-      uaal = .data$uaal * base
-    ) %>%
-    tidyr::drop_na()
-}
-
 #' Selects the data used in several graphs.
 #'
 #' @param wide_data a datasource in wide format

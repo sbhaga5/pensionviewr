@@ -12,15 +12,15 @@ contPlot(data, .adec_var = "adec_contribution_rates",
 \arguments{
 \item{data}{a dataframe produced by the selectedData function or in the same format containing columns for ADEC, and actual contributions to plot.}
 
+\item{.adec_var}{The name of the ADEC variable}
+
+\item{.actual_var}{The name of the actual contribution variable}
+
 \item{labelY}{A label for the Y-axis}
 
 \item{label1}{A label for the ADEC variable}
 
 \item{label2}{A label for the actual contribution variable}
-
-\item{y1}{The name of the ADEC variable}
-
-\item{y2}{The name of the actual contribution variable}
 }
 \description{
 Create a plot comparing ADEC contribution rates with actual contribution rates.

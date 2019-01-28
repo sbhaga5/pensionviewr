@@ -79,7 +79,7 @@ debtTable <- function(data) {
 
   data <- data %>%
     # give the columns pretty names
-    dplyr::rename(
+    dplyr::select(
       "Year" = .data$year,
       "Actuarial Assets" = .data$actuarial_assets,
       "Actuarial Accrued Liabilities" = .data$aal,
