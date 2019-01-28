@@ -28,16 +28,15 @@ contPlot <- function(data,
     dplyr::mutate_all(dplyr::funs(as.numeric)) %>%
     tidyr::gather(key = "keys", value = "amount", -.data$year)
 
-  lineColors <- c(y1 = "#FF6633",
-    y2 = "#3300FF",
-    y3 = "#333333")
+  lineColors <- c("adec" = "#FF6633",
+    "actual" = "#333333")
 
-  labs <- c(label1,
-    label2)
+  labs <- c("adec" = label1,
+    "actual" = label2)
 
-  ggplot2::ggplot(graph, ggplot2::aes(x = graph$year)) +
-    ggplot2::geom_line(ggplot2::aes(y = graph$amount * 100, color = graph$keys), size = 2) +
-    ggplot2::scale_fill_manual(values = lineColors) +
+  ggplot2::ggplot(graph, ggplot2::aes(x = graph$year, y = graph$amount * 100)) +
+    ggplot2::geom_line(ggplot2::aes(colour = graph$keys), size = 2) +
+    ggplot2::scale_colour_manual(values = lineColors, labels = labs) +
     ggplot2::geom_hline(yintercept = 0, color = "black") +
 
     ggplot2::scale_y_continuous(
@@ -53,7 +52,6 @@ contPlot <- function(data,
       ) +
 
     ggplot2::ylab(labelY) +
-    ggplot2::scale_color_discrete(labels = labs) +
 
     reasonTheme +
     ggplot2::theme(
