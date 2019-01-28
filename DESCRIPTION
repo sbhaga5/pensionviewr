@@ -31,3 +31,4 @@ Suggests:
     testthat
 URL: http://github.com/ReasonFoundation/pensionviewr
 BugReports: http://github.com/ReasonFoundation/pensionviewr/issues
+RoxygenNote: 6.1.1
