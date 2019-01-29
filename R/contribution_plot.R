@@ -8,6 +8,7 @@
 #' @param label2 A label for the actual contribution variable
 #' @importFrom rlang .data
 #' @export
+
 contPlot <- function(data,
   .adec_var = "adec_contribution_rates",
   .actual_var = "actual_contribution_rates",
