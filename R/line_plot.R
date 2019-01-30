@@ -1,6 +1,6 @@
-#' Create a plot comparing ADEC contribution rates with actual contribution rates.
+#' Create a plot comparing two variables, such as ADEC vs. Actual contributions.
 #'
-#' @param data a dataframe produced by the selectedData function or in the same format containing columns for ADEC, and actual contributions to plot.
+#' @param data a dataframe produced by the selectedData function or in the same format.
 #' @param .var1 The name of the first variable to plat, default is adec_contribution_rates.
 #' @param .var2 The name of the second variable to plot, default if actual_contribution_rates.
 #' @param labelY A label for the Y-axis.
@@ -9,7 +9,7 @@
 #' @importFrom rlang .data
 #' @export
 
-contPlot <- function(data,
+linePlot <- function(data,
   .var1 = "adec_contribution_rates",
   .var2 = "actual_contribution_rates",
   labelY = NULL,

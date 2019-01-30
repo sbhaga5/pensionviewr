@@ -40,12 +40,12 @@ example. Let’s first see what plans in Kansas are available:
 ``` r
 require(tidyverse)
 #> Loading required package: tidyverse
-#> ── Attaching packages ──────────────────────────────────── tidyverse 1.2.1 ──
+#> ── Attaching packages ────────────────────── tidyverse 1.2.1 ──
 #> ✔ ggplot2 3.1.0     ✔ purrr   0.2.5
 #> ✔ tibble  1.4.2     ✔ dplyr   0.7.8
 #> ✔ tidyr   0.8.2     ✔ stringr 1.3.1
 #> ✔ readr   1.3.0     ✔ forcats 0.3.0
-#> ── Conflicts ─────────────────────────────────────── tidyverse_conflicts() ──
+#> ── Conflicts ───────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
 KS <- pl %>% filter(state == 'Kansas')
@@ -232,7 +232,7 @@ Now lets make some plots:
 <img src="man/figures/README-plot1-1.png" width="100%" />
 
 ``` r
-contPlot(df)
+linePlot(df)
 ```
 
 <img src="man/figures/README-contributions-1.png" width="100%" />

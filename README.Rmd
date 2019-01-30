@@ -64,6 +64,6 @@ debtPlot(df)
 
 
 ```{r contributions}
-contPlot(df)
+linePlot(df)
 ```
 
