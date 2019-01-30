@@ -40,12 +40,12 @@ example. Let’s first see what plans in Kansas are available:
 ``` r
 require(tidyverse)
 #> Loading required package: tidyverse
-#> ── Attaching packages ─────────────────────────────────────────── tidyverse 1.2.1 ──
+#> ── Attaching packages ──────────────────────────────────── tidyverse 1.2.1 ──
 #> ✔ ggplot2 3.1.0     ✔ purrr   0.2.5
 #> ✔ tibble  1.4.2     ✔ dplyr   0.7.8
 #> ✔ tidyr   0.8.2     ✔ stringr 1.3.1
 #> ✔ readr   1.3.0     ✔ forcats 0.3.0
-#> ── Conflicts ────────────────────────────────────────────── tidyverse_conflicts() ──
+#> ── Conflicts ─────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
 KS <- pl %>% filter(state == 'Kansas')
@@ -213,19 +213,26 @@ handful of needed variables:
 ``` r
 df <- selectedData(kpers_data)
 head(df)
-#> # A tibble: 6 x 11
-#>    year valuation_date actuarial_assets    aal   adec emp_cont payroll
-#>   <dbl> <date>                    <dbl>  <dbl>  <dbl>    <dbl>   <dbl>
-#> 1  2000 2000-12-31              9835182 1.11e7 2.49e5  193384. 4876555
-#> 2  2001 2001-12-31              9962918 1.17e7 2.60e5  221474. 5116384
-#> 3  2002 2002-12-31              9784862 1.26e7 2.82e5  231464. 4865903
-#> 4  2003 2003-12-31             10853462 1.44e7 3.39e5  714353. 4978132
-#> 5  2004 2004-12-31             10971427 1.57e7 3.82e5  293952. 5102016
-#> 6  2005 2005-12-31             11339293 1.65e7 4.71e5  352032. 5270351
-#> # ... with 4 more variables: uaal <dbl>, funded_ratio <dbl>,
-#> #   adec_contribution_rates <dbl>, actual_contribution_rates <dbl>
+#> # A tibble: 6 x 12
+#>    year valuation_date actuarial_assets    aal   adec er_cont ee_cont
+#>   <dbl> <date>                    <dbl>  <dbl>  <dbl>   <dbl>   <dbl>
+#> 1  2000 2000-12-31              9835182 1.11e7 2.49e5 193384. 204143.
+#> 2  2001 2001-12-31              9962918 1.17e7 2.60e5 221474. 209624.
+#> 3  2002 2002-12-31              9784862 1.26e7 2.82e5 231464. 224746.
+#> 4  2003 2003-12-31             10853462 1.44e7 3.39e5 714353. 230350.
+#> 5  2004 2004-12-31             10971427 1.57e7 3.82e5 293952. 233226.
+#> 6  2005 2005-12-31             11339293 1.65e7 4.71e5 352032. 246203.
+#> # ... with 5 more variables: payroll <dbl>, uaal <dbl>,
+#> #   funded_ratio <dbl>, adec_contribution_rates <dbl>,
+#> #   actual_contribution_rates <dbl>
 ```
 
 Now lets make some plots:
 
 <img src="man/figures/README-plot1-1.png" width="100%" />
+
+``` r
+contPlot(df)
+```
+
+<img src="man/figures/README-contributions-1.png" width="100%" />

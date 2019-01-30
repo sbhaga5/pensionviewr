@@ -63,4 +63,7 @@ debtPlot(df)
 ```
 
 
+```{r contributions}
+contPlot(df)
+```
 

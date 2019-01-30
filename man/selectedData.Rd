@@ -9,7 +9,8 @@ selectedData(wide_data,
   .aal_var = "actuarial_accrued_liabilities_under_gasb_standards",
   .asset_var = "actuarial_assets_under_gasb_standards",
   .adec_var = "employer_annual_required_contribution",
-  .emp_cont_var = "employer_contributions",
+  .er_cont_var = "employer_contributions",
+  .ee_cont_var = "employee_contributions",
   .payroll_var = "covered_payroll")
 }
 \arguments{
@@ -23,12 +24,14 @@ selectedData(wide_data,
 
 \item{.adec_var}{column name for ADEC. Default: 'Employer Annual Required Contribution'}
 
-\item{.emp_cont_var}{column name for employer contributions. Default: 'Employer Contributions'}
+\item{.er_cont_var}{column name for employer contributions. Default: 'Employer Contributions'}
+
+\item{.ee_cont_var}{column name for employee contributions. Default: 'Employee Contributions'}
 
 \item{.payroll_var}{column name for payroll. Default: 'Covered Payroll'}
 }
 \value{
-A data frame containing the columns: year, valuation_date, actuarial_assets, aal, adec, emp_cont, payroll, uaal, funded_ratio, adec_contribution_rates, actual_contribution_rates
+A data frame containing the columns: year, valuation_date, actuarial_assets, aal, adec, er_cont, ee_cont, payroll, uaal, funded_ratio, adec_contribution_rates, actual_contribution_rates
 }
 \description{
 Selects the data used in several graphs.
@@ -40,7 +43,8 @@ data <- selected_Data(wide_data,
                  aal_var = 'Actuarial Accrued Liabilities Under GASB Standards',
                  asset_var = 'Actuarial Assets under GASB standards',
                  adec_var = 'Employer Annual Required Contribution',
-                 emp_cont_var = 'Employer Contributions',
+                 er_cont_var = 'Employer Contributions',
+                 ee_cont_var = 'Employer Contributions',
                  payroll_var = 'Covered Payroll'
                  )
 }

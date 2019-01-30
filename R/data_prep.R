@@ -7,7 +7,6 @@
 
 planList <- function() {
   dw <- get("dw")
-  # dw <- config::get(config = "datawarehouse")
   con <- RPostgres::dbConnect(
     RPostgres::Postgres(),
     dbname = trimws(dw$path),
@@ -58,7 +57,6 @@ planList <- function() {
 pullData <-
   function(pl, plan_name = "Texas Employees Retirement System") {
     dw <- get("dw")
-    #dw <- config::get("datawarehouse")
     con <- RPostgres::dbConnect(
       RPostgres::Postgres(),
       dbname = trimws(dw$path),
@@ -130,9 +128,10 @@ loadData <- function(filename) {
 #' @param .aal_var column name AAL. Default: 'Actuarial Accrued Liabilities Under GASB Standards'
 #' @param .asset_var column name for Actuarial Assets. Default: 'Actuarial Assets under GASB standards'
 #' @param .adec_var column name for ADEC. Default: 'Employer Annual Required Contribution'
-#' @param .emp_cont_var column name for employer contributions. Default: 'Employer Contributions'
+#' @param .er_cont_var column name for employer contributions. Default: 'Employer Contributions'
+#' @param .ee_cont_var column name for employee contributions. Default: 'Employee Contributions'
 #' @param .payroll_var column name for payroll. Default: 'Covered Payroll'
-#' @return A data frame containing the columns: year, valuation_date, actuarial_assets, aal, adec, emp_cont, payroll, uaal, funded_ratio, adec_contribution_rates, actual_contribution_rates
+#' @return A data frame containing the columns: year, valuation_date, actuarial_assets, aal, adec, er_cont, ee_cont, payroll, uaal, funded_ratio, adec_contribution_rates, actual_contribution_rates
 #' @export
 #' @examples
 #' \dontrun{
@@ -141,7 +140,8 @@ loadData <- function(filename) {
 #'                  aal_var = 'Actuarial Accrued Liabilities Under GASB Standards',
 #'                  asset_var = 'Actuarial Assets under GASB standards',
 #'                  adec_var = 'Employer Annual Required Contribution',
-#'                  emp_cont_var = 'Employer Contributions',
+#'                  er_cont_var = 'Employer Contributions',
+#'                  ee_cont_var = 'Employer Contributions',
 #'                  payroll_var = 'Covered Payroll'
 #'                  )
 #' }
@@ -151,14 +151,16 @@ selectedData <- function(wide_data,
   .aal_var = "actuarial_accrued_liabilities_under_gasb_standards",
   .asset_var = "actuarial_assets_under_gasb_standards",
   .adec_var = "employer_annual_required_contribution",
-  .emp_cont_var = "employer_contributions",
+  .er_cont_var = "employer_contributions",
+  .ee_cont_var = "employee_contributions",
   .payroll_var = "covered_payroll") {
 
   date_var <- rlang::sym(.date_var)
   aal_var <- rlang::sym(.aal_var)
   asset_var <- rlang::sym(.asset_var)
   adec_var <- rlang::sym(.adec_var)
-  emp_cont_var <- rlang::sym(.emp_cont_var)
+  er_cont_var <- rlang::sym(.er_cont_var)
+  ee_cont_var <- rlang::sym(.ee_cont_var)
   payroll_var <- rlang::sym(.payroll_var)
 
   wide_data %>%
@@ -175,14 +177,15 @@ selectedData <- function(wide_data,
       actuarial_assets = !!asset_var,
       aal = !!aal_var,
       adec = !!adec_var,
-      emp_cont = !!emp_cont_var,
+      er_cont = !!er_cont_var,
+      ee_cont = !!ee_cont_var,
       payroll = !!payroll_var
     ) %>%
     dplyr::mutate(
       uaal = as.numeric(.data$aal) - as.numeric(.data$actuarial_assets),
       funded_ratio = as.numeric(.data$actuarial_assets) / as.numeric(.data$aal),
       adec_contribution_rates = as.numeric(.data$adec) / as.numeric(.data$payroll),
-      actual_contribution_rates = as.numeric(.data$emp_cont) / as.numeric(.data$payroll)
+      actual_contribution_rates = as.numeric(.data$er_cont) / as.numeric(.data$payroll)
     ) %>%
     tidyr::drop_na()
 }
