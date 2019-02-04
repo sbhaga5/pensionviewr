@@ -31,7 +31,7 @@ devtools::install_github("ReasonFoundation/pensionviewr")
 
 The package has four functions for data pulling and preparation: `planList()`, `pullData()`, `loadData`, and `selectedData()`.
 
-The package has four functions for plots: `reasonStyle()`, `glPlot()`, `linePlot()`, and `debtPlot()`.
+The package has five functions for plots: `reasonStyle()`, `glPlot()`, `linePlot()`, `debtPlot()`, and `savePlot()`.
 
 A basic explanation and summary here:
 
@@ -160,7 +160,23 @@ linePlot(df)
 * `data`: a dataframe produced by the `selectedData()` function or in the same format containing year, uaal, funded ratio columns.
 
 ```{r plot1, echo = FALSE}
-debtPlot(df)
+debt_plot <- debtPlot(df)
+debt_plot
+```
+
+### `savePlot()`
+
+9. `savePlot()`: adds a source and save ggplot chart. `savePlot` takes five arguments:
+`savePlot(plot = myplot, source = "The source for my data", save_filepath = "filename_that_my_plot_should_be_saved_to.png", width_pixels = 648, height_pixels = 384.48)`
+
+* `plot`: The variable name of the plot you have created that you want to format and save
+* `source`: The text you want to come after the text 'Source:' in the bottom left hand side of your side
+* `save_filepath`: Exact filepath that you want the plot to be saved to
+* `width_pixels`: Width in pixels that you want to save your chart to - defaults to 648
+* `height_pixels`: Height in pixels that you want to save your chart to - defaults to 384.48
+
+```
+savePlot(debt_plot, source = "Source: KPERS", save_filepath = "output/test.png")
 ```
 
 

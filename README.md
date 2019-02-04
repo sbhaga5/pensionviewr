@@ -28,8 +28,8 @@ devtools::install_github("ReasonFoundation/pensionviewr")
 The package has four functions for data pulling and preparation:
 `planList()`, `pullData()`, `loadData`, and `selectedData()`.
 
-The package has four functions for plots: `reasonStyle()`, `glPlot()`,
-`linePlot()`, and `debtPlot()`.
+The package has five functions for plots: `reasonStyle()`, `glPlot()`,
+`linePlot()`, `debtPlot()`, and `savePlot()`.
 
 A basic explanation and summary here:
 
@@ -42,6 +42,11 @@ Example of how it is used in a standard workflow:
 
 ``` r
 library(pensionviewr)
+#> 
+#> Attaching package: 'pensionviewr'
+#> The following object is masked from 'package:grDevices':
+#> 
+#>     savePlot
 pl <- planList()
 head(pl)
 #>        id                                          display_name   state
@@ -75,12 +80,12 @@ example. Let’s first see what plans in Kansas are available:
 ``` r
 require(tidyverse)
 #> Loading required package: tidyverse
-#> ── Attaching packages ───────────────────────────────────── tidyverse 1.2.1 ──
+#> ── Attaching packages ────────────────────────────────────── tidyverse 1.2.1 ──
 #> ✔ ggplot2 3.1.0     ✔ purrr   0.2.5
 #> ✔ tibble  1.4.2     ✔ dplyr   0.7.8
 #> ✔ tidyr   0.8.2     ✔ stringr 1.3.1
 #> ✔ readr   1.3.0     ✔ forcats 0.3.0
-#> ── Conflicts ──────────────────────────────────────── tidyverse_conflicts() ──
+#> ── Conflicts ───────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
 KS <- pl %>% filter(state == 'Kansas')
@@ -345,3 +350,29 @@ linePlot(df)
     the same format containing year, uaal, funded ratio columns.
 
 <img src="man/figures/README-plot1-1.png" width="100%" />
+
+### `savePlot()`
+
+9.  `savePlot()`: adds a source and save ggplot chart. `savePlot` takes
+    five arguments: `savePlot(plot = myplot, source = "The source for my
+    data", save_filepath =
+    "filename_that_my_plot_should_be_saved_to.png", width_pixels = 648,
+    height_pixels = 384.48)`
+
+<!-- end list -->
+
+  - `plot`: The variable name of the plot you have created that you want
+    to format and save
+  - `source`: The text you want to come after the text ‘Source:’ in the
+    bottom left hand side of your side
+  - `save_filepath`: Exact filepath that you want the plot to be saved
+    to
+  - `width_pixels`: Width in pixels that you want to save your chart to
+    - defaults to 648
+  - `height_pixels`: Height in pixels that you want to save your chart
+    to - defaults to
+    384.48
+
+<!-- end list -->
+
+    savePlot(debt_plot, source = "Source: KPERS", save_filepath = "output/test.png")
