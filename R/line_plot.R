@@ -12,11 +12,10 @@
 linePlot <- function(data,
   .var1 = "adec_contribution_rates",
   .var2 = "actual_contribution_rates",
-  labelY = NULL,
+  labelY = "Employer Contribution (% of Payroll)",
   label1 = "ADEC Contribution Rate",
   label2 = "Actual Contribution Rate") {
 
-  reasonTheme <- get("reasonTheme")
   var1 <- rlang::sym(.var1)
   var2 <- rlang::sym(.var2)
 
@@ -29,7 +28,7 @@ linePlot <- function(data,
     dplyr::mutate_all(dplyr::funs(as.numeric)) %>%
     tidyr::gather(key = "keys", value = "amount", -.data$year)
 
-  lineColors <- c("#FF6633","#333333")
+  lineColors <- c("#0066CC","#0099FF")
 
   labs <- c(label1, label2)
 
@@ -46,16 +45,12 @@ linePlot <- function(data,
       expand = c(0, 0)
     ) +
 
-    ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(10),
+    ggplot2::scale_x_continuous(breaks = graph$year,
         expand = c(0, 0)
       ) +
 
     ggplot2::ylab(labelY) +
+    ggplot2::xlab("Year") +
 
-    reasonTheme +
-    ggplot2::theme(
-      legend.justification = c(1, 1),
-      legend.position = c(0.5, 1),
-      legend.title = ggplot2::element_blank()
-    )
+    reasonStyle()
 }

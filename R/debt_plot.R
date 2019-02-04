@@ -7,7 +7,6 @@
 #' }
 #' @importFrom rlang .data
 debtPlot <- function(data) {
-  reasonTheme <- get("reasonTheme")
   # extrapolate between years linearly
   extrapo <- stats::approx(data$year, data$uaal, n = 10000)
   extrapo2 <- stats::approx(data$year, data$funded_ratio, n = 10000)
@@ -41,7 +40,7 @@ debtPlot <- function(data) {
       # changes the format to be dollars, without cents, scaled to be in billions
       labels = scales::dollar_format(
         prefix = "$",
-        scale = (1e-9),
+        scale = (1e-6),
         largest_with_cents = 1
       ),
       # defines the right side y-axis as a transformation of the left side axis, maximum UAAL = 100%, sets the breaks, labels
@@ -58,13 +57,15 @@ debtPlot <- function(data) {
     ) +
 
     # sets the x-axis scale
-    ggplot2::scale_x_continuous( # sets the years breaks to be every 2 years
-      breaks = round(seq(min(graph$year), max(graph$year), by = 2), 1),
+    ggplot2::scale_x_continuous(
+      breaks = round(seq(min(graph$year), max(graph$year), by = 1), 1),
       expand = c(0, 0)
     ) +
 
     # adds the Reason theme defined previously
-    reasonTheme
+    reasonStyle() +
+
+    ggplot2::theme(legend.position = "none")
 }
 
 

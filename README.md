@@ -3,22 +3,42 @@
 
 # pensionviewr
 
-The goal of pensionviewr is to simplify the process of gathering and
+The goal of `pensionviewr` is to simplify the process of gathering and
 visualizing public pension plan data from the Reason pension database.
+This repo contains the functions of the `pensionviewr` package, which
+once installed locally, provides helpful functions for creating and
+exporting graphics made in ggplot in the style used by the Reason
+Pension Integrity Project team.
 
-## Installation
+## Installing pensionviewr
 
-You can install the released version of pensionviewr from
-[GitHub](https://github.com/ReasonFoundation/pensionviewr) with:
+`pensionviewr` is not on CRAN, so you will have to install it directly
+from Github using `devtools`.
+
+If you do not have the `devtools` package installed, you will have to
+run the first line in the code below as well.
 
 ``` r
+install.packages('devtools')
 devtools::install_github("ReasonFoundation/pensionviewr")
 ```
 
-## Usage:
+## Using the functions:
 
-The planList function returns a stripped down list of the pension plans
-in the database along with their state and the internal databse id.
+The package has four functions for data pulling and preparation:
+`planList()`, `pullData()`, `loadData`, and `selectedData()`.
+
+The package has four functions for plots: `reasonStyle()`, `glPlot()`,
+`linePlot()`, and `debtPlot()`.
+
+A basic explanation and summary here:
+
+### `planList()`
+
+1.  `planList()`: returns a stripped down list of the pension plans in
+    the database along with their state and the internal databse id.
+
+Example of how it is used in a standard workflow:
 
 ``` r
 library(pensionviewr)
@@ -33,6 +53,21 @@ head(pl)
 #> 6       2             Alabama Teachers' Retirement System (TRS) Alabama
 ```
 
+### `pullData()`
+
+2.  `pullData()`: pulls the data for a specified plan from the Reason
+    pension databse. `pullData` has two arguments: `pullData(pl,
+    plan_name)`
+
+<!-- end list -->
+
+  - `pl`: A datafram containing the list of plan names, states, and ids
+    in the form produced by the `planList()` function.
+  - `plan_name`: A string enclosed in quotation marks containing a plan
+    name as it is listed in the Reason pension database.
+
+Example of how it is used in a standard workflow:
+
 The next step would be to load the data for the specific plan of
 interest. Let’s use Kansas Public Employees’ Retirement System as an
 example. Let’s first see what plans in Kansas are available:
@@ -40,76 +75,37 @@ example. Let’s first see what plans in Kansas are available:
 ``` r
 require(tidyverse)
 #> Loading required package: tidyverse
-#> ── Attaching packages ────────────────────── tidyverse 1.2.1 ──
+#> ── Attaching packages ───────────────────────────────────── tidyverse 1.2.1 ──
 #> ✔ ggplot2 3.1.0     ✔ purrr   0.2.5
 #> ✔ tibble  1.4.2     ✔ dplyr   0.7.8
 #> ✔ tidyr   0.8.2     ✔ stringr 1.3.1
 #> ✔ readr   1.3.0     ✔ forcats 0.3.0
-#> ── Conflicts ───────────────────────── tidyverse_conflicts() ──
+#> ── Conflicts ──────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
 KS <- pl %>% filter(state == 'Kansas')
-print(KS)
-#>         id
-#> 1      793
-#> 2  3396920
-#> 3      802
-#> 4      804
-#> 5      799
-#> 6      798
-#> 7      800
-#> 8      795
-#> 9  3401515
-#> 10 3407488
-#> 11     794
-#> 12     797
-#> 13     801
-#> 14 3396918
-#> 15     803
-#> 16     791
-#> 17     790
-#> 18     796
-#> 19     792
-#>                                                             display_name
-#> 1                          Kansas Police and Firemen's Retirement System
-#> 2        Supplemental Retirement Plan Topeka Uniform School District 501
-#> 3                     Kansas City Board of Public Utilities Pension Plan
-#> 4  Wichita Supplemental Annuity Business School Partnership Program 3547
-#> 5                                     Leavenworth Firemen's Pension Fund
-#> 6                                        Leavenworth Police Pension Fund
-#> 7                                    Wichita Employees Retirement System
-#> 8                                     Prarie Village Police Pension Plan
-#> 9                      Retirement Pension Plan Board Of Public Utilities
-#> 10                                   Atchison Public School Annuity Plan
-#> 11                                   Lenexa Defined Benefit Pension Plan
-#> 12                             Overland Park Police Dept Retirement Plan
-#> 13                             Wichita Police and Fire Retirement System
-#> 14                                Hutchinson Retirement Fund USD No. 308
-#> 15             Johnson County Water District 1 Employees Retirement Plan
-#> 16                                   Kansas Retirement System for Judges
-#> 17                            Kansas Public Employees' Retirement System
-#> 18                           Shawnee Employees Supplemental Pension Plan
-#> 19      Kansas State Elected Officials Special Members Retirement System
-#>     state
-#> 1  Kansas
-#> 2  Kansas
-#> 3  Kansas
-#> 4  Kansas
-#> 5  Kansas
-#> 6  Kansas
-#> 7  Kansas
-#> 8  Kansas
-#> 9  Kansas
-#> 10 Kansas
-#> 11 Kansas
-#> 12 Kansas
-#> 13 Kansas
-#> 14 Kansas
-#> 15 Kansas
-#> 16 Kansas
-#> 17 Kansas
-#> 18 Kansas
-#> 19 Kansas
+head(KS)
+#>        id
+#> 1     793
+#> 2 3396920
+#> 3     802
+#> 4     804
+#> 5     799
+#> 6     798
+#>                                                            display_name
+#> 1                         Kansas Police and Firemen's Retirement System
+#> 2       Supplemental Retirement Plan Topeka Uniform School District 501
+#> 3                    Kansas City Board of Public Utilities Pension Plan
+#> 4 Wichita Supplemental Annuity Business School Partnership Program 3547
+#> 5                                    Leavenworth Firemen's Pension Fund
+#> 6                                       Leavenworth Police Pension Fund
+#>    state
+#> 1 Kansas
+#> 2 Kansas
+#> 3 Kansas
+#> 4 Kansas
+#> 5 Kansas
+#> 6 Kansas
 ```
 
 The full plan name we are interested in is there listed as “Kansas
@@ -207,8 +203,53 @@ head(kpers_data)
 #> #   covers_state_police_employees <int>, …
 ```
 
-That is a lot of variables. The selectedData() function selects only a
-handful of needed variables:
+### `loadData`
+
+3.  `loadData`: loads the data for a specified plan from an Excel file.
+    `loadData` has one argument: `loadData(file_name)`
+
+<!-- end list -->
+
+  - `file_name`: A string enclosed in quotation marks containing a file
+    name with path of a pension plan Excel data
+    file.
+
+<!-- end list -->
+
+    data_from_file <- loadData('data/NorthCarolina_PensionDatabase_TSERS.xlsx')
+
+### `selectedData()`
+
+4.  `selectedData()`: selects the only the variables used in historical
+    analyses. `selectedData` has eight arguments, with the first,
+    `wide_data`, being required: `selectedData(wide_data, .date_var =
+    "actuarial_valuation_date_for_gasb_assumptions", .aal_var =
+    .actuarial_accrued_liabilities_under_gasb_standards", .asset_var =
+    "actuarial_assets_under_gasb_standards", .adec_var =
+    "employer_annual_required_contribution", .er_cont_var =
+    "employer_contributions", .ee_cont_var = "employee_contributions",
+    .payroll_var = "covered_payroll")`
+
+<!-- end list -->
+
+  - `wide_data`: a datasource in wide format
+  - `.date_var` column name for valuation date. Default: ‘Actuarial
+    Valuation Date For GASB Assumptions’
+  - `.aal_var` column name AAL. Default: ‘Actuarial Accrued Liabilities
+    Under GASB Standards’
+  - `.asset_var` column name for Actuarial Assets. Default: ‘Actuarial
+    Assets under GASB standards’
+  - `.adec_var` column name for ADEC. Default: ‘Employer Annual Required
+    Contribution’
+  - `.er_cont_var` column name for employer contributions. Default:
+    ‘Employer Contributions’
+  - `.ee_cont_var` column name for employee contributions. Default:
+    ‘Employee Contributions’
+  - `.payroll_var` column name for payroll. Default: ‘Covered Payroll’
+
+Back to the Kansas Public Employees’ example. That is a lot of
+variables. The `selectedData()` function selects only a handful of
+needed variables:
 
 ``` r
 df <- selectedData(kpers_data)
@@ -227,12 +268,80 @@ head(df)
 #> #   actual_contribution_rates <dbl>
 ```
 
-Now lets make some plots:
+### `reasonStyle()`
 
-<img src="man/figures/README-plot1-1.png" width="100%" />
+5.  `reasonStyle()`: has no arguments and is added to the ggplot chain
+    after you have created a plot. What it does is generally makes text
+    size, font and colour, axis lines, axis text and many other standard
+    chart components into Reason style.
+
+The function is pretty basic and does not change or adapt based on the
+type of chart you are making, so in some cases you will need to make
+additional `theme` arguments in your ggplot chain if you want to make
+any additions or changes to the style, for example to add or remove
+gridlines etc. Also note that colours for lines in the case of a line
+chart or bars for a bar chart, do not come out of the box from the
+`reasonStyle` function, but need to be explicitly set in your other
+standard `ggplot` chart functions.
+
+Example of how it is used in a standard workflow:
+
+    line <- ggplot2(line_df, aes(x = year, y = lifeExp)) +
+    geom_line(colour = "#007f7f", size = 1) +
+    geom_hline(yintercept = 0, size = 1, colour="#333333") +
+    reasonStyle()
+
+### `glPlot()`
+
+6.  `glPlot()`: creates the ‘Gain/Loss’ plot using a CSV file as an
+    input. glPlot has two arguments: \`glPlot(filename, ylab\_unit)
+
+<!-- end list -->
+
+  - `filename`: a csv (comma separated value) file containing columns of
+    gain loss category names with one row of values.
+  - `ylab_unit`: a string contained within quotation marks containing th
+    y-axis label unit. The default value is “Billions”
+
+Example of how it is used in a standard workflow:
+
+    filename <- "data/GainLoss_data.csv"
+    glPlot(filename)
+
+### `linePlot()`
+
+7.  `linePlot()`: creates a plot comparing two variables, such as ADEC
+    vs. Actual contributions. `linePlot()` has six arguments, with
+    `data` being required:
+
+`linePlot(data, .var1, .var2, labelY, label1, label2)`
+
+  - `data` a dataframe produced by the selectedData function or in the
+    same format.
+  - `.var1` The name of the first variable to plat, default is
+    adec\_contribution\_rates.
+  - `.var2` The name of the second variable to plot, default if
+    actual\_contribution\_rates.
+  - `labelY` A label for the Y-axis.
+  - `label1` A label for the first variable.
+  - `label2` A label for the second variable.
+
+<!-- end list -->
 
 ``` r
 linePlot(df)
 ```
 
 <img src="man/figures/README-contributions-1.png" width="100%" />
+
+### `debtPlot()`
+
+8.  `debtPlot()`: creates the “History of Volatile Solvency” or
+    “Mountain of Debt” chart. `debtPlot` takes one argument:
+
+`debtPlot(data)`
+
+  - `data`: a dataframe produced by the `selectedData()` function or in
+    the same format containing year, uaal, funded ratio columns.
+
+<img src="man/figures/README-plot1-1.png" width="100%" />

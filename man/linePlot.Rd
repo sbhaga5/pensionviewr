@@ -5,7 +5,8 @@
 \title{Create a plot comparing two variables, such as ADEC vs. Actual contributions.}
 \usage{
 linePlot(data, .var1 = "adec_contribution_rates",
-  .var2 = "actual_contribution_rates", labelY = NULL,
+  .var2 = "actual_contribution_rates",
+  labelY = "Employer Contribution (\% of Payroll)",
   label1 = "ADEC Contribution Rate",
   label2 = "Actual Contribution Rate")
 }
