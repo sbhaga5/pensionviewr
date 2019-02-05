@@ -80,12 +80,12 @@ example. Let’s first see what plans in Kansas are available:
 ``` r
 require(tidyverse)
 #> Loading required package: tidyverse
-#> ── Attaching packages ────────────────────────────────────── tidyverse 1.2.1 ──
+#> ── Attaching packages ──────────────────────────────── tidyverse 1.2.1 ──
 #> ✔ ggplot2 3.1.0     ✔ purrr   0.2.5
 #> ✔ tibble  1.4.2     ✔ dplyr   0.7.8
 #> ✔ tidyr   0.8.2     ✔ stringr 1.3.1
 #> ✔ readr   1.3.0     ✔ forcats 0.3.0
-#> ── Conflicts ───────────────────────────────────────── tidyverse_conflicts() ──
+#> ── Conflicts ─────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
 KS <- pl %>% filter(state == 'Kansas')
@@ -211,9 +211,9 @@ head(kpers_data)
 ### `loadData`
 
 3.  `loadData`: loads the data for a specified plan from an Excel file.
-    `loadData` has one argument: `loadData(file_name)`
+    `loadData` has one argument:
 
-<!-- end list -->
+`loadData(file_name)`
 
   - `file_name`: A string enclosed in quotation marks containing a file
     name with path of a pension plan Excel data
@@ -226,24 +226,31 @@ head(kpers_data)
 ### `selectedData()`
 
 4.  `selectedData()`: selects the only the variables used in historical
-    analyses. `selectedData` has eight arguments, with the first,
-    `wide_data`, being required: `selectedData(wide_data, .date_var =
-    "actuarial_valuation_date_for_gasb_assumptions", .aal_var =
-    .actuarial_accrued_liabilities_under_gasb_standards", .asset_var =
-    "actuarial_assets_under_gasb_standards", .adec_var =
-    "employer_annual_required_contribution", .er_cont_var =
-    "employer_contributions", .ee_cont_var = "employee_contributions",
-    .payroll_var = "covered_payroll")`
+    analyses. `selectedData` has eleven arguments, with the first,
+    `wide_data`, being required:
 
-<!-- end list -->
+`selectedData(wide_data, .date_var =
+"actuarial_valuation_date_for_gasb_assumptions", .aal_var =
+.actuarial_accrued_liabilities_under_gasb_standards", .mva_var =
+"beginning_market_assets_net", .ava_var =
+"actuarial_assets_under_gasb_standards",.tpl_var =
+"total_pension_liability", .adec_var =
+"employer_annual_required_contribution", .er_cont_var =
+"employer_contributions", .ee_cont_var = "employee_contributions",
+.payroll_var = "covered_payroll", .arr_var =
+"investment_return_assumption_for_gasb_reporting")`
 
   - `wide_data`: a datasource in wide format
   - `.date_var` column name for valuation date. Default: ‘Actuarial
     Valuation Date For GASB Assumptions’
+  - `.mva_var`: column name for Market Value of Assets. Default:
+    ‘beginning\_market\_assets\_net’
   - `.aal_var` column name AAL. Default: ‘Actuarial Accrued Liabilities
     Under GASB Standards’
-  - `.asset_var` column name for Actuarial Assets. Default: ‘Actuarial
+  - `.ava_var` column name for Actuarial Assets. Default: ‘Actuarial
     Assets under GASB standards’
+  - `.tpl_var` column name for Total Pension Liability. Default:
+    “total\_pension\_liability”,
   - `.adec_var` column name for ADEC. Default: ‘Employer Annual Required
     Contribution’
   - `.er_cont_var` column name for employer contributions. Default:
@@ -251,6 +258,8 @@ head(kpers_data)
   - `.ee_cont_var` column name for employee contributions. Default:
     ‘Employee Contributions’
   - `.payroll_var` column name for payroll. Default: ‘Covered Payroll’
+  - `.arr_var` column name for the Assumed Rate of Return. Default:
+    ‘investment\_return\_assumption\_for\_gasb\_reporting’
 
 Back to the Kansas Public Employees’ example. That is a lot of
 variables. The `selectedData()` function selects only a handful of
@@ -259,16 +268,17 @@ needed variables:
 ``` r
 df <- selectedData(kpers_data)
 head(df)
-#> # A tibble: 6 x 12
-#>    year valuation_date actuarial_assets    aal   adec er_cont ee_cont
-#>   <dbl> <date>                    <dbl>  <dbl>  <dbl>   <dbl>   <dbl>
-#> 1  2000 2000-12-31              9835182 1.11e7 2.49e5 193384. 204143.
-#> 2  2001 2001-12-31              9962918 1.17e7 2.60e5 221474. 209624.
-#> 3  2002 2002-12-31              9784862 1.26e7 2.82e5 231464. 224746.
-#> 4  2003 2003-12-31             10853462 1.44e7 3.39e5 714353. 230350.
-#> 5  2004 2004-12-31             10971427 1.57e7 3.82e5 293952. 233226.
-#> 6  2005 2005-12-31             11339293 1.65e7 4.71e5 352032. 246203.
-#> # ... with 5 more variables: payroll <dbl>, uaal <dbl>,
+#> # A tibble: 6 x 15
+#>    year valuation_date market_value_as… actuarial_assets    aal   tpl
+#>   <dbl> <date>                    <dbl>            <dbl>  <dbl> <dbl>
+#> 1  2000 2000-12-31            10721260.          9835182 1.11e7     0
+#> 2  2001 2001-12-31             9664667.          9962918 1.17e7     0
+#> 3  2002 2002-12-31             8902288           9784862 1.26e7     0
+#> 4  2003 2003-12-31             8930442.         10853462 1.44e7     0
+#> 5  2004 2004-12-31            10427143.         10971427 1.57e7     0
+#> 6  2005 2005-12-31            11324365.         11339293 1.65e7     0
+#> # ... with 9 more variables: adec <dbl>, er_cont <dbl>, ee_cont <dbl>,
+#> #   payroll <dbl>, assumed_rate_of_return <dbl>, uaal <dbl>,
 #> #   funded_ratio <dbl>, adec_contribution_rates <dbl>,
 #> #   actual_contribution_rates <dbl>
 ```
@@ -299,9 +309,9 @@ Example of how it is used in a standard workflow:
 ### `glPlot()`
 
 6.  `glPlot()`: creates the ‘Gain/Loss’ plot using a CSV file as an
-    input. glPlot has two arguments: \`glPlot(filename, ylab\_unit)
+    input. glPlot has two arguments:
 
-<!-- end list -->
+`glPlot(filename, ylab_unit)`
 
   - `filename`: a csv (comma separated value) file containing columns of
     gain loss category names with one row of values.

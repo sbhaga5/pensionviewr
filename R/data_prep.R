@@ -126,42 +126,54 @@ loadData <- function(filename) {
 #' @param wide_data a datasource in wide format
 #' @param .date_var column name for valuation date. Default: 'Actuarial Valuation Date For GASB Assumptions'
 #' @param .aal_var column name AAL. Default: 'Actuarial Accrued Liabilities Under GASB Standards'
-#' @param .asset_var column name for Actuarial Assets. Default: 'Actuarial Assets under GASB standards'
+#' @param .mva_var column name for Market Value of Assets. Default: 'beginning_market_assets_net'
+#' @param .ava_var column name for Actuarial Assets. Default: 'Actuarial Assets under GASB standards'
 #' @param .adec_var column name for ADEC. Default: 'Employer Annual Required Contribution'
+#' @param .tpl_var column name for Total Pension Liability. Default: "total_pension_liability",
 #' @param .er_cont_var column name for employer contributions. Default: 'Employer Contributions'
 #' @param .ee_cont_var column name for employee contributions. Default: 'Employee Contributions'
 #' @param .payroll_var column name for payroll. Default: 'Covered Payroll'
+#' @param .arr_var column name for the Assumed Rate of Return. Default: 'investment_return_assumption_for_gasb_reporting'
 #' @return A data frame containing the columns: year, valuation_date, actuarial_assets, aal, adec, er_cont, ee_cont, payroll, uaal, funded_ratio, adec_contribution_rates, actual_contribution_rates
 #' @export
 #' @examples
 #' \dontrun{
 #' data <- selected_Data(wide_data,
-#'                  date_var = 'Actuarial Valuation Date For GASB Assumptions',
-#'                  aal_var = 'Actuarial Accrued Liabilities Under GASB Standards',
-#'                  asset_var = 'Actuarial Assets under GASB standards',
-#'                  adec_var = 'Employer Annual Required Contribution',
-#'                  er_cont_var = 'Employer Contributions',
-#'                  ee_cont_var = 'Employer Contributions',
-#'                  payroll_var = 'Covered Payroll'
+#'                  .date_var = 'Actuarial Valuation Date For GASB Assumptions',
+#'                  .aal_var = 'Actuarial Accrued Liabilities Under GASB Standards',
+#'                  .mva_var = 'beginning_market_assets_net',
+#'                  .ava_var = 'Actuarial Assets under GASB standards',
+#'                  .tpl_var = 'total_pension_liability',
+#'                  .adec_var = 'Employer Annual Required Contribution',
+#'                  .er_cont_var = 'Employer Contributions',
+#'                  .ee_cont_var = 'Employer Contributions',
+#'                  .payroll_var = 'Covered Payroll',
+#'                  .arr_var = 'investment_return_assumption_for_gasb_reporting'
 #'                  )
 #' }
 
 selectedData <- function(wide_data,
   .date_var = "actuarial_valuation_date_for_gasb_assumptions",
   .aal_var = "actuarial_accrued_liabilities_under_gasb_standards",
-  .asset_var = "actuarial_assets_under_gasb_standards",
+  .mva_var = "beginning_market_assets_net",
+  .ava_var = "actuarial_assets_under_gasb_standards",
+  .tpl_var = "total_pension_liability",
   .adec_var = "employer_annual_required_contribution",
   .er_cont_var = "employer_contributions",
   .ee_cont_var = "employee_contributions",
-  .payroll_var = "covered_payroll") {
+  .payroll_var = "covered_payroll",
+  .arr_var = "investment_return_assumption_for_gasb_reporting") {
 
   date_var <- rlang::sym(.date_var)
   aal_var <- rlang::sym(.aal_var)
-  asset_var <- rlang::sym(.asset_var)
+  mva_var <- rlang::sym(.mva_var)
+  ava_var <- rlang::sym(.ava_var)
+  tpl_var <- rlang::sym(.tpl_var)
   adec_var <- rlang::sym(.adec_var)
   er_cont_var <- rlang::sym(.er_cont_var)
   ee_cont_var <- rlang::sym(.ee_cont_var)
   payroll_var <- rlang::sym(.payroll_var)
+  arr_var <- rlang::sym(.arr_var)
 
   wide_data %>%
     dplyr::mutate(
@@ -174,12 +186,15 @@ selectedData <- function(wide_data,
     dplyr::select(
       .data$year,
       .data$valuation_date,
-      actuarial_assets = !!asset_var,
+      market_value_assets = !!mva_var,
+      actuarial_assets = !!ava_var,
       aal = !!aal_var,
+      tpl = !!tpl_var,
       adec = !!adec_var,
       er_cont = !!er_cont_var,
       ee_cont = !!ee_cont_var,
-      payroll = !!payroll_var
+      payroll = !!payroll_var,
+      assumed_rate_of_return = !!arr_var
     ) %>%
     dplyr::mutate(
       uaal = as.numeric(.data$aal) - as.numeric(.data$actuarial_assets),

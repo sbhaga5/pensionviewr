@@ -75,6 +75,7 @@ head(kpers_data)
 ### `loadData`
 
 3. `loadData`: loads the data for a specified plan from an Excel file. `loadData` has one argument:
+
 `loadData(file_name)`
 
 * `file_name`: A string enclosed in quotation marks containing a file name with path of a pension plan Excel data file.
@@ -85,17 +86,21 @@ data_from_file <- loadData('data/NorthCarolina_PensionDatabase_TSERS.xlsx')
 
 ### `selectedData()`
 
-4. `selectedData()`: selects the only the variables used in historical analyses. `selectedData` has eight arguments, with the first, `wide_data`, being required:
-`selectedData(wide_data, .date_var = "actuarial_valuation_date_for_gasb_assumptions", .aal_var = .actuarial_accrued_liabilities_under_gasb_standards", .asset_var = "actuarial_assets_under_gasb_standards", .adec_var = "employer_annual_required_contribution", .er_cont_var = "employer_contributions", .ee_cont_var = "employee_contributions", .payroll_var = "covered_payroll")`
+4. `selectedData()`: selects the only the variables used in historical analyses. `selectedData` has eleven arguments, with the first, `wide_data`, being required:
+
+`selectedData(wide_data, .date_var = "actuarial_valuation_date_for_gasb_assumptions", .aal_var = .actuarial_accrued_liabilities_under_gasb_standards", .mva_var = "beginning_market_assets_net", .ava_var = "actuarial_assets_under_gasb_standards",.tpl_var = "total_pension_liability", .adec_var = "employer_annual_required_contribution", .er_cont_var = "employer_contributions", .ee_cont_var = "employee_contributions", .payroll_var = "covered_payroll", .arr_var = "investment_return_assumption_for_gasb_reporting")`
 
 * `wide_data`: a datasource in wide format
 * `.date_var` column name for valuation date. Default: 'Actuarial Valuation Date For GASB Assumptions'
+* `.mva_var`: column name for Market Value of Assets. Default: 'beginning_market_assets_net'
 * `.aal_var` column name AAL. Default: 'Actuarial Accrued Liabilities Under GASB Standards'
-* `.asset_var` column name for Actuarial Assets. Default: 'Actuarial Assets under GASB standards'
+* `.ava_var` column name for Actuarial Assets. Default: 'Actuarial Assets under GASB standards'
+* `.tpl_var` column name for Total Pension Liability. Default: "total_pension_liability",
 * `.adec_var` column name for ADEC. Default: 'Employer Annual Required Contribution'
 * `.er_cont_var` column name for employer contributions. Default: 'Employer Contributions'
 * `.ee_cont_var` column name for employee contributions. Default: 'Employee Contributions'
 * `.payroll_var` column name for payroll. Default: 'Covered Payroll'
+* `.arr_var` column name for the Assumed Rate of Return. Default: 'investment_return_assumption_for_gasb_reporting'
 
 Back to the Kansas Public Employees' example. That is a lot of variables. The `selectedData()` function selects only a handful of needed variables:
 
@@ -122,7 +127,8 @@ reasonStyle()
 ### `glPlot()`
 
 6. `glPlot()`: creates the 'Gain/Loss' plot using a CSV file as an input. glPlot has two arguments:
-`glPlot(filename, ylab_unit)
+
+`glPlot(filename, ylab_unit)`
 
 * `filename`: a csv (comma separated value) file containing columns of gain loss category names with one row of values.
 * `ylab_unit`: a string contained within quotation marks containing th y-axis label unit. The default value is "Billions"
