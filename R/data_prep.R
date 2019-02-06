@@ -33,7 +33,8 @@ planList <- function() {
   # fetches the results
   plans <- RPostgres::dbFetch(res)
   p_list <- plans %>%
-    janitor::clean_names()
+    janitor::clean_names() %>%
+    dplyr::arrange(.data$state, .data$display_name)
   # clears the results
   RPostgres::dbClearResult(res)
   # closes the connection

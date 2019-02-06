@@ -7,15 +7,17 @@
 #' }
 #' @importFrom rlang .data
 debtPlot <- function(data) {
+  data <- data %>%
+    dplyr::filter(data$aal != 0)
   # extrapolate between years linearly
   extrapo <- stats::approx(data$year, data$uaal, n = 10000)
   extrapo2 <- stats::approx(data$year, data$funded_ratio, n = 10000)
   graph <-
-    data.frame(
-      year = extrapo$x,
+    data.frame(year = extrapo$x,
       uaal = extrapo$y,
-      funded_ratio = extrapo2$y
-    )
+      funded_ratio = extrapo2$y) %>%
+    tidyr::drop_na()
+
   # create a "negative-positive" column for fill aesthetic
   graph$sign[graph$uaal >= 0] <- "positive"
   graph$sign[graph$uaal < 0] <- "negative"
@@ -26,7 +28,9 @@ debtPlot <- function(data) {
     # line tracing the area graph
     ggplot2::geom_line(ggplot2::aes(y = graph$uaal)) +
     # line with funded ratio
-    ggplot2::geom_line(ggplot2::aes(y = graph$funded_ratio * (max(graph$uaal))), color = "#3300FF", size = 1) +
+    ggplot2::geom_line(ggplot2::aes(y = graph$funded_ratio * (max(graph$uaal))),
+      color = "#3300FF",
+      size = 1) +
     # axis labels
     ggplot2::labs(y = "Unfunded Accrued Actuarial Liabilities", x = NULL) +
 
@@ -57,10 +61,8 @@ debtPlot <- function(data) {
     ) +
 
     # sets the x-axis scale
-    ggplot2::scale_x_continuous(
-      breaks = round(seq(min(graph$year), max(graph$year), by = 1), 1),
-      expand = c(0, 0)
-    ) +
+    ggplot2::scale_x_continuous(breaks = round(seq(min(graph$year), max(graph$year), by = 1), 1),
+      expand = c(0, 0)) +
 
     # adds the Reason theme defined previously
     reasonStyle() +
@@ -77,7 +79,6 @@ debtPlot <- function(data) {
 #' debtTable(data)
 #' }
 debtTable <- function(data) {
-
   data <- data %>%
     # give the columns pretty names
     dplyr::select(
