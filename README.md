@@ -26,7 +26,7 @@ devtools::install_github("ReasonFoundation/pensionviewr")
 ## Using the functions:
 
 The package has four functions for data pulling and preparation:
-`planList()`, `pullData()`, `loadData`, and `selectedData()`.
+`planList()`, `pullData()`, `loadData()`, and `selectedData()`.
 
 The package has five functions for plots: `reasonStyle()`, `glPlot()`,
 `linePlot()`, `debtPlot()`, and `savePlot()`.
@@ -49,13 +49,13 @@ library(pensionviewr)
 #>     savePlot
 pl <- planList()
 head(pl)
-#>        id                                          display_name   state
-#> 1       7        Alabama Clerks & Registrars Supernumerary Fund Alabama
-#> 2       8            Jefferson County General Retirement System Alabama
-#> 3 3400053            Dothan Employees Pension Retirement System Alabama
-#> 4      12             Birmingham Unclassified Employees Pension Alabama
-#> 5      21 Tuscaloosa Police & Fire Supplemental Retirement Plan Alabama
-#> 6       2             Alabama Teachers' Retirement System (TRS) Alabama
+#>   id                                   display_name   state
+#> 1  7 Alabama Clerks & Registrars Supernumerary Fund Alabama
+#> 2  1     Alabama Employees' Retirement System (ERS) Alabama
+#> 3  3         Alabama Judicial Retirement Fund (JRF) Alabama
+#> 4  4    Alabama Peace Officers Annuity Benefit Fund Alabama
+#> 5  5     Alabama Port Authority Hourly Pension Plan Alabama
+#> 6  6   Alabama Port Authority Terminal Railway Plan Alabama
 ```
 
 ### `pullData()`
@@ -80,37 +80,23 @@ example. Let’s first see what plans in Kansas are available:
 ``` r
 require(tidyverse)
 #> Loading required package: tidyverse
-#> ── Attaching packages ──────────────────────────────── tidyverse 1.2.1 ──
+#> ── Attaching packages ────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 #> ✔ ggplot2 3.1.0     ✔ purrr   0.2.5
 #> ✔ tibble  1.4.2     ✔ dplyr   0.7.8
 #> ✔ tidyr   0.8.2     ✔ stringr 1.3.1
 #> ✔ readr   1.3.0     ✔ forcats 0.3.0
-#> ── Conflicts ─────────────────────────────────── tidyverse_conflicts() ──
+#> ── Conflicts ───────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
 KS <- pl %>% filter(state == 'Kansas')
 head(KS)
-#>        id
-#> 1     793
-#> 2 3396920
-#> 3     802
-#> 4     804
-#> 5     799
-#> 6     798
-#>                                                            display_name
-#> 1                         Kansas Police and Firemen's Retirement System
-#> 2       Supplemental Retirement Plan Topeka Uniform School District 501
-#> 3                    Kansas City Board of Public Utilities Pension Plan
-#> 4 Wichita Supplemental Annuity Business School Partnership Program 3547
-#> 5                                    Leavenworth Firemen's Pension Fund
-#> 6                                       Leavenworth Police Pension Fund
-#>    state
-#> 1 Kansas
-#> 2 Kansas
-#> 3 Kansas
-#> 4 Kansas
-#> 5 Kansas
-#> 6 Kansas
+#>        id                                              display_name  state
+#> 1 3407488                       Atchison Public School Annuity Plan Kansas
+#> 2 3396918                    Hutchinson Retirement Fund USD No. 308 Kansas
+#> 3     803 Johnson County Water District 1 Employees Retirement Plan Kansas
+#> 4     802        Kansas City Board of Public Utilities Pension Plan Kansas
+#> 5     793             Kansas Police and Firemen's Retirement System Kansas
+#> 6     790                Kansas Public Employees' Retirement System Kansas
 ```
 
 The full plan name we are interested in is there listed as “Kansas

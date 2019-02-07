@@ -29,7 +29,7 @@ devtools::install_github("ReasonFoundation/pensionviewr")
 
 ## Using the functions:
 
-The package has four functions for data pulling and preparation: `planList()`, `pullData()`, `loadData`, and `selectedData()`.
+The package has four functions for data pulling and preparation: `planList()`, `pullData()`, `loadData()`, and `selectedData()`.
 
 The package has five functions for plots: `reasonStyle()`, `glPlot()`, `linePlot()`, `debtPlot()`, and `savePlot()`.
 
