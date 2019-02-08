@@ -1,5 +1,6 @@
 ---
 output: github_document
+always_allow_html: yes
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -11,6 +12,11 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+```
+```{r packages, include = FALSE}
+library(pensionviewr)
+library(tidyverse)
+library(kableExtra)
 ```
 # pensionviewr
 
@@ -84,9 +90,11 @@ A basic explanation and summary here:
 Example of how it is used in a standard workflow:
 
 ```{r planList}
-library(pensionviewr)
 pl <- planList()
-head(pl)
+pl %>% 
+  head() %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "left")
 ```
 
 ### `pullData()`
@@ -102,16 +110,21 @@ Example of how it is used in a standard workflow:
 The next step would be to load the data for the specific plan of interest. Let's use Kansas Public Employees' Retirement System as an example. Let's first see what plans in Kansas are available:
 
 ```{r Kansas}
-require(tidyverse)
 KS <- pl %>% filter(state == 'Kansas')
-head(KS)
+KS %>% 
+  head() %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "left")
 ```
 
 The full plan name we are interested in is there listed as "Kansas Public Employees' Retirement System". We can pull the data for it now:
 
 ```{r pullData}
 kpers_data <- pullData(pl, plan_name = "Kansas Public Employees' Retirement System")
-head(kpers_data)
+kpers_data %>% 
+  head() %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "left")
 ```
 
 ### `loadData`
@@ -148,7 +161,10 @@ Back to the Kansas Public Employees' example. That is a lot of variables. The `s
 
 ```{r selectedData}
 df <- selectedData(kpers_data)
-head(df)
+df %>% 
+  head() %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "left")
 ```
 
 ### `reasonStyle()`
