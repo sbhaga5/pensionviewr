@@ -17,25 +17,28 @@ debtPlot <- function(data) {
       uaal = extrapo$y,
       funded_ratio = extrapo2$y) %>%
     tidyr::drop_na()
+  graph <- graph %>%
+    dplyr::mutate(sign = dplyr::case_when(.data$uaal >= 0 ~ "positive",
+                                          .data$uaal < 0 ~ "negative"))
 
-  # create a "negative-positive" column for fill aesthetic
-  graph$sign[graph$uaal >= 0] <- "positive"
-  graph$sign[graph$uaal < 0] <- "negative"
 
-  ggplot2::ggplot(graph, ggplot2::aes(x = graph$year)) +
-    # area graph using pos/neg for fill color
-    ggplot2::geom_area(ggplot2::aes(y = graph$uaal, fill = graph$sign)) +
-    # line tracing the area graph
-    ggplot2::geom_line(ggplot2::aes(y = graph$uaal)) +
-    # line with funded ratio
-    ggplot2::geom_line(ggplot2::aes(y = graph$funded_ratio * (max(graph$uaal))),
-      color = "#3300FF",
-      size = 1) +
+  y_maximum <- max(graph$uaal)
+
+  ggplot2::ggplot(graph,
+                  ggplot2::aes(x = graph$year)) +
+    ggplot2::geom_area(ggplot2::aes(y = graph$uaal, fill = graph$sign, colour = graph$sign)) +
+    ggplot2::geom_line(ggplot2::aes(y = graph$funded_ratio * (y_maximum)),
+                       color = "#3300FF",
+                       size = 1) +
     # axis labels
     ggplot2::labs(y = "Unfunded Accrued Actuarial Liabilities", x = NULL) +
 
     # colors assigned to pos, neg
-    ggplot2::scale_fill_manual(values = c("negative" = "#669900", "positive" = "#CC0000")) +
+    ggplot2::scale_fill_manual(
+      values = c("negative" = "#669900",
+                 "positive" = "#CC0000"),
+      aesthetics = c("colour", "fill")
+      ) +
 
     # sets the y-axis scale
     ggplot2::scale_y_continuous(
@@ -44,12 +47,12 @@ debtPlot <- function(data) {
       # changes the format to be dollars, without cents, scaled to be in billions
       labels = scales::dollar_format(
         prefix = "$",
-        scale = (1e-6),
+        scale = (1e-3),
         largest_with_cents = 1
       ),
       # defines the right side y-axis as a transformation of the left side axis, maximum UAAL = 100%, sets the breaks, labels
       sec.axis = ggplot2::sec_axis(
-        ~ . / (max(graph$uaal) / 100),
+        ~ . / (y_maximum / 100),
         breaks = scales::pretty_breaks(n = 10),
         name = "Funded Ratio",
         labels = function(b) {

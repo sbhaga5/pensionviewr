@@ -18,23 +18,24 @@ linePlot <- function(data,
 
   var1 <- rlang::sym(.var1)
   var2 <- rlang::sym(.var2)
+  lab1 <- rlang::sym(label1)
+  lab2 <- rlang::sym(label2)
 
   graph <- data %>%
     dplyr::select(
       .data$year,
-      v1 = !!var1,
-      v2 = !!var2
+      !!label1 := !!var1,
+      !!label2 := !!var2
     ) %>%
     dplyr::mutate_all(dplyr::funs(as.numeric)) %>%
     tidyr::gather(key = "keys", value = "amount", -.data$year)
 
-  lineColors <- c("#0066CC","#0099FF")
-
-  labs <- c(label1, label2)
+  #lineColors <- c("#999999","#0066CC")
+  #labs <- c(label1, label2)
 
   ggplot2::ggplot(graph, ggplot2::aes(x = graph$year, y = graph$amount * 100)) +
     ggplot2::geom_line(ggplot2::aes(colour = graph$keys), size = 2) +
-    ggplot2::scale_colour_manual(values = lineColors, labels = labs) +
+    #ggplot2::scale_colour_manual(values = lineColors, labels = labs) +
     ggplot2::geom_hline(yintercept = 0, color = "black") +
 
     ggplot2::scale_y_continuous(
@@ -49,8 +50,7 @@ linePlot <- function(data,
         expand = c(0, 0)
       ) +
 
-    ggplot2::ylab(labelY) +
-    ggplot2::xlab("Year") +
+    labs(x = element_blank(), y = labelY) +
 
     reasonStyle()
 }

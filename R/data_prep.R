@@ -99,6 +99,7 @@ pullData <-
       janitor::clean_names()
     RPostgres::dbClearResult(result)
     RPostgres::dbDisconnect(con)
+
     all_data %>%
       dplyr::group_by_at(dplyr::vars(-.data$attribute_value)) %>%  # group by everything other than the value column.
       dplyr::mutate(row_id = 1:dplyr::n()) %>%

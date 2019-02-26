@@ -38,7 +38,7 @@ glPlot <-
       ggplot2::geom_col(width = 0.75, ggplot2::aes(fill = graph1$sign), color = "black") +
       ggplot2::geom_hline(yintercept = 0, color = "black") +
       ggplot2::scale_fill_manual(values = fill_colors) +
-      ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(), labels = scales::dollar_format(prefix = "$")) +
+      ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(5), labels = scales::dollar_format(prefix = "$")) +
       ggplot2::ylab(ylab) +
       reasonStyle() +
       ggplot2::theme(
