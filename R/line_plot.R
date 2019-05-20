@@ -30,12 +30,11 @@ linePlot <- function(data,
     dplyr::mutate_all(dplyr::funs(as.numeric)) %>%
     tidyr::gather(key = "keys", value = "amount", -.data$year)
 
-  #lineColors <- c("#999999","#0066CC")
-  #labs <- c(label1, label2)
+  lineColors <- c("#999999","#0066CC")
 
   ggplot2::ggplot(graph, ggplot2::aes(x = graph$year, y = graph$amount * 100)) +
-    ggplot2::geom_line(ggplot2::aes(colour = graph$keys), size = 2) +
-    #ggplot2::scale_colour_manual(values = lineColors, labels = labs) +
+    ggplot2::geom_line(ggplot2::aes(colour = factor(graph$keys)), size = 2) +
+    ggplot2::scale_colour_manual(values = lineColors) +
     ggplot2::geom_hline(yintercept = 0, color = "black") +
 
     ggplot2::scale_y_continuous(
