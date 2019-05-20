@@ -68,28 +68,22 @@ pullData <-
       sslmode = "require"
     )
     # define the query to retrieve the plan data
-    query <- "select plan_annual_attribute.year,
-  plan.id,
+    query <- "select plan_annual_master_attribute.year,
+  plan_annual_master_attribute.plan_id,
   plan.display_name,
   state.name as state,
-  plan_attribute.name as attribute_name,
-  plan_annual_attribute.attribute_value,
-  data_source_id,
-  data_source.name as data_source_name
-  from plan_annual_attribute
+  plan_master_attribute_names.name as attribute_name,
+  plan_annual_master_attribute.attribute_value
+  from plan_annual_master_attribute
   inner join plan
-  on plan_annual_attribute.plan_id = plan.id
+  on plan_annual_master_attribute.plan_id = plan.id
   inner join government
   on plan.admin_gov_id = government.id
   inner join state
   on government.state_id = state.id
-  inner join plan_attribute
-  on plan_annual_attribute.plan_attribute_id = plan_attribute.id
-  inner join data_source
-  on plan_attribute.data_source_id = data_source.id
-  where cast(plan_annual_attribute.year as integer) >= 1980 and
-  data_source_id = 2 and
-  plan_id = $1"
+  inner join plan_master_attribute_names
+  on plan_annual_master_attribute.master_attribute_id = plan_master_attribute_names.id
+  where plan_id = $1"
 
     plan_id <- pl$id[pl$display_name == plan_name]
 
