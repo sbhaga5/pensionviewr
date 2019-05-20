@@ -6,7 +6,7 @@
 #' @export
 
 planList <- function() {
-  dw <- get("dw")
+  #dw <- get("dw")
   con <- RPostgres::dbConnect(
     RPostgres::Postgres(),
     dbname = trimws(dw$path),
@@ -57,7 +57,7 @@ planList <- function() {
 #' }
 pullData <-
   function(pl, plan_name = "Texas Employees Retirement System") {
-    dw <- get("dw")
+    #dw <- get("dw")
     con <- RPostgres::dbConnect(
       RPostgres::Postgres(),
       dbname = trimws(dw$path),
