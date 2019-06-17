@@ -107,21 +107,21 @@ pl %>%
 
 Example of how it is used in a standard workflow:
 
-The next step would be to load the data for the specific plan of interest. Let's use Kansas Public Employees' Retirement System as an example. Let's first see what plans in Kansas are available:
+The next step would be to load the data for the specific plan of interest. Let's use Texas Teacher Retirement System as an example. Let's first see what plans in Texas are available with the word "teacher' in the name:
 
 ```{r Kansas}
-KS <- pl %>% filter(state == 'Kansas')
-KS %>% 
+TX <- pl %>% filter(state == 'Texas', str_detect(tolower(display_name), pattern = "teacher"))
+TX %>% 
   head() %>%
   kable() %>%
   kable_styling(full_width = FALSE, position = "left")
 ```
 
-The full plan name we are interested in is there listed as "Kansas Public Employees' Retirement System". We can pull the data for it now:
+The full plan name we are interested in is there listed as "Texas Teacher Retirement System". We can pull the data for it now:
 
 ```{r pullData}
-kpers_data <- pullData(pl, plan_name = "Kansas Public Employees' Retirement System")
-kpers_data %>% 
+ttrs_data <- pullData(pl, plan_name = "Texas Teacher Retirement System")
+ttrs_data %>% 
   head() %>%
   kable() %>%
   kable_styling(full_width = FALSE, position = "left")
@@ -141,50 +141,25 @@ data_from_file <- loadData('data/NorthCarolina_PensionDatabase_TSERS.xlsx')
 
 ### `selectedData()`
 
-4. `selectedData()`: selects the only the variables used in historical analyses. `selectedData` has eleven arguments, with the first, `wide_data`, being required:
+4. `selectedData()`: selects the only the variables used in historical analyses. `selectedData` has one argument, `wide_data`, that is required:
 
-`selectedData(wide_data, .date_var = "actuarial_valuation_date_for_gasb_assumptions", .aal_var = .actuarial_accrued_liabilities_under_gasb_standards", .mva_var = "beginning_market_assets_net", .ava_var = "actuarial_assets_under_gasb_standards",.tpl_var = "total_pension_liability", .adec_var = "employer_annual_required_contribution", .er_cont_var = "employer_contributions", .ee_cont_var = "employee_contributions", .payroll_var = "covered_payroll", .arr_var = "investment_return_assumption_for_gasb_reporting")`
+`selectedData(wide_data)`
 
 * `wide_data`: a datasource in wide format
-* `.date_var` column name for valuation date. Default: 'Actuarial Valuation Date For GASB Assumptions'
-* `.mva_var`: column name for Market Value of Assets. Default: 'beginning_market_assets_net'
-* `.aal_var` column name AAL. Default: 'Actuarial Accrued Liabilities Under GASB Standards'
-* `.ava_var` column name for Actuarial Assets. Default: 'Actuarial Assets under GASB standards'
-* `.tpl_var` column name for Total Pension Liability. Default: "total_pension_liability",
-* `.adec_var` column name for ADEC. Default: 'Employer Annual Required Contribution'
-* `.er_cont_var` column name for employer contributions. Default: 'Employer Contributions'
-* `.ee_cont_var` column name for employee contributions. Default: 'Employee Contributions'
-* `.payroll_var` column name for payroll. Default: 'Covered Payroll'
-* `.arr_var` column name for the Assumed Rate of Return. Default: 'investment_return_assumption_for_gasb_reporting'
 
 Back to the Kansas Public Employees' example. That is a lot of variables. The `selectedData()` function selects only a handful of needed variables:
 
 ```{r selectedData}
-df <- selectedData(kpers_data)
+df <- selectedData(ttrs_data)
 df %>% 
   head() %>%
   kable() %>%
   kable_styling(full_width = FALSE, position = "left")
 ```
 
-### `reasonStyle()`
-
-5. `reasonStyle()`: has no arguments and is added to the ggplot chain after you have created a plot. What it does is generally makes text size, font and colour, axis lines, axis text and many other standard chart components into Reason style. 
-
-The function is pretty basic and does not change or adapt based on the type of chart you are making, so in some cases you will need to make additional `theme` arguments in your ggplot chain if you want to make any additions or changes to the style, for example to add or remove gridlines etc. Also note that colours for lines in the case of a line chart or bars for a bar chart, do not come out of the box from the `reasonStyle` function, but need to be explicitly set in your other standard `ggplot` chart functions.
-
-Example of how it is used in a standard workflow:
-
-```
-line <- ggplot2(line_df, aes(x = year, y = lifeExp)) +
-geom_line(colour = "#007f7f", size = 1) +
-geom_hline(yintercept = 0, size = 1, colour="#333333") +
-reasonStyle()
-```
-
 ### `glPlot()`
 
-6. `glPlot()`: creates the 'Gain/Loss' plot using a CSV file as an input. glPlot has two arguments:
+5. `glPlot()`: creates the 'Gain/Loss' plot using a CSV file as an input. glPlot has two arguments:
 
 `glPlot(filename, ylab_unit)`
 
@@ -200,7 +175,7 @@ glPlot(filename)
 
 ### `linePlot()`
 
-7. `linePlot()`: creates a plot comparing two variables, such as ADEC vs. Actual contributions. `linePlot()` has six arguments, with `data` being required:
+6. `linePlot()`: creates a plot comparing two variables, such as ADEC vs. Actual contributions. `linePlot()` has six arguments, with `data` being required:
 
 `linePlot(data, .var1, .var2, labelY, label1, label2)`
 

@@ -285,12 +285,14 @@ Alabama
 Example of how it is used in a standard workflow:
 
 The next step would be to load the data for the specific plan of
-interest. Let’s use Kansas Public Employees’ Retirement System as an
-example. Let’s first see what plans in Kansas are available:
+interest. Let’s use Texas Teacher Retirement System as an example. Let’s
+first see what plans in Texas are available with the word "teacher’ in
+the
+name:
 
 ``` r
-KS <- pl %>% filter(state == 'Kansas')
-KS %>% 
+TX <- pl %>% filter(state == 'Texas', str_detect(tolower(display_name), pattern = "teacher"))
+TX %>% 
   head() %>%
   kable() %>%
   kable_styling(full_width = FALSE, position = "left")
@@ -330,129 +332,19 @@ state
 
 <td style="text-align:right;">
 
-3407488
+1877
 
 </td>
 
 <td style="text-align:left;">
 
-Atchison Public School Annuity Plan
+Texas Teacher Retirement System
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-3396918
-
-</td>
-
-<td style="text-align:left;">
-
-Hutchinson Retirement Fund USD No. 308
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-803
-
-</td>
-
-<td style="text-align:left;">
-
-Johnson County Water District 1 Employees Retirement Plan
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-802
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas City Board of Public Utilities Pension Plan
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-793
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas Police and Firemen’s Retirement System
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-790
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas Public Employees’ Retirement System
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
+Texas
 
 </td>
 
@@ -462,13 +354,12 @@ Kansas
 
 </table>
 
-The full plan name we are interested in is there listed as “Kansas
-Public Employees’ Retirement System”. We can pull the data for it
-now:
+The full plan name we are interested in is there listed as “Texas
+Teacher Retirement System”. We can pull the data for it now:
 
 ``` r
-kpers_data <- pullData(pl, plan_name = "Kansas Public Employees' Retirement System")
-kpers_data %>% 
+ttrs_data <- pullData(pl, plan_name = "Texas Teacher Retirement System")
+ttrs_data %>% 
   head() %>%
   kable() %>%
   kable_styling(full_width = FALSE, position = "left")
@@ -488,7 +379,7 @@ year
 
 <th style="text-align:right;">
 
-id
+plan\_id
 
 </th>
 
@@ -506,175 +397,85 @@ state
 
 <th style="text-align:right;">
 
-data\_source\_id
-
-</th>
-
-<th style="text-align:left;">
-
-data\_source\_name
+x1\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-contributions\_other\_total
+x10\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-deductions\_other\_total
+x12\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-investment\_expense\_total
+x15\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-net\_increase\_decrease\_in\_fair\_value\_of\_total\_investments
+x2\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-percent\_of\_assets\_invested\_in\_misc\_alternatives
+x20\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-targeted\_percent\_of\_assets\_invested\_in\_equity\_investments\_tot
-
-</th>
-
-<th style="text-align:left;">
-
-total\_fund\_benchmark\_return
+x25\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-x1\_yr\_investment\_return
+x3\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-x10\_year\_return\_average
+x30\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-x10\_yr\_investment\_return
+x4\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-x12\_yr\_investment\_return
+x5\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-x15\_yr\_investment\_return
+x7\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-x2\_yr\_investment\_return
-
-</th>
-
-<th style="text-align:right;">
-
-x20\_yr\_investment\_return
-
-</th>
-
-<th style="text-align:right;">
-
-x25\_yr\_investment\_return
-
-</th>
-
-<th style="text-align:right;">
-
-x3\_year\_return\_average
-
-</th>
-
-<th style="text-align:right;">
-
-x3\_yr\_investment\_return
-
-</th>
-
-<th style="text-align:right;">
-
-x30\_yr\_investment\_return
-
-</th>
-
-<th style="text-align:right;">
-
-x4\_yr\_investment\_return
-
-</th>
-
-<th style="text-align:right;">
-
-x5\_year\_return\_average
-
-</th>
-
-<th style="text-align:right;">
-
-x5\_yr\_investment\_return
-
-</th>
-
-<th style="text-align:right;">
-
-x7\_yr\_investment\_return
-
-</th>
-
-<th style="text-align:right;">
-
-x8\_yr\_investment\_return
-
-</th>
-
-<th style="text-align:right;">
-
-actuarial\_accrued\_liabilities\_under\_gasb\_standards
-
-</th>
-
-<th style="text-align:right;">
-
-actuarial\_assets
+x8\_year\_investment\_return\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
 actuarial\_assets\_reported\_for\_asset\_smoothing
-
-</th>
-
-<th style="text-align:right;">
-
-actuarial\_assets\_under\_gasb\_standards
 
 </th>
 
@@ -692,13 +493,13 @@ actuarial\_cost\_method\_code\_names\_for\_gasb
 
 <th style="text-align:left;">
 
-actuarial\_cost\_method\_for\_gasb\_reporting
+actuarial\_cost\_method\_in\_gasb\_reporting
 
 </th>
 
 <th style="text-align:left;">
 
-actuarial\_cost\_method\_for\_plan\_reporting
+actuarial\_cost\_method\_in\_valaution
 
 </th>
 
@@ -710,19 +511,19 @@ actuarial\_cost\_method\_notes
 
 <th style="text-align:right;">
 
-actuarial\_funded\_ratio\_gasb\_67
+actuarial\_funded\_ratio\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-actuarial\_liabilities\_under\_entry\_age\_normal
+actuarial\_liabilities\_entry\_age\_normal\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-actuarial\_liabilities\_under\_projected\_unit\_credit
+actuarial\_liabilities\_projected\_union\_credit\_dollar
 
 </th>
 
@@ -740,12 +541,6 @@ actuarial\_valuation\_date\_for\_actuarial\_costs
 
 <th style="text-align:right;">
 
-actuarial\_valuation\_date\_for\_gasb\_assumptions
-
-</th>
-
-<th style="text-align:right;">
-
 actuarial\_valuation\_date\_for\_gasb\_schedules
 
 </th>
@@ -758,13 +553,49 @@ actuarial\_valuation\_report\_date
 
 <th style="text-align:right;">
 
-actuarially\_determined\_contribution
+actuarial\_value\_of\_assets\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-actuarially\_required\_contribution
+actuarial\_value\_of\_assets\_gasb\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+actuarially\_accrued\_liabilities\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+actuarially\_determined\_contribution\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+actuarially\_determined\_contribution\_percentage\_of\_payroll
+
+</th>
+
+<th style="text-align:right;">
+
+actuarially\_required\_contribution\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+actuarially\_required\_contribution\_paid\_percentage
+
+</th>
+
+<th style="text-align:right;">
+
+adjustment\_to\_market\_value\_of\_assets\_dollar
 
 </th>
 
@@ -782,19 +613,31 @@ administrating\_jurisdiction
 
 <th style="text-align:right;">
 
-aec
+administrative\_expense\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-alternatives\_expense
+administrative\_expense\_in\_normal\_cost\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-alternatives\_income
+alternative\_expense\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+alternative\_investments\_percentage
+
+</th>
+
+<th style="text-align:right;">
+
+alternatives\_income\_dollar
 
 </th>
 
@@ -806,55 +649,7 @@ amortizaton\_method
 
 <th style="text-align:right;">
 
-annual\_return\_on\_cash\_investments
-
-</th>
-
-<th style="text-align:right;">
-
-annual\_return\_on\_commodity\_investments
-
-</th>
-
-<th style="text-align:right;">
-
-annual\_return\_on\_fixed\_income\_investments
-
-</th>
-
-<th style="text-align:right;">
-
-annual\_return\_on\_hedge\_fund\_investments
-
-</th>
-
-<th style="text-align:right;">
-
-annual\_return\_on\_misc\_alternative\_investments
-
-</th>
-
-<th style="text-align:right;">
-
-annual\_return\_on\_other\_investments
-
-</th>
-
-<th style="text-align:right;">
-
-annual\_return\_on\_private\_equity\_investments
-
-</th>
-
-<th style="text-align:right;">
-
-annual\_return\_on\_real\_estate\_investments
-
-</th>
-
-<th style="text-align:right;">
-
-annual\_return\_on\_total\_equity\_investments
+amounts\_transmitted\_to\_federal\_social\_security\_system\_dollar
 
 </th>
 
@@ -974,7 +769,25 @@ average\_tenure\_of\_actives
 
 <th style="text-align:right;">
 
-beginning\_market\_assets\_net
+basis\_of\_membership\_and\_participation
+
+</th>
+
+<th style="text-align:right;">
+
+benefit\_payments\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+benefits\_paid\_to\_disability\_retirees\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+benefits\_paid\_to\_service\_retirees\_dollar
 
 </th>
 
@@ -992,13 +805,73 @@ blended\_discount\_rate
 
 <th style="text-align:right;">
 
+bonds\_corporate\_book\_value\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+bonds\_corporate\_other\_book\_value\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+bonds\_corporate\_other\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+bonds\_federally\_sponsored\_investments\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
 cafr\_calendar\_year
 
 </th>
 
 <th style="text-align:right;">
 
+cash\_and\_short\_term\_investments\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+cash\_and\_short\_term\_investments\_percentage
+
+</th>
+
+<th style="text-align:right;">
+
+cash\_on\_hand\_and\_demand\_deposits\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+census\_coverage\_type
+
+</th>
+
+<th style="text-align:right;">
+
+census\_retirement\_system\_code
+
+</th>
+
+<th style="text-align:right;">
+
 closed\_plan
+
+</th>
+
+<th style="text-align:right;">
+
+cola\_benefits\_paid\_dollar
 
 </th>
 
@@ -1022,24 +895,6 @@ confict\_between\_cafr\_and\_actuarial\_valuation
 
 <th style="text-align:right;">
 
-contributions\_employer\_total
-
-</th>
-
-<th style="text-align:right;">
-
-contributions\_other\_employer
-
-</th>
-
-<th style="text-align:right;">
-
-contributions\_other\_member
-
-</th>
-
-<th style="text-align:right;">
-
 cost\_sharing
 
 </th>
@@ -1052,13 +907,13 @@ cost\_structure
 
 <th style="text-align:right;">
 
-covered\_payroll
+covered\_payroll\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-covered\_payroll\_gasb\_67
+covered\_payroll\_gasb\_dollar
 
 </th>
 
@@ -1172,91 +1027,49 @@ data\_source\_for\_plan\_basics
 
 <th style="text-align:right;">
 
-deductions\_administrative\_expense
+death\_benefits\_paid\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-deductions\_cola\_benefit
+depreciation\_expense\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-deductions\_death\_benefits
+disability\_benefits\_paid\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-deductions\_depreciation
+dividends\_income\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-deductions\_disability\_benefits
+do\_employees\_contribute
 
 </th>
 
 <th style="text-align:right;">
 
-deductions\_drop\_benefits
+domestic\_fixed\_income\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-deductions\_lump\_sum\_benefits
+domestic\_investments\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-deductions\_other
-
-</th>
-
-<th style="text-align:right;">
-
-deductions\_other\_benefits
-
-</th>
-
-<th style="text-align:right;">
-
-deductions\_refunds\_withdrawals
-
-</th>
-
-<th style="text-align:right;">
-
-deductions\_retirement\_benefits
-
-</th>
-
-<th style="text-align:right;">
-
-deductions\_survivor\_benefits
-
-</th>
-
-<th style="text-align:right;">
-
-deductions\_total
-
-</th>
-
-<th style="text-align:right;">
-
-deductions\_total\_benefit\_payments
-
-</th>
-
-<th style="text-align:right;">
-
-dividend\_income
+drop\_benefits\_paid\_dollar
 
 </th>
 
@@ -1268,7 +1081,7 @@ drop\_members
 
 <th style="text-align:right;">
 
-employee\_contributions
+employee\_contribution\_dollar
 
 </th>
 
@@ -1280,37 +1093,73 @@ employee\_group\_id
 
 <th style="text-align:right;">
 
-employer\_annual\_required\_contribution
+employee\_normal\_cost\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-employer\_contributions
+employee\_normal\_cost\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-employer\_normal\_cost\_amount
+employee\_normal\_cost\_percentage\_estimated\_categorical
 
 </th>
 
 <th style="text-align:right;">
 
-employer\_normal\_cost\_rate
+employees\_receiving\_lump\_sum\_payments
 
 </th>
 
 <th style="text-align:right;">
 
-employer\_projected\_actuarial\_required\_contribution\_amount
+employer\_contribution\_other\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-employer\_projected\_actuarial\_required\_contribution\_rate
+employer\_contribution\_regular\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+employer\_contribution\_state\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+employer\_normal\_cost\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+employer\_normal\_cost\_percentage
+
+</th>
+
+<th style="text-align:right;">
+
+employer\_normal\_cost\_percentage\_estimated\_categorical
+
+</th>
+
+<th style="text-align:right;">
+
+employer\_regular\_contribution\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+employer\_state\_contribution\_dollar
 
 </th>
 
@@ -1322,37 +1171,73 @@ employer\_type
 
 <th style="text-align:right;">
 
-estimated\_1\_yr\_investment\_return
+employers\_projected\_actuarial\_required\_contribution\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-estimated\_10\_yr\_investment\_return
+employers\_projected\_actuarial\_required\_contribution\_percentage\_of\_payroll
 
 </th>
 
 <th style="text-align:right;">
 
-estimated\_5\_yr\_investment\_return
+estimated\_actuarial\_assets\_indicator
 
 </th>
 
 <th style="text-align:right;">
 
-estimated\_average\_benefit\_of\_beneficiaries\_flag
+estimated\_actuarial\_funded\_ratio\_indicator
 
 </th>
 
 <th style="text-align:right;">
 
-estimated\_average\_salary\_of\_actives\_flag
+estimated\_actuarial\_liabilities\_indicator
+
+</th>
+
+<th style="text-align:right;">
+
+estimated\_employers\_projected\_actuarial\_required\_contribution\_categorical
 
 </th>
 
 <th style="text-align:right;">
 
 expected\_return\_method
+
+</th>
+
+<th style="text-align:right;">
+
+fair\_value\_change\_investments
+
+</th>
+
+<th style="text-align:right;">
+
+federal\_agency\_securities\_investments\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+federal\_government\_securities\_investments\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+federal\_treasury\_securities\_investments\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+federally\_sponsored\_agnecy\_securities\_investments\_dollar
 
 </th>
 
@@ -1370,13 +1255,37 @@ fiscal\_year\_end\_date
 
 <th style="text-align:right;">
 
-fiscal\_year\_in\_which\_arc\_adec\_is\_to\_be\_paid
+fiscal\_year\_of\_contribution
 
 </th>
 
 <th style="text-align:right;">
 
 fiscal\_year\_type
+
+</th>
+
+<th style="text-align:right;">
+
+foreign\_and\_international\_securities\_investments\_1997\_2001\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+foreign\_and\_international\_securities\_investments\_2001\_present\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+former\_active\_members\_retired\_on\_account\_of\_age\_or\_service
+
+</th>
+
+<th style="text-align:right;">
+
+former\_active\_members\_retired\_on\_account\_of\_disability
 
 </th>
 
@@ -1388,31 +1297,25 @@ full\_state\_name
 
 <th style="text-align:right;">
 
-funded\_ratio\_under\_gasb\_standards
+funding\_method\_code\_1\_for\_gasb\_reporting
 
 </th>
 
 <th style="text-align:right;">
 
-funding\_method\_code\_number\_1\_for\_gasb\_reporting
+funding\_method\_code\_1\_for\_plan\_reporting
 
 </th>
 
 <th style="text-align:right;">
 
-funding\_method\_code\_number\_1\_for\_plan\_reporting
+funding\_method\_code\_2\_for\_gasb\_reporting
 
 </th>
 
 <th style="text-align:right;">
 
-funding\_method\_code\_number\_2\_for\_gasb\_reporting
-
-</th>
-
-<th style="text-align:right;">
-
-funding\_method\_code\_number\_2\_for\_plan\_reporting
+funding\_method\_code\_2\_for\_plan\_reporting
 
 </th>
 
@@ -1430,13 +1333,19 @@ funding\_method\_note
 
 <th style="text-align:right;">
 
-gain\_loss\_base\_number\_1
+gain\_from\_investments\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-gain\_loss\_base\_number\_2
+gain\_loss\_base\_1
+
+</th>
+
+<th style="text-align:right;">
+
+gain\_loss\_base\_2
 
 </th>
 
@@ -1478,13 +1387,25 @@ gain\_loss\_values\_used\_in\_smoothing
 
 <th style="text-align:right;">
 
-geometric\_growth\_since\_2001
+geometric\_growth\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-geometric\_return\_since\_2001
+geometric\_return\_percentage
+
+</th>
+
+<th style="text-align:right;">
+
+gross\_or\_net\_investment\_returns\_categorical
+
+</th>
+
+<th style="text-align:right;">
+
+inactive\_members
 
 </th>
 
@@ -1502,25 +1423,37 @@ inflation\_rate\_assumption\_for\_gasb\_reporting
 
 <th style="text-align:right;">
 
-interest\_and\_divident\_net\_income\_total
+interest\_and\_dividends\_income\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-interest\_income
+interest\_income\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-internal\_adjustment\_to\_market\_assets
+international\_fixed\_income\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-international\_income
+international\_income\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+international\_investments\_percentage
+
+</th>
+
+<th style="text-align:right;">
+
+investment\_expenses\_dollar
 
 </th>
 
@@ -1532,7 +1465,13 @@ investment\_return\_assumption\_for\_gasb\_reporting
 
 <th style="text-align:right;">
 
-investments\_net
+investments\_held\_in\_trust\_by\_other\_agencies\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+local\_employee\_contribution\_dollar
 
 </th>
 
@@ -1544,7 +1483,31 @@ local\_employers
 
 <th style="text-align:right;">
 
-long\_term\_investment\_return
+local\_government\_active\_members
+
+</th>
+
+<th style="text-align:right;">
+
+local\_government\_contribution\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+long\_term\_investment\_return\_percentage
+
+</th>
+
+<th style="text-align:left;">
+
+long\_term\_investment\_return\_starting\_year
+
+</th>
+
+<th style="text-align:right;">
+
+loss\_from\_investments\_dollar
 
 </th>
 
@@ -1556,49 +1519,85 @@ lower\_corridor\_for\_market\_vs\_actuarial\_assets
 
 <th style="text-align:right;">
 
+lump\_sum\_benefits\_paid\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+management\_fees\_for\_securities\_lending\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
 market\_assets\_reported\_for\_asset\_smoothing
 
 </th>
 
 <th style="text-align:right;">
 
-market\_assets\_reported\_in\_actuarial\_valuation
+market\_funded\_ratio\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-member\_contribution\_amount
+market\_value\_of\_assets\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-member\_contribution\_rate
+market\_value\_of\_assets\_net\_of\_fees\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-member\_service\_purchase
+members\_covered\_by\_social\_security
 
 </th>
 
 <th style="text-align:right;">
 
-net\_assets
+monthly\_lump\_sum\_payments\_to\_members\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-net\_change\_in\_fair\_value\_of\_investments
+monthly\_lump\_sum\_payments\_to\_survivors\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-net\_change\_in\_fair\_value\_of\_real\_estate\_investments
+monthly\_payments\_to\_disabled\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+monthly\_payments\_to\_retirees\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+monthly\_payments\_to\_survivors\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+mortgage\_investments\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+net\_expenses\_dollar
 
 </th>
 
@@ -1610,25 +1609,13 @@ net\_flows\_reported\_for\_asset\_smoothing
 
 <th style="text-align:right;">
 
-net\_investments\_interest\_and\_dividends
+net\_pension\_liability\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-net\_investments\_investment\_expense
-
-</th>
-
-<th style="text-align:right;">
-
-net\_pension\_liability
-
-</th>
-
-<th style="text-align:right;">
-
-net\_position
+net\_position\_dollar
 
 </th>
 
@@ -1646,31 +1633,73 @@ no\_cafr
 
 <th style="text-align:right;">
 
-other\_additions
+number\_of\_survivors
 
 </th>
 
 <th style="text-align:right;">
 
-other\_contributions
+number\_of\_years\_remaining\_on\_amortization\_schedule
 
 </th>
 
 <th style="text-align:right;">
 
-other\_investment\_expense
+optional\_benefits\_available
 
 </th>
 
 <th style="text-align:right;">
 
-other\_investment\_income
+other\_actuarially\_accured\_liabilities\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-other\_liability
+other\_additions\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+other\_benefits\_paid\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+other\_contribution\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+other\_deductions\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+other\_employee\_contributions\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+other\_investments\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+other\_investments\_income\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+other\_investments\_percentage
 
 </th>
 
@@ -1682,133 +1711,25 @@ other\_members
 
 <th style="text-align:right;">
 
+other\_payments\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+other\_receipts\_paid\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+other\_securities\_investments\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
 payroll\_growth\_assumption
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_adec\_paid
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_arc\_paid
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_alternatives
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_bonds
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_cash
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_cash\_short\_term\_instruments
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_commodities
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_equities
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_equity\_investments\_total
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_fixed\_income
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_foreign\_bonds
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_hedge\_funds
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_international\_equities
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_other
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_other\_investments
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_private\_equity
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_real\_estate
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_real\_estate\_2
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_us\_bonds
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_assets\_invested\_in\_us\_equities
-
-</th>
-
-<th style="text-align:right;">
-
-percent\_of\_employer\_required\_contribution\_paid
 
 </th>
 
@@ -1844,79 +1765,79 @@ plan\_type
 
 <th style="text-align:right;">
 
-ppd\_directory\_listed
+present\_value\_of\_future\_benefits\_for\_active\_members\_dollar
+
+</th>
+
+<th style="text-align:left;">
+
+present\_value\_of\_future\_benefits\_for\_inactive\_non\_vested\_members\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-present\_value\_of\_active\_future\_benefits
+present\_value\_of\_future\_benefits\_for\_inactive\_vested\_members\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-present\_value\_of\_future\_employer\_normal\_costs
+present\_value\_of\_future\_benefits\_for\_other\_members\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-present\_value\_of\_future\_member\_contributions
+present\_value\_of\_future\_benefits\_for\_retired\_members\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-present\_value\_of\_future\_salaries
+present\_value\_of\_future\_benefits\_for\_total\_members\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-present\_value\_of\_inactive\_non\_vested\_future\_benefits
+present\_value\_of\_future\_normal\_costs\_employee\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-present\_value\_of\_inactive\_vested\_future\_benefits
+present\_value\_of\_future\_normal\_costs\_employer\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-present\_value\_of\_other\_future\_benefits
+present\_value\_of\_future\_normal\_costs\_total\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-present\_value\_of\_retiree\_future\_benefits
+present\_value\_of\_future\_services\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-present\_value\_of\_total\_costs
+private\_equity\_investments\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-private\_equity\_expense
+private\_equity\_investments\_income\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-private\_equity\_income
-
-</th>
-
-<th style="text-align:right;">
-
-projected\_payroll
+projected\_payroll\_dollar
 
 </th>
 
@@ -1928,13 +1849,31 @@ public\_plans\_database\_id
 
 <th style="text-align:right;">
 
-real\_estate\_expense
+real\_estate\_income\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-real\_estate\_income
+real\_estate\_investments\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+real\_estate\_investments\_percentage
+
+</th>
+
+<th style="text-align:right;">
+
+receipts\_for\_transmittal\_to\_federal\_social\_security\_system\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+refunds\_dollar
 
 </th>
 
@@ -1946,13 +1885,19 @@ remaining\_amortization\_period
 
 <th style="text-align:right;">
 
-reported\_investment\_returns
+rentals\_from\_state\_government\_dollar
 
 </th>
 
 <th style="text-align:left;">
 
 reporting\_date\_notes
+
+</th>
+
+<th style="text-align:right;">
+
+retirement\_benefits\_paid\_dollar
 
 </th>
 
@@ -1968,51 +1913,33 @@ school\_employers
 
 </th>
 
-<th style="text-align:left;">
+<th style="text-align:right;">
 
-securities\_lending\_fair\_value\_change
-
-</th>
-
-<th style="text-align:left;">
-
-securities\_lending\_fair\_value\_change\_ug
+securities\_lending\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-securities\_lending\_total
+securities\_lending\_income\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-securities\_lending\_total\_net\_expenses
+securities\_lending\_rebates\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-securities\_lending\_interest
+service\_purchase\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-securities\_lending\_rebates
-
-</th>
-
-<th style="text-align:right;">
-
-securities\_lending\_appreciation\_income
-
-</th>
-
-<th style="text-align:right;">
-
-securities\_management\_lending\_fees
+short\_term\_investments\_dollar
 
 </th>
 
@@ -2040,12 +1967,6 @@ source\_for\_asset\_allocation
 
 </th>
 
-<th style="text-align:right;">
-
-source\_indicator
-
-</th>
-
 <th style="text-align:left;">
 
 source\_reference\_for\_funding\_and\_methods
@@ -2060,19 +1981,31 @@ source\_reference\_for\_gasb\_assumptions
 
 <th style="text-align:left;">
 
-starting\_year\_for\_long\_term\_investment\_return\_calculation
-
-</th>
-
-<th style="text-align:left;">
-
 state\_abbreviation
 
 </th>
 
 <th style="text-align:right;">
 
-state\_contributions
+state\_and\_local\_government\_securitites\_investments\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+state\_contribution\_for\_employee\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+state\_contribution\_to\_own\_system\_on\_behalf\_of\_employees\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+state\_employee\_contribution\_dollar
 
 </th>
 
@@ -2084,55 +2017,37 @@ state\_employers
 
 <th style="text-align:right;">
 
+state\_government\_active\_members
+
+</th>
+
+<th style="text-align:right;">
+
+stocks\_corporate\_book\_value\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+stocks\_corporate\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+survivior\_benefits\_paid\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+survivors\_receiving\_lump\_sum\_payments
+
+</th>
+
+<th style="text-align:right;">
+
 system\_id
-
-</th>
-
-<th style="text-align:right;">
-
-targeted\_percent\_of\_assets\_invested\_in\_cash
-
-</th>
-
-<th style="text-align:right;">
-
-targeted\_percent\_of\_assets\_invested\_in\_commodities
-
-</th>
-
-<th style="text-align:right;">
-
-targeted\_percent\_of\_assets\_invested\_in\_fixed\_income
-
-</th>
-
-<th style="text-align:right;">
-
-targeted\_percent\_of\_assets\_invested\_in\_hedge\_funds
-
-</th>
-
-<th style="text-align:right;">
-
-targeted\_percent\_of\_assets\_invested\_in\_misc\_alternatives
-
-</th>
-
-<th style="text-align:right;">
-
-targeted\_percent\_of\_assets\_invested\_in\_other\_investments
-
-</th>
-
-<th style="text-align:right;">
-
-targeted\_percent\_of\_assets\_invested\_in\_private\_equity
-
-</th>
-
-<th style="text-align:right;">
-
-targeted\_percent\_of\_assets\_invested\_in\_real\_estate
 
 </th>
 
@@ -2150,7 +2065,25 @@ tier\_id
 
 <th style="text-align:right;">
 
-total\_additions
+time\_or\_savings\_deposits\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+total\_active\_members
+
+</th>
+
+<th style="text-align:right;">
+
+total\_additions\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+total\_amortization\_payment\_percentage
 
 </th>
 
@@ -2162,49 +2095,67 @@ total\_amortization\_period
 
 <th style="text-align:right;">
 
-total\_amount\_of\_active\_salaries\_payroll
+total\_amount\_of\_active\_salaries\_payroll\_in\_dollars
 
 </th>
 
 <th style="text-align:right;">
 
-total\_annual\_benefit\_payments\_in\_year
+total\_benefits\_paid\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-total\_benefits\_paid\_to\_disability\_retirees
+total\_cash\_and\_securities\_investments\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-total\_benefits\_paid\_to\_service\_retirees
+total\_contribution\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-total\_contributions
+total\_corporate\_bonds\_investments\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-total\_normal\_cost\_amount
+total\_earnings\_on\_investments\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-total\_normal\_cost\_rate
+total\_equities\_investments\_percentage
 
 </th>
 
 <th style="text-align:right;">
 
-total\_number\_of\_actives
+total\_fixed\_income\_percentage
+
+</th>
+
+<th style="text-align:right;">
+
+total\_normal\_cost\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+total\_normal\_cost\_percentage
+
+</th>
+
+<th style="text-align:right;">
+
+total\_normal\_cost\_percentage\_estimated\_categorical
 
 </th>
 
@@ -2220,7 +2171,7 @@ total\_number\_of\_dependent\_survivor\_beneficiaries
 
 </th>
 
-<th style="text-align:left;">
+<th style="text-align:right;">
 
 total\_number\_of\_disability\_retirees
 
@@ -2270,25 +2221,31 @@ total\_number\_of\_survivor\_beneficiaries
 
 <th style="text-align:right;">
 
-total\_pension\_liability
+total\_other\_investments\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-total\_present\_value\_of\_future\_normal\_costs
+total\_other\_securities\_investments\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-total\_projected\_actuarial\_required\_contribution\_amount
+total\_pension\_liability\_dollar
 
 </th>
 
 <th style="text-align:right;">
 
-total\_projected\_actuarial\_required\_contribution\_rate
+total\_projected\_actuarial\_required\_contribution\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+total\_projected\_actuarial\_required\_contribution\_percentage\_of\_payroll
 
 </th>
 
@@ -2300,19 +2257,7 @@ type\_of\_employees\_covered
 
 <th style="text-align:right;">
 
-unfunded\_actuarial\_accrued\_liability\_rate
-
-</th>
-
-<th style="text-align:right;">
-
-unfunded\_actuarial\_accrued\_liability\_under\_gasb\_standards
-
-</th>
-
-<th style="text-align:right;">
-
-unfunded\_liability\_amortization\_period\_for\_gasb\_reporting
+unfunded\_actuarially\_accrued\_liabilities\_dollar
 
 </th>
 
@@ -2336,55 +2281,13 @@ valuation\_id
 
 <th style="text-align:right;">
 
+vesting\_period
+
+</th>
+
+<th style="text-align:right;">
+
 wage\_inflation
-
-</th>
-
-<th style="text-align:right;">
-
-was\_employer\_annual\_required\_contribution\_estimated\_by\_crr
-
-</th>
-
-<th style="text-align:right;">
-
-was\_employer\_normal\_cost\_rate\_estimated\_by\_crr
-
-</th>
-
-<th style="text-align:right;">
-
-was\_employer\_projected\_actuarial\_required\_contribution\_rate\_estimated\_by\_crr
-
-</th>
-
-<th style="text-align:right;">
-
-was\_estimated\_member\_contribution\_rate\_estimated\_by\_crr
-
-</th>
-
-<th style="text-align:right;">
-
-was\_funded\_ratio\_estimated\_by\_crr
-
-</th>
-
-<th style="text-align:right;">
-
-was\_total\_normal\_cost\_rate\_estimated\_by\_crr
-
-</th>
-
-<th style="text-align:right;">
-
-were\_actuarial\_assets\_estimated\_by\_crr
-
-</th>
-
-<th style="text-align:right;">
-
-were\_actuarial\_liabilities\_estimated\_by\_crr
 
 </th>
 
@@ -2410,301 +2313,25 @@ year\_of\_plan\_closing
 
 <td style="text-align:left;">
 
-2001
+1957
 
 </td>
 
 <td style="text-align:right;">
 
-790
+1877
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas Public Employees’ Retirement System
+Texas Teacher Retirement System
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-Pension Plan Database
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-23251.90
-
-</td>
-
-<td style="text-align:right;">
-
-\-1061275.00
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.55
-
-</td>
-
-<td style="text-align:left;">
-
-\-0.0600,0.0320
-
-</td>
-
-<td style="text-align:right;">
-
-\-0.073
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000000
-
-</td>
-
-<td style="text-align:right;">
-
-0.055
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000
-
-</td>
-
-<td style="text-align:right;">
-
-0.094
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-11140014
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-9835182
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-Projected Unit Credit
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-12/31/2000
-
-</td>
-
-<td style="text-align:right;">
-
-36891
-
-</td>
-
-<td style="text-align:right;">
-
-36891
-
-</td>
-
-<td style="text-align:right;">
-
-37256
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-249356.7
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
+Texas
 
 </td>
 
@@ -2716,17 +2343,11 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
 
 NA
 
@@ -2734,91 +2355,79 @@ NA
 
 <td style="text-align:right;">
 
-0.072
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.0810000
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.082
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.154
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.1738519
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
+NA
 
 </td>
 
@@ -2842,29 +2451,11 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
-
-44.17
-
-</td>
-
-<td style="text-align:right;">
-
-72.97
-
-</td>
-
-<td style="text-align:right;">
-
-72.97
-
-</td>
-
-<td style="text-align:left;">
 
 NA
 
@@ -2872,71 +2463,11 @@ NA
 
 <td style="text-align:right;">
 
-9.958
-
-</td>
-
-<td style="text-align:right;">
-
-9.958
-
-</td>
-
-<td style="text-align:right;">
-
-32.041
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-10.21
-
-</td>
-
-<td style="text-align:right;">
-
-10721260
-
-</td>
-
-<td style="text-align:left;">
-
-<http://www.kpers.org/active/benefits.html>
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
 NA
 
@@ -2950,37 +2481,7 @@ NA
 
 <td style="text-align:right;">
 
-193384.3
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Multiemployer, cost sharing plan
-
-</td>
-
-<td style="text-align:right;">
-
-4876555
+NA
 
 </td>
 
@@ -2992,67 +2493,445 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+8325000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+1398000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
@@ -3082,13 +2961,271 @@ NA
 
 <td style="text-align:left;">
 
-page 34
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-pg 42- EXHIBIT 12: SUMMARY OF MEMBERSHIP
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+17072000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+129694000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -3100,257 +3237,11 @@ NA
 
 <td style="text-align:right;">
 
-\-6843.434
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-8227.488
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-46456.60
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-43967.62
-
-</td>
-
-<td style="text-align:right;">
-
-\-550674.1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-656169.2
-
-</td>
-
-<td style="text-align:right;">
-
-\-605358.2
-
-</td>
-
-<td style="text-align:right;">
-
-37639.69
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-204142.8
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-249356.7
-
-</td>
-
-<td style="text-align:right;">
-
-193384.3
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000000
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-2001
-
-</td>
-
-<td style="text-align:right;">
-
-37072
-
-</td>
-
-<td style="text-align:right;">
-
-2004
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
-
-</td>
-
-<td style="text-align:right;">
-
-0.88
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
 NA
 
@@ -3358,205 +3249,13 @@ NA
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0092700
-
-</td>
-
-<td style="text-align:right;">
-
-\-0.0730000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.035
-
-</td>
-
-<td style="text-align:right;">
-
-281676.9
-
-</td>
-
-<td style="text-align:right;">
-
-201483.1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.08
-
-</td>
-
-<td style="text-align:right;">
-
-\-798126.8
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.00
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-9664667
-
-</td>
-
-<td style="text-align:right;">
-
-\-1061275.00
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-239122.8
-
-</td>
-
-<td style="text-align:right;">
-
-\-23251.90
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
+NA
 
 </td>
 
@@ -3574,43 +3273,7 @@ NA
 
 <td style="text-align:right;">
 
-175.815
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-556.969
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.04
+NA
 
 </td>
 
@@ -3622,181 +3285,7 @@ NA
 
 <td style="text-align:right;">
 
-0.776
-
-</td>
-
-<td style="text-align:right;">
-
-0.0489
-
-</td>
-
-<td style="text-align:right;">
-
-0.3308
-
-</td>
-
-<td style="text-align:right;">
-
-0.0100
-
-</td>
-
-<td style="text-align:right;">
-
-0.0313
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.5208
-
-</td>
-
-<td style="text-align:right;">
-
-0.5400
-
-</td>
-
-<td style="text-align:right;">
-
-0.3300
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1271
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0500
-
-</td>
-
-<td style="text-align:right;">
-
-0.0700
-
-</td>
-
-<td style="text-align:right;">
-
-0.0682
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.3937
-
-</td>
-
-<td style="text-align:right;">
-
-0.776
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas Public Employees Retirement System
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas PERS
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
+NA
 
 </td>
 
@@ -3808,73 +3297,19 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-4319879
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-41997.15
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
+NA
 
 </td>
 
@@ -3886,13 +3321,241 @@ NA
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -3910,239 +3573,107 @@ NA
 
 <td style="text-align:right;">
 
-4723.223
+NA
 
 </td>
 
 <td style="text-align:right;">
-
-\-58226.88
-
-</td>
-
-<td style="text-align:right;">
-
-62950.11
-
-</td>
-
-<td style="text-align:right;">
-
-\-56202.76
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-2024.120
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Plan members covered by Social Security
-
-</td>
-
-<td style="text-align:left;">
 
 NA
 
 </td>
 
-<td style="text-align:left;">
-
-2001 KPERS p 44
-
-</td>
-
 <td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-2001 KPERS AV p. 71, 77
-
-</td>
-
-<td style="text-align:left;">
 
 NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
 NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-KS
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-35
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.01
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.32
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.05
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.07
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-400423.87
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-5116384
-
-</td>
-
-<td style="text-align:right;">
-
-558772.4
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-558772.4
-
-</td>
-
-<td style="text-align:right;">
-
-397527.1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000000
-
-</td>
-
-<td style="text-align:right;">
-
-145910
-
-</td>
-
-<td style="text-align:right;">
-
-56115
-
-</td>
-
-<td style="text-align:left;">
 
 NA
 
@@ -4156,175 +3687,559 @@ NA
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-38056
-
-</td>
-
-<td style="text-align:right;">
-
-240081
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-56115
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000000
+NA
 
 </td>
 
 <td style="text-align:left;">
 
-Plan covers state and local employees
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.0000000
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1304832
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-39
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.04
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1962
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+4214000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+134431
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+7418000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -4334,301 +4249,25 @@ Plan covers state and local employees
 
 <td style="text-align:left;">
 
-2002
+1959
 
 </td>
 
 <td style="text-align:right;">
 
-790
+1877
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas Public Employees’ Retirement System
+Texas Teacher Retirement System
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-Pension Plan Database
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-19758.14
-
-</td>
-
-<td style="text-align:right;">
-
-\-676384.75
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.52
-
-</td>
-
-<td style="text-align:left;">
-
-\-0.0360,0.0100
-
-</td>
-
-<td style="text-align:right;">
-
-\-0.047
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000000
-
-</td>
-
-<td style="text-align:right;">
-
-0.001
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000
-
-</td>
-
-<td style="text-align:right;">
-
-0.054
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-11743052
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-9962918
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-Projected Unit Credit
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-12/31/2001
-
-</td>
-
-<td style="text-align:right;">
-
-37256
-
-</td>
-
-<td style="text-align:right;">
-
-37256
-
-</td>
-
-<td style="text-align:right;">
-
-37621
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-260483.0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
+Texas
 
 </td>
 
@@ -4640,125 +4279,11 @@ NA
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Level Percent Closed
-
-</td>
-
-<td style="text-align:right;">
-
-0.028
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0680909
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-0.082
-
-</td>
-
-<td style="text-align:right;">
-
-0.077
-
-</td>
-
-<td style="text-align:right;">
-
-\-0.1266154
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Expected value plus 1/3 of difference between market and expected
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
 NA
 
@@ -4766,29 +4291,11 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
-
-44.39
-
-</td>
-
-<td style="text-align:right;">
-
-72.37
-
-</td>
-
-<td style="text-align:right;">
-
-72.37
-
-</td>
-
-<td style="text-align:left;">
 
 NA
 
@@ -4796,61 +4303,67 @@ NA
 
 <td style="text-align:right;">
 
-10.425
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-10.425
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-32.984
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-10.37
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-9664667
-
-</td>
-
-<td style="text-align:left;">
-
-<http://www.kpers.org/active/benefits.html>
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -4874,37 +4387,7 @@ NA
 
 <td style="text-align:right;">
 
-221473.7
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Multiemployer, cost sharing plan
-
-</td>
-
-<td style="text-align:right;">
-
-5116384
+NA
 
 </td>
 
@@ -4916,83 +4399,11 @@ NA
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
 
-<td style="text-align:left;">
-
-pg 26 t5 pg 31 tb 6
-
-</td>
-
-<td style="text-align:left;">
+<td style="text-align:right;">
 
 NA
 
@@ -5004,15 +4415,69 @@ NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-page 43
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-pg 42- EXHIBIT 12: SUMMARY OF MEMBERSHIP
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -5024,247 +4489,85 @@ NA
 
 <td style="text-align:right;">
 
-\-6776.044
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-8694.809
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-47625.76
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-39066.94
-
-</td>
-
-<td style="text-align:right;">
-
-\-627704.1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-729867.0
-
-</td>
-
-<td style="text-align:right;">
-
-\-684024.6
-
-</td>
-
-<td style="text-align:right;">
-
-24416.40
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-209624.0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-260483.0
-
-</td>
-
-<td style="text-align:right;">
-
-221473.7
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0446991
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1275558
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-2002
-
-</td>
-
-<td style="text-align:right;">
-
-37437
-
-</td>
-
-<td style="text-align:right;">
-
-2005
-
-</td>
-
-<td style="text-align:right;">
-
-2
+NA
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.85
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-3
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
@@ -5282,37 +4585,25 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
+NA
 
 </td>
 
@@ -5324,163 +4615,145 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.0088343
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.0600899
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.035
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-229084.9
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-159209.2
+13137000
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.08
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-463747.0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+4559000
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.04
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-8902288
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-676384.74
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-183625.6
-
-</td>
-
-<td style="text-align:right;">
-
-\-19758.14
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
+NA
 
 </td>
 
@@ -5498,330 +4771,6 @@ NA
 
 <td style="text-align:right;">
 
-137.633
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-667.029
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.04
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0.797
-
-</td>
-
-<td style="text-align:right;">
-
-0.0519
-
-</td>
-
-<td style="text-align:right;">
-
-0.3759
-
-</td>
-
-<td style="text-align:right;">
-
-0.0200
-
-</td>
-
-<td style="text-align:right;">
-
-0.0376
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.4604
-
-</td>
-
-<td style="text-align:right;">
-
-0.5200
-
-</td>
-
-<td style="text-align:right;">
-
-0.3300
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1559
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0500
-
-</td>
-
-<td style="text-align:right;">
-
-0.0800
-
-</td>
-
-<td style="text-align:right;">
-
-0.0742
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.3045
-
-</td>
-
-<td style="text-align:right;">
-
-0.797
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas Public Employees Retirement System
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas PERS
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-4615164
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-5511763
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-44792.32
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
@@ -5834,53 +4783,77 @@ NA
 
 <td style="text-align:right;">
 
-3310.983
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-29999.83
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-33310.81
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-28577.30
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-1422.527
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-Plan members covered by Social Security
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
 
 NA
 
@@ -5888,19 +4861,7 @@ NA
 
 <td style="text-align:left;">
 
-2002 KPERS p 46
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-2002 KPERS AV p. 10, 74
+NA
 
 </td>
 
@@ -5918,151 +4879,13 @@ NA
 
 <td style="text-align:left;">
 
-KS
+NA
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-0.01
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.34
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.05
-
-</td>
-
-<td style="text-align:right;">
-
-0.08
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-32511.58
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-4865903
-
-</td>
-
-<td style="text-align:right;">
-
-600463.0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-600463.0
-
-</td>
-
-<td style="text-align:right;">
-
-431097.7
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0846991
-
-</td>
-
-<td style="text-align:right;">
-
-147294
-
-</td>
-
-<td style="text-align:right;">
-
-57597
+NA
 
 </td>
 
@@ -6080,175 +4903,1279 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-40404
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-245295
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-57597
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.1675558
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+33142000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+141656000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
 <td style="text-align:left;">
 
-Plan covers state and local employees
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.0828567
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1780134
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-31
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-39
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.04
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1962
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+4803000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+11739000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -6258,301 +6185,25 @@ Plan covers state and local employees
 
 <td style="text-align:left;">
 
-2003
+1960
 
 </td>
 
 <td style="text-align:right;">
 
-790
+1877
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas Public Employees’ Retirement System
+Texas Teacher Retirement System
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-Pension Plan Database
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-16675.17
-
-</td>
-
-<td style="text-align:right;">
-
-85223.48
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.52
-
-</td>
-
-<td style="text-align:left;">
-
-0.0490,0.0210
-
-</td>
-
-<td style="text-align:right;">
-
-0.040
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-0.0266667
-
-</td>
-
-<td style="text-align:right;">
-
-\-0.028
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000
-
-</td>
-
-<td style="text-align:right;">
-
-0.031
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-12613599
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-9784862
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-Projected Unit Credit
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-12/31/2002
-
-</td>
-
-<td style="text-align:right;">
-
-37621
-
-</td>
-
-<td style="text-align:right;">
-
-37621
-
-</td>
-
-<td style="text-align:right;">
-
-37986
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-282329.8
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
+Texas
 
 </td>
 
@@ -6564,125 +6215,11 @@ NA
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Level Percent Closed
-
-</td>
-
-<td style="text-align:right;">
-
-0.019
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1556977
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-0.142
-
-</td>
-
-<td style="text-align:right;">
-
-0.064
-
-</td>
-
-<td style="text-align:right;">
-
-\-0.0206698
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Expected value plus 1/3 of difference between market and expected
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
 NA
 
@@ -6690,29 +6227,11 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
-
-44.71
-
-</td>
-
-<td style="text-align:right;">
-
-72.23
-
-</td>
-
-<td style="text-align:right;">
-
-72.23
-
-</td>
-
-<td style="text-align:left;">
 
 NA
 
@@ -6720,61 +6239,67 @@ NA
 
 <td style="text-align:right;">
 
-10.752
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-10.752
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-32.944
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-10.60
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-8902288
-
-</td>
-
-<td style="text-align:left;">
-
-<http://www.kpers.org/active/benefits.html>
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -6798,37 +6323,7 @@ NA
 
 <td style="text-align:right;">
 
-231464.3
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Multiemployer, cost sharing plan
-
-</td>
-
-<td style="text-align:right;">
-
-4865903
+NA
 
 </td>
 
@@ -6840,83 +6335,11 @@ NA
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
 
-<td style="text-align:left;">
-
-pg 27 tb 5 pg32 tb6
-
-</td>
-
-<td style="text-align:left;">
+<td style="text-align:right;">
 
 NA
 
@@ -6928,15 +6351,69 @@ NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-page 43
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-pg 24 SUMMARY OF PRINCIPAL RESULTS ALL SYSTEMS COMBINED
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -6948,247 +6425,85 @@ NA
 
 <td style="text-align:right;">
 
-\-7215.024
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-7826.064
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-53829.24
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-39608.95
-
-</td>
-
-<td style="text-align:right;">
-
-\-645716.1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-754195.3
-
-</td>
-
-<td style="text-align:right;">
-
-\-707371.4
-
-</td>
-
-<td style="text-align:right;">
-
-76508.36
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-224746.4
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-282329.8
-
-</td>
-
-<td style="text-align:right;">
-
-231464.3
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0446770
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1273342
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-2003
-
-</td>
-
-<td style="text-align:right;">
-
-37802
-
-</td>
-
-<td style="text-align:right;">
-
-2006
-
-</td>
-
-<td style="text-align:right;">
-
-2
+NA
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.78
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-3
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
@@ -7206,37 +6521,25 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
+NA
 
 </td>
 
@@ -7248,163 +6551,145 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.0091877
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.0278454
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.035
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-253694.5
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-145411.3
+15214000
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.08
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-326046.6
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+1918000
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.04
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-8930442
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-85223.48
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-221919.6
-
-</td>
-
-<td style="text-align:right;">
-
-\-16675.17
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
+NA
 
 </td>
 
@@ -7422,330 +6707,6 @@ NA
 
 <td style="text-align:right;">
 
-82.257
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-557.611
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.04
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0.789
-
-</td>
-
-<td style="text-align:right;">
-
-0.0515
-
-</td>
-
-<td style="text-align:right;">
-
-0.3468
-
-</td>
-
-<td style="text-align:right;">
-
-0.0030
-
-</td>
-
-<td style="text-align:right;">
-
-0.0404
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.4949
-
-</td>
-
-<td style="text-align:right;">
-
-0.5300
-
-</td>
-
-<td style="text-align:right;">
-
-0.3440
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1727
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0530
-
-</td>
-
-<td style="text-align:right;">
-
-0.0700
-
-</td>
-
-<td style="text-align:right;">
-
-0.0664
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.3222
-
-</td>
-
-<td style="text-align:right;">
-
-0.789
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas Public Employees Retirement System
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas PERS
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-5056236
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-5878684
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-31217.26
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
@@ -7758,53 +6719,77 @@ NA
 
 <td style="text-align:right;">
 
-3803.824
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-22075.12
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-25878.94
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-20861.10
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-1214.021
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-Plan members covered by Social Security
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
 
 NA
 
@@ -7812,19 +6797,7 @@ NA
 
 <td style="text-align:left;">
 
-2003 KPERS p 48
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-2003 KPERS AV p. 42, 83
+NA
 
 </td>
 
@@ -7842,151 +6815,13 @@ NA
 
 <td style="text-align:left;">
 
-KS
+NA
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-0.01
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.34
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.05
-
-</td>
-
-<td style="text-align:right;">
-
-0.08
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-782349.67
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-4978132
-
-</td>
-
-<td style="text-align:right;">
-
-635712.4
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-635712.4
-
-</td>
-
-<td style="text-align:right;">
-
-456210.8
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0846770
-
-</td>
-
-<td style="text-align:right;">
-
-148145
-
-</td>
-
-<td style="text-align:right;">
-
-59124
+NA
 
 </td>
 
@@ -8004,175 +6839,1279 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-41315
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-248584
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-59124
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.1673342
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+31700000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+159656000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
 <td style="text-align:left;">
 
-Plan covers state and local employees
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.0826572
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-2828736
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-30
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-39
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.04
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1962
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+6442000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+14624000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -8182,301 +8121,25 @@ Plan covers state and local employees
 
 <td style="text-align:left;">
 
-2004
+1961
 
 </td>
 
 <td style="text-align:right;">
 
-790
+1877
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas Public Employees’ Retirement System
+Texas Teacher Retirement System
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-Pension Plan Database
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-18718.60
-
-</td>
-
-<td style="text-align:right;">
-
-1087128.88
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.52
-
-</td>
-
-<td style="text-align:left;">
-
-0.1520,0.0320
-
-</td>
-
-<td style="text-align:right;">
-
-0.154
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0490000
-
-</td>
-
-<td style="text-align:right;">
-
-0.046
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000
-
-</td>
-
-<td style="text-align:right;">
-
-0.038
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-14439546
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-10853462
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Entry Age Normal
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-12/31/2003
-
-</td>
-
-<td style="text-align:right;">
-
-37986
-
-</td>
-
-<td style="text-align:right;">
-
-37986
-
-</td>
-
-<td style="text-align:right;">
-
-38352
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-338880.0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
+Texas
 
 </td>
 
@@ -8488,127 +8151,11 @@ NA
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Level Percent Closed
-
-</td>
-
-<td style="text-align:right;">
-
-0.011
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0382674
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.187
-
-</td>
-
-<td style="text-align:right;">
-
-0.159
-
-</td>
-
-<td style="text-align:right;">
-
-0.2251792
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Difference between actual return and return and expected return on
-return on market value calculated early and recognized evenly over
-five-year period
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
 NA
 
@@ -8616,29 +8163,11 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
-
-44.98
-
-</td>
-
-<td style="text-align:right;">
-
-72.13
-
-</td>
-
-<td style="text-align:right;">
-
-72.13
-
-</td>
-
-<td style="text-align:left;">
 
 NA
 
@@ -8646,61 +8175,67 @@ NA
 
 <td style="text-align:right;">
 
-11.103
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-11.103
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-33.854
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-10.85
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-8930442
-
-</td>
-
-<td style="text-align:left;">
-
-<http://www.kpers.org/active/benefits.html>
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -8724,37 +8259,7 @@ NA
 
 <td style="text-align:right;">
 
-714353.2
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Multiemployer, cost sharing plan
-
-</td>
-
-<td style="text-align:right;">
-
-4978132
+NA
 
 </td>
 
@@ -8766,83 +8271,11 @@ NA
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
 
-<td style="text-align:left;">
-
-pg 40 tb 7 normal cost rate pg 44 tb 10
-
-</td>
-
-<td style="text-align:left;">
+<td style="text-align:right;">
 
 NA
 
@@ -8854,15 +8287,69 @@ NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-page 42
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-pg 24 SUMMARY OF PRINCIPAL RESULTS ALL SYSTEMS COMBINED
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -8874,247 +8361,85 @@ NA
 
 <td style="text-align:right;">
 
-\-7231.295
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-8685.182
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-50396.39
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-41179.47
-
-</td>
-
-<td style="text-align:right;">
-
-\-676918.6
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-784411.0
-
-</td>
-
-<td style="text-align:right;">
-
-\-736000.2
-
-</td>
-
-<td style="text-align:right;">
-
-91477.15
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-230350.0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-338880.0
-
-</td>
-
-<td style="text-align:right;">
-
-714353.2
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0423748
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1041968
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-2004
-
-</td>
-
-<td style="text-align:right;">
-
-38168
-
-</td>
-
-<td style="text-align:right;">
-
-2007
-
-</td>
-
-<td style="text-align:right;">
-
-2
+NA
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.75
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-3
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
@@ -9132,37 +8457,25 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
+NA
 
 </td>
 
@@ -9174,163 +8487,145 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.0106026
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.0147357
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.035
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-263561.4
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-132004.0
+16924000
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.08
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1336225.9
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+5126000
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.04
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-10427143
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1087128.88
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-223481.2
-
-</td>
-
-<td style="text-align:right;">
-
-\-18718.60
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
+NA
 
 </td>
 
@@ -9348,330 +8643,6 @@ NA
 
 <td style="text-align:right;">
 
-182.113
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-565.492
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.04
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0.694
-
-</td>
-
-<td style="text-align:right;">
-
-0.0500
-
-</td>
-
-<td style="text-align:right;">
-
-0.3422
-
-</td>
-
-<td style="text-align:right;">
-
-0.0030
-
-</td>
-
-<td style="text-align:right;">
-
-0.0170
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.5251
-
-</td>
-
-<td style="text-align:right;">
-
-0.5300
-
-</td>
-
-<td style="text-align:right;">
-
-0.3440
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1986
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0530
-
-</td>
-
-<td style="text-align:right;">
-
-0.0700
-
-</td>
-
-<td style="text-align:right;">
-
-0.0657
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.3265
-
-</td>
-
-<td style="text-align:right;">
-
-0.694
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas Public Employees Retirement System
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas PERS
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-5497654
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-3419149
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-39514.69
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
@@ -9684,53 +8655,77 @@ NA
 
 <td style="text-align:right;">
 
-4254.285
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-18765.82
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-23020.10
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-17697.45
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-1068.372
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-Plan members covered by Social Security
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
 
 NA
 
@@ -9738,19 +8733,7 @@ NA
 
 <td style="text-align:left;">
 
-2004 KPERS p 48
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-2004 KPERS AV p. 46, 91
+NA
 
 </td>
 
@@ -9768,151 +8751,13 @@ NA
 
 <td style="text-align:left;">
 
-KS
+NA
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-0.01
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.34
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.05
-
-</td>
-
-<td style="text-align:right;">
-
-0.08
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-2281111.20
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-5102016
-
-</td>
-
-<td style="text-align:right;">
-
-678675.1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-678675.1
-
-</td>
-
-<td style="text-align:right;">
-
-944703.2
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0823748
-
-</td>
-
-<td style="text-align:right;">
-
-147751
-
-</td>
-
-<td style="text-align:right;">
-
-61125
+NA
 
 </td>
 
@@ -9930,175 +8775,1279 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-41269
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-250145
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-61125
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.1441968
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+38000000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+159469000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
 <td style="text-align:left;">
 
-Plan covers state and local employees
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.0618220
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-3586084
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-29
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-39
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.04
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1962
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+6752000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+22001000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -10108,1923 +10057,1933 @@ Plan covers state and local employees
 
 <td style="text-align:left;">
 
-2005
-
-</td>
-
-<td style="text-align:right;">
-
-790
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas Public Employees’ Retirement System
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-Pension Plan Database
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-22070.01
-
-</td>
-
-<td style="text-align:right;">
-
-932881.69
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.57
-
-</td>
-
-<td style="text-align:left;">
-
-0.1080,0.0250
-
-</td>
-
-<td style="text-align:right;">
-
-0.121
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1050000
-
-</td>
-
-<td style="text-align:right;">
-
-0.101
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0390
-
-</td>
-
-<td style="text-align:right;">
-
-0.039
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-15714092
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-10971427
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Entry Age Normal
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-12/31/2004
-
-</td>
-
-<td style="text-align:right;">
-
-38352
-
-</td>
-
-<td style="text-align:right;">
-
-38352
-
-</td>
-
-<td style="text-align:right;">
-
-38717
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-381791.1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Level Percent Closed
-
-</td>
-
-<td style="text-align:right;">
-
-0.021
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.128
-
-</td>
-
-<td style="text-align:right;">
-
-0.261
-
-</td>
-
-<td style="text-align:right;">
-
-0.1117012
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Difference between actual return and return and expected return on
-return on market value calculated early and recognized evenly over
-five-year period
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-45.04
-
-</td>
-
-<td style="text-align:right;">
-
-72.09
-
-</td>
-
-<td style="text-align:right;">
-
-72.09
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-11.436
-
-</td>
-
-<td style="text-align:right;">
-
-11.436
-
-</td>
-
-<td style="text-align:right;">
-
-34.661
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-10.86
-
-</td>
-
-<td style="text-align:right;">
-
-10427143
-
-</td>
-
-<td style="text-align:left;">
-
-<http://www.kpers.org/active/benefits.html>
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-293952.4
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Multiemployer, cost sharing plan
-
-</td>
-
-<td style="text-align:right;">
-
-5102016
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-pg 46 tb 7 normal cost rate pg 50 tb 10
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-page 56
-
-</td>
-
-<td style="text-align:left;">
-
-pg 24 SUMMARY OF PRINCIPAL RESULTS ALL SYSTEMS COMBINED
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-\-7340.147
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-7849.884
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-53703.11
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-46773.93
-
-</td>
-
-<td style="text-align:right;">
-
-\-737563.3
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-853230.3
-
-</td>
-
-<td style="text-align:right;">
-
-\-799116.3
-
-</td>
-
-<td style="text-align:right;">
-
-130167.48
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-233226.0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-381791.1
-
-</td>
-
-<td style="text-align:right;">
-
-293952.4
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0443546
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1240939
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-2005
-
-</td>
-
-<td style="text-align:right;">
-
-38533
-
-</td>
-
-<td style="text-align:right;">
-
-2008
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
-
-</td>
-
-<td style="text-align:right;">
-
-0.70
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0118855
-
-</td>
-
-<td style="text-align:right;">
-
-0.0351505
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.035
-
-</td>
-
-<td style="text-align:right;">
-
-307207.1
-
-</td>
-
-<td style="text-align:right;">
-
-132806.1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.08
-
-</td>
-
-<td style="text-align:right;">
-
-1223096.1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.04
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-11324365
-
-</td>
-
-<td style="text-align:right;">
-
-932881.71
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-262973.6
-
-</td>
-
-<td style="text-align:right;">
-
-\-22070.01
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-178.105
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-412.211
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.04
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0.686
-
-</td>
-
-<td style="text-align:right;">
-
-0.0446
-
-</td>
-
-<td style="text-align:right;">
-
-0.3046
-
-</td>
-
-<td style="text-align:right;">
-
-0.0457
-
-</td>
-
-<td style="text-align:right;">
-
-0.0457
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.5322
-
-</td>
-
-<td style="text-align:right;">
-
-0.5322
-
-</td>
-
-<td style="text-align:right;">
-
-0.3046
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.2262
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0446
-
-</td>
-
-<td style="text-align:right;">
-
-0.0729
-
-</td>
-
-<td style="text-align:right;">
-
-0.0729
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.3060
-
-</td>
-
-<td style="text-align:right;">
-
-0.686
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas Public Employees Retirement System
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas PERS
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-5886986
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-4729568
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-43821.31
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-5077.334
-
-</td>
-
-<td style="text-align:right;">
-
-\-47981.81
-
-</td>
-
-<td style="text-align:right;">
-
-53059.14
-
-</td>
-
-<td style="text-align:right;">
-
-\-46714.33
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-1267.475
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Plan members covered by Social Security
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-2005 KPERS p 57
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-2005 KPERS AV p. 46, 97
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-KS
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-0.01
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.29
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.05
-
-</td>
-
-<td style="text-align:right;">
-
-0.08
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1750452.68
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-5270350
-
-</td>
-
-<td style="text-align:right;">
-
-724441.8
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-724441.8
-
-</td>
-
-<td style="text-align:right;">
-
-527178.5
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0843546
-
-</td>
-
-<td style="text-align:right;">
-
-149073
-
-</td>
-
-<td style="text-align:right;">
-
-63348
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-41426
-
-</td>
-
-<td style="text-align:right;">
-
-253847
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-63348
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1640939
-
-</td>
-
-<td style="text-align:left;">
-
-Plan covers state and local employees
-
-</td>
-
-<td style="text-align:right;">
-
-0.0797393
-
-</td>
-
-<td style="text-align:right;">
-
-4742666
-
-</td>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-0.04
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
 1962
 
 </td>
 
 <td style="text-align:right;">
 
-0
+1877
+
+</td>
+
+<td style="text-align:left;">
+
+Texas Teacher Retirement System
+
+</td>
+
+<td style="text-align:left;">
+
+Texas
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+18927000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+7645000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+2429000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+188956000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+7456000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+176284
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+19592000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -12034,301 +11993,25 @@ Plan covers state and local employees
 
 <td style="text-align:left;">
 
-2006
+1963
 
 </td>
 
 <td style="text-align:right;">
 
-790
+1877
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas Public Employees’ Retirement System
+Texas Teacher Retirement System
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-Pension Plan Database
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-27204.51
-
-</td>
-
-<td style="text-align:right;">
-
-1046279.06
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.57
-
-</td>
-
-<td style="text-align:left;">
-
-0.1040,0.0430
-
-</td>
-
-<td style="text-align:right;">
-
-0.123
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1326667
-
-</td>
-
-<td style="text-align:right;">
-
-0.133
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0782
-
-</td>
-
-<td style="text-align:right;">
-
-0.076
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-16491762
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-11339293
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Entry Age Normal
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-12/31/2005
-
-</td>
-
-<td style="text-align:right;">
-
-38717
-
-</td>
-
-<td style="text-align:right;">
-
-38717
-
-</td>
-
-<td style="text-align:right;">
-
-39082
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-471424.0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas
+Texas
 
 </td>
 
@@ -12340,127 +12023,11 @@ NA
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Level Percent Closed
-
-</td>
-
-<td style="text-align:right;">
-
-0.040
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.270
-
-</td>
-
-<td style="text-align:right;">
-
-0.223
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000000
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Difference between actual return and return and expected return on
-return on market value calculated early and recognized evenly over
-five-year period
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
 NA
 
@@ -12468,29 +12035,11 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
-
-45.14
-
-</td>
-
-<td style="text-align:right;">
-
-72.01
-
-</td>
-
-<td style="text-align:right;">
-
-72.01
-
-</td>
-
-<td style="text-align:left;">
 
 NA
 
@@ -12498,61 +12047,67 @@ NA
 
 <td style="text-align:right;">
 
-11.777
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-11.777
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-36.246
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-10.84
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-11324365
-
-</td>
-
-<td style="text-align:left;">
-
-<http://www.kpers.org/active/benefits.html>
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -12576,37 +12131,7 @@ NA
 
 <td style="text-align:right;">
 
-352031.6
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Multiemployer, cost sharing plan
-
-</td>
-
-<td style="text-align:right;">
-
-5270351
+NA
 
 </td>
 
@@ -12618,83 +12143,11 @@ NA
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
 
-<td style="text-align:left;">
-
-pg 46 tb 7 normal cost rate pg 50 tb 10
-
-</td>
-
-<td style="text-align:left;">
+<td style="text-align:right;">
 
 NA
 
@@ -12706,15 +12159,69 @@ NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-page 52
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-pg 25 SUMMARY OF PRINCIPAL RESULTS ALL SYSTEMS COMBINED
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -12726,247 +12233,85 @@ NA
 
 <td style="text-align:right;">
 
-\-7718.879
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-8810.923
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-54957.96
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-46826.18
-
-</td>
-
-<td style="text-align:right;">
-
-\-805978.7
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-\-924292.7
-
-</td>
-
-<td style="text-align:right;">
-
-\-869747.6
-
-</td>
-
-<td style="text-align:right;">
-
-113162.35
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-246203.4
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-471424.0
-
-</td>
-
-<td style="text-align:right;">
-
-352031.5
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0443677
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.1242258
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-2006
-
-</td>
-
-<td style="text-align:right;">
-
-38898
-
-</td>
-
-<td style="text-align:right;">
-
-2009
-
-</td>
-
-<td style="text-align:right;">
-
-2
+NA
 
 </td>
 
 <td style="text-align:left;">
 
-Kansas
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.69
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-3
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
@@ -12984,37 +12329,25 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
+NA
 
 </td>
 
@@ -13026,163 +12359,145 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.0133474
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.0492996
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.035
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-330767.7
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-165466.5
+21698000
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.08
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1354407.8
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+823000
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.04
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-12352890
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1046279.08
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-278628.9
-
-</td>
-
-<td style="text-align:right;">
-
-\-27204.51
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
+NA
 
 </td>
 
@@ -13200,330 +12515,6 @@ NA
 
 <td style="text-align:right;">
 
-175.539
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-303.028
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.04
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0.634
-
-</td>
-
-<td style="text-align:right;">
-
-0.0425
-
-</td>
-
-<td style="text-align:right;">
-
-0.2942
-
-</td>
-
-<td style="text-align:right;">
-
-0.0417
-
-</td>
-
-<td style="text-align:right;">
-
-0.0417
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.5495
-
-</td>
-
-<td style="text-align:right;">
-
-0.5495
-
-</td>
-
-<td style="text-align:right;">
-
-0.2942
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.2473
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0425
-
-</td>
-
-<td style="text-align:right;">
-
-0.0721
-
-</td>
-
-<td style="text-align:right;">
-
-0.0721
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.3022
-
-</td>
-
-<td style="text-align:right;">
-
-0.634
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas Public Employees Retirement System
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-Kansas PERS
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-6294460
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-4886164
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-51835.81
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
 NA
 
 </td>
@@ -13536,53 +12527,77 @@ NA
 
 <td style="text-align:right;">
 
-4565.486
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-83345.67
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-87911.15
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-82182.20
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-\-1163.472
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
 
-Plan members covered by Social Security
+NA
 
 </td>
 
-<td style="text-align:left;">
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
 
 NA
 
@@ -13590,19 +12605,7 @@ NA
 
 <td style="text-align:left;">
 
-2006 KPERS p 53
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-2006 KPERS AV p. 48, 111
+NA
 
 </td>
 
@@ -13620,151 +12623,13 @@ NA
 
 <td style="text-align:left;">
 
-KS
+NA
 
 </td>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-0.01
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.29
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.05
-
-</td>
-
-<td style="text-align:right;">
-
-0.08
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-1952818.23
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-5599194
-
-</td>
-
-<td style="text-align:right;">
-
-774531.2
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-774531.2
-
-</td>
-
-<td style="text-align:right;">
-
-598234.9
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-0.0843677
-
-</td>
-
-<td style="text-align:right;">
-
-151449
-
-</td>
-
-<td style="text-align:right;">
-
-65765
+NA
 
 </td>
 
@@ -13782,175 +12647,1279 @@ NA
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-40858
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-258072
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-65765
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.1642258
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+86243000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+281956000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
 <td style="text-align:left;">
 
-Plan covers state and local employees
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.0798580
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-5152469
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-27
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-39
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0.04
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-1962
+NA
 
 </td>
 
 <td style="text-align:right;">
 
-0
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+8509000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+23098000
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
 
 </td>
 
@@ -13978,47 +13947,19 @@ Plan covers state and local employees
 ### `selectedData()`
 
 4.  `selectedData()`: selects the only the variables used in historical
-    analyses. `selectedData` has eleven arguments, with the first,
-    `wide_data`, being required:
+    analyses. `selectedData` has one argument, `wide_data`, that is
+    required:
 
-`selectedData(wide_data, .date_var =
-"actuarial_valuation_date_for_gasb_assumptions", .aal_var =
-.actuarial_accrued_liabilities_under_gasb_standards", .mva_var =
-"beginning_market_assets_net", .ava_var =
-"actuarial_assets_under_gasb_standards",.tpl_var =
-"total_pension_liability", .adec_var =
-"employer_annual_required_contribution", .er_cont_var =
-"employer_contributions", .ee_cont_var = "employee_contributions",
-.payroll_var = "covered_payroll", .arr_var =
-"investment_return_assumption_for_gasb_reporting")`
+`selectedData(wide_data)`
 
   - `wide_data`: a datasource in wide format
-  - `.date_var` column name for valuation date. Default: ‘Actuarial
-    Valuation Date For GASB Assumptions’
-  - `.mva_var`: column name for Market Value of Assets. Default:
-    ‘beginning\_market\_assets\_net’
-  - `.aal_var` column name AAL. Default: ‘Actuarial Accrued Liabilities
-    Under GASB Standards’
-  - `.ava_var` column name for Actuarial Assets. Default: ‘Actuarial
-    Assets under GASB standards’
-  - `.tpl_var` column name for Total Pension Liability. Default:
-    “total\_pension\_liability”,
-  - `.adec_var` column name for ADEC. Default: ‘Employer Annual Required
-    Contribution’
-  - `.er_cont_var` column name for employer contributions. Default:
-    ‘Employer Contributions’
-  - `.ee_cont_var` column name for employee contributions. Default:
-    ‘Employee Contributions’
-  - `.payroll_var` column name for payroll. Default: ‘Covered Payroll’
-  - `.arr_var` column name for the Assumed Rate of Return. Default:
-    ‘investment\_return\_assumption\_for\_gasb\_reporting’
 
 Back to the Kansas Public Employees’ example. That is a lot of
 variables. The `selectedData()` function selects only a handful of
 needed variables:
 
 ``` r
-df <- selectedData(kpers_data)
+df <- selectedData(ttrs_data)
 df %>% 
   head() %>%
   kable() %>%
@@ -14031,7 +13972,7 @@ df %>%
 
 <tr>
 
-<th style="text-align:right;">
+<th style="text-align:left;">
 
 year
 
@@ -14039,19 +13980,55 @@ year
 
 <th style="text-align:left;">
 
-valuation\_date
+plan\_name
+
+</th>
+
+<th style="text-align:left;">
+
+state
 
 </th>
 
 <th style="text-align:right;">
 
-market\_value\_assets
+return\_1yr
+
+</th>
+
+<th style="text-align:left;">
+
+actuarial\_cost\_method\_in\_gasb\_reporting
 
 </th>
 
 <th style="text-align:right;">
 
-actuarial\_assets
+funded\_ratio
+
+</th>
+
+<th style="text-align:right;">
+
+actuarial\_valuation\_date\_for\_gasb\_schedules
+
+</th>
+
+<th style="text-align:right;">
+
+actuarial\_valuation\_report\_date
+
+</th>
+
+<th style="text-align:right;">
+
+ava
+
+</th>
+
+<th style="text-align:right;">
+
+mva
 
 </th>
 
@@ -14075,13 +14052,37 @@ adec
 
 <th style="text-align:right;">
 
-er\_cont
+adec\_paid\_pct
 
 </th>
 
 <th style="text-align:right;">
 
-ee\_cont
+admin\_exp
+
+</th>
+
+<th style="text-align:left;">
+
+amortizaton\_method
+
+</th>
+
+<th style="text-align:left;">
+
+asset\_valuation\_method\_for\_gasb\_reporting
+
+</th>
+
+<th style="text-align:right;">
+
+benefit\_payments
+
+</th>
+
+<th style="text-align:left;">
+
+cost\_structure
 
 </th>
 
@@ -14093,7 +14094,127 @@ payroll
 
 <th style="text-align:right;">
 
-assumed\_rate\_of\_return
+ee\_contribution
+
+</th>
+
+<th style="text-align:right;">
+
+ee\_nc\_pct
+
+</th>
+
+<th style="text-align:right;">
+
+er\_contribution
+
+</th>
+
+<th style="text-align:right;">
+
+er\_nc\_pct
+
+</th>
+
+<th style="text-align:right;">
+
+er\_state\_contribution
+
+</th>
+
+<th style="text-align:right;">
+
+er\_proj\_adec\_pct
+
+</th>
+
+<th style="text-align:right;">
+
+fy
+
+</th>
+
+<th style="text-align:right;">
+
+fy\_contribution
+
+</th>
+
+<th style="text-align:right;">
+
+inflation\_assum
+
+</th>
+
+<th style="text-align:right;">
+
+arr
+
+</th>
+
+<th style="text-align:right;">
+
+number\_of\_years\_remaining\_on\_amortization\_schedule
+
+</th>
+
+<th style="text-align:right;">
+
+payroll\_growth\_assumption
+
+</th>
+
+<th style="text-align:right;">
+
+total\_amortization\_payment\_pct
+
+</th>
+
+<th style="text-align:right;">
+
+total\_contribution
+
+</th>
+
+<th style="text-align:right;">
+
+total\_nc\_pct
+
+</th>
+
+<th style="text-align:right;">
+
+total\_number\_of\_members
+
+</th>
+
+<th style="text-align:right;">
+
+total\_proj\_adec\_pct
+
+</th>
+
+<th style="text-align:left;">
+
+type\_of\_employees\_covered
+
+</th>
+
+<th style="text-align:right;">
+
+unfunded\_actuarially\_accrued\_liabilities\_dollar
+
+</th>
+
+<th style="text-align:right;">
+
+wage\_inflation
+
+</th>
+
+<th style="text-align:left;">
+
+valuation\_date
 
 </th>
 
@@ -14105,7 +14226,7 @@ uaal
 
 <th style="text-align:right;">
 
-funded\_ratio
+funded\_ratio\_calc
 
 </th>
 
@@ -14129,101 +14250,7 @@ actual\_contribution\_rates
 
 <tr>
 
-<td style="text-align:right;">
-
-2000
-
-</td>
-
 <td style="text-align:left;">
-
-2000-12-31
-
-</td>
-
-<td style="text-align:right;">
-
-10721260
-
-</td>
-
-<td style="text-align:right;">
-
-9835182
-
-</td>
-
-<td style="text-align:right;">
-
-11140014
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-249356.7
-
-</td>
-
-<td style="text-align:right;">
-
-193384.3
-
-</td>
-
-<td style="text-align:right;">
-
-204142.8
-
-</td>
-
-<td style="text-align:right;">
-
-4876555
-
-</td>
-
-<td style="text-align:right;">
-
-0.08
-
-</td>
-
-<td style="text-align:right;">
-
-1304832
-
-</td>
-
-<td style="text-align:right;">
-
-0.8828698
-
-</td>
-
-<td style="text-align:right;">
-
-0.0511338
-
-</td>
-
-<td style="text-align:right;">
-
-0.0396559
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
 
 2001
 
@@ -14231,25 +14258,49 @@ actual\_contribution\_rates
 
 <td style="text-align:left;">
 
-2001-12-31
+Texas Teacher Retirement System
+
+</td>
+
+<td style="text-align:left;">
+
+Texas
 
 </td>
 
 <td style="text-align:right;">
 
-9664667
+\-0.050
+
+</td>
+
+<td style="text-align:left;">
+
+Entry Age Normal
 
 </td>
 
 <td style="text-align:right;">
 
-9962918
+1.025
 
 </td>
 
 <td style="text-align:right;">
 
-11743052
+37134
+
+</td>
+
+<td style="text-align:right;">
+
+37134
+
+</td>
+
+<td style="text-align:right;">
+
+86352000
 
 </td>
 
@@ -14261,61 +14312,105 @@ actual\_contribution\_rates
 
 <td style="text-align:right;">
 
-260483.0
+84217000
 
 </td>
 
 <td style="text-align:right;">
 
-221473.7
+0
 
 </td>
 
 <td style="text-align:right;">
 
-209624.0
+1279039985
 
 </td>
 
 <td style="text-align:right;">
 
-5116384
+1.00
 
 </td>
 
 <td style="text-align:right;">
 
-0.08
+\-20795.13
+
+</td>
+
+<td style="text-align:left;">
+
+Level Percent Open
+
+</td>
+
+<td style="text-align:left;">
+
+5-year smoothed market
 
 </td>
 
 <td style="text-align:right;">
 
-1780134
+0
+
+</td>
+
+<td style="text-align:left;">
+
+Multiple employer, cost sharing plan
 
 </td>
 
 <td style="text-align:right;">
 
-0.8484096
+23365000
 
 </td>
 
 <td style="text-align:right;">
 
-0.0509115
+1364689
 
 </td>
 
 <td style="text-align:right;">
 
-0.0432872
+0.064
 
 </td>
 
-</tr>
+<td style="text-align:right;">
 
-<tr>
+136247.9
+
+</td>
+
+<td style="text-align:right;">
+
+0.0628
+
+</td>
+
+<td style="text-align:right;">
+
+965202000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0600
+
+</td>
+
+<td style="text-align:right;">
+
+2001
+
+</td>
 
 <td style="text-align:right;">
 
@@ -14323,57 +14418,9 @@ actual\_contribution\_rates
 
 </td>
 
-<td style="text-align:left;">
-
-2002-12-31
-
-</td>
-
 <td style="text-align:right;">
 
-8902288
-
-</td>
-
-<td style="text-align:right;">
-
-9784862
-
-</td>
-
-<td style="text-align:right;">
-
-12613599
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-282329.8
-
-</td>
-
-<td style="text-align:right;">
-
-231464.3
-
-</td>
-
-<td style="text-align:right;">
-
-224746.4
-
-</td>
-
-<td style="text-align:right;">
-
-4865903
+0.03
 
 </td>
 
@@ -14385,31 +14432,259 @@ actual\_contribution\_rates
 
 <td style="text-align:right;">
 
-2828737
+100
 
 </td>
 
 <td style="text-align:right;">
 
-0.7757391
+0.00
 
 </td>
 
 <td style="text-align:right;">
 
-0.0580221
+\-0.0028
 
 </td>
 
 <td style="text-align:right;">
 
-0.0475686
+2643729
+
+</td>
+
+<td style="text-align:right;">
+
+0.1268
+
+</td>
+
+<td style="text-align:right;">
+
+994204
+
+</td>
+
+<td style="text-align:right;">
+
+0.1240
+
+</td>
+
+<td style="text-align:left;">
+
+Plan covers teachers
+
+</td>
+
+<td style="text-align:right;">
+
+\-2135000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000
+
+</td>
+
+<td style="text-align:left;">
+
+2001-08-31
+
+</td>
+
+<td style="text-align:right;">
+
+\-2135000
+
+</td>
+
+<td style="text-align:right;">
+
+1.0253512
+
+</td>
+
+<td style="text-align:right;">
+
+54.74171
+
+</td>
+
+<td style="text-align:right;">
+
+0.0058313
 
 </td>
 
 </tr>
 
 <tr>
+
+<td style="text-align:left;">
+
+2002
+
+</td>
+
+<td style="text-align:left;">
+
+Texas Teacher Retirement System
+
+</td>
+
+<td style="text-align:left;">
+
+Texas
+
+</td>
+
+<td style="text-align:right;">
+
+\-0.064
+
+</td>
+
+<td style="text-align:left;">
+
+Entry Age Normal
+
+</td>
+
+<td style="text-align:right;">
+
+0.963
+
+</td>
+
+<td style="text-align:right;">
+
+37499
+
+</td>
+
+<td style="text-align:right;">
+
+37499
+
+</td>
+
+<td style="text-align:right;">
+
+86035000
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+89322000
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+1291087160
+
+</td>
+
+<td style="text-align:right;">
+
+1.05
+
+</td>
+
+<td style="text-align:right;">
+
+\-24597.36
+
+</td>
+
+<td style="text-align:left;">
+
+Level Percent Open
+
+</td>
+
+<td style="text-align:left;">
+
+5-year smoothed market
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+Multiple employer, cost sharing plan
+
+</td>
+
+<td style="text-align:right;">
+
+24818000
+
+</td>
+
+<td style="text-align:right;">
+
+1450312
+
+</td>
+
+<td style="text-align:right;">
+
+0.064
+
+</td>
+
+<td style="text-align:right;">
+
+157781.5
+
+</td>
+
+<td style="text-align:right;">
+
+0.0627
+
+</td>
+
+<td style="text-align:right;">
+
+1201258000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0715
+
+</td>
+
+<td style="text-align:right;">
+
+2002
+
+</td>
 
 <td style="text-align:right;">
 
@@ -14417,57 +14692,9 @@ actual\_contribution\_rates
 
 </td>
 
-<td style="text-align:left;">
-
-2003-12-31
-
-</td>
-
 <td style="text-align:right;">
 
-8930442
-
-</td>
-
-<td style="text-align:right;">
-
-10853462
-
-</td>
-
-<td style="text-align:right;">
-
-14439546
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-338880.0
-
-</td>
-
-<td style="text-align:right;">
-
-714353.2
-
-</td>
-
-<td style="text-align:right;">
-
-230350.0
-
-</td>
-
-<td style="text-align:right;">
-
-4978132
+0.03
 
 </td>
 
@@ -14479,31 +14706,259 @@ actual\_contribution\_rates
 
 <td style="text-align:right;">
 
-3586084
+100
 
 </td>
 
 <td style="text-align:right;">
 
-0.7516484
+0.00
 
 </td>
 
 <td style="text-align:right;">
 
-0.0680737
+0.0088
 
 </td>
 
 <td style="text-align:right;">
 
-0.1434982
+2809351
+
+</td>
+
+<td style="text-align:right;">
+
+0.1267
+
+</td>
+
+<td style="text-align:right;">
+
+985918
+
+</td>
+
+<td style="text-align:right;">
+
+0.1355
+
+</td>
+
+<td style="text-align:left;">
+
+Plan covers teachers
+
+</td>
+
+<td style="text-align:right;">
+
+3287000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000
+
+</td>
+
+<td style="text-align:left;">
+
+2002-08-31
+
+</td>
+
+<td style="text-align:right;">
+
+3287000
+
+</td>
+
+<td style="text-align:right;">
+
+0.9632006
+
+</td>
+
+<td style="text-align:right;">
+
+52.02221
+
+</td>
+
+<td style="text-align:right;">
+
+0.0063575
 
 </td>
 
 </tr>
 
 <tr>
+
+<td style="text-align:left;">
+
+2003
+
+</td>
+
+<td style="text-align:left;">
+
+Texas Teacher Retirement System
+
+</td>
+
+<td style="text-align:left;">
+
+Texas
+
+</td>
+
+<td style="text-align:right;">
+
+0.047
+
+</td>
+
+<td style="text-align:left;">
+
+Entry Age Normal
+
+</td>
+
+<td style="text-align:right;">
+
+0.945
+
+</td>
+
+<td style="text-align:right;">
+
+37864
+
+</td>
+
+<td style="text-align:right;">
+
+37864
+
+</td>
+
+<td style="text-align:right;">
+
+89033000
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+94263000
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+1694080994
+
+</td>
+
+<td style="text-align:right;">
+
+0.84
+
+</td>
+
+<td style="text-align:right;">
+
+\-23428.16
+
+</td>
+
+<td style="text-align:left;">
+
+Level Percent Open
+
+</td>
+
+<td style="text-align:left;">
+
+5-year smoothed market
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+Multiple employer, cost sharing plan
+
+</td>
+
+<td style="text-align:right;">
+
+25767000
+
+</td>
+
+<td style="text-align:right;">
+
+1516802
+
+</td>
+
+<td style="text-align:right;">
+
+0.064
+
+</td>
+
+<td style="text-align:right;">
+
+182536.2
+
+</td>
+
+<td style="text-align:right;">
+
+0.0606
+
+</td>
+
+<td style="text-align:right;">
+
+1239070000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0739
+
+</td>
+
+<td style="text-align:right;">
+
+2003
+
+</td>
 
 <td style="text-align:right;">
 
@@ -14511,57 +14966,9 @@ actual\_contribution\_rates
 
 </td>
 
-<td style="text-align:left;">
-
-2004-12-31
-
-</td>
-
 <td style="text-align:right;">
 
-10427143
-
-</td>
-
-<td style="text-align:right;">
-
-10971427
-
-</td>
-
-<td style="text-align:right;">
-
-15714092
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-381791.1
-
-</td>
-
-<td style="text-align:right;">
-
-293952.4
-
-</td>
-
-<td style="text-align:right;">
-
-233226.0
-
-</td>
-
-<td style="text-align:right;">
-
-5102016
+0.03
 
 </td>
 
@@ -14573,25 +14980,91 @@ actual\_contribution\_rates
 
 <td style="text-align:right;">
 
-4742665
+100
 
 </td>
 
 <td style="text-align:right;">
 
-0.6981903
+0.03
 
 </td>
 
 <td style="text-align:right;">
 
-0.0748314
+0.0133
 
 </td>
 
 <td style="text-align:right;">
 
-0.0576150
+2938408
+
+</td>
+
+<td style="text-align:right;">
+
+0.1246
+
+</td>
+
+<td style="text-align:right;">
+
+1020013
+
+</td>
+
+<td style="text-align:right;">
+
+0.1379
+
+</td>
+
+<td style="text-align:left;">
+
+Plan covers teachers
+
+</td>
+
+<td style="text-align:right;">
+
+5230000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0400
+
+</td>
+
+<td style="text-align:left;">
+
+2003-08-31
+
+</td>
+
+<td style="text-align:right;">
+
+5230000
+
+</td>
+
+<td style="text-align:right;">
+
+0.9445169
+
+</td>
+
+<td style="text-align:right;">
+
+65.74615
+
+</td>
+
+<td style="text-align:right;">
+
+0.0070841
 
 </td>
 
@@ -14599,33 +15072,57 @@ actual\_contribution\_rates
 
 <tr>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-2005
+2004
 
 </td>
 
 <td style="text-align:left;">
 
-2005-12-31
+Texas Teacher Retirement System
+
+</td>
+
+<td style="text-align:left;">
+
+Texas
 
 </td>
 
 <td style="text-align:right;">
 
-11324365
+0.157
+
+</td>
+
+<td style="text-align:left;">
+
+Entry Age Normal
 
 </td>
 
 <td style="text-align:right;">
 
-11339293
+0.918
 
 </td>
 
 <td style="text-align:right;">
 
-16491762
+38230
+
+</td>
+
+<td style="text-align:right;">
+
+38230
+
+</td>
+
+<td style="text-align:right;">
+
+88784000
 
 </td>
 
@@ -14637,25 +15134,115 @@ actual\_contribution\_rates
 
 <td style="text-align:right;">
 
-471424.0
+96737000
 
 </td>
 
 <td style="text-align:right;">
 
-352031.5
+0
 
 </td>
 
 <td style="text-align:right;">
 
-246203.4
+1766437660
 
 </td>
 
 <td style="text-align:right;">
 
-5270351
+0.81
+
+</td>
+
+<td style="text-align:right;">
+
+\-24841.30
+
+</td>
+
+<td style="text-align:left;">
+
+Level Percent Open
+
+</td>
+
+<td style="text-align:left;">
+
+5-year smoothed market
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+Multiple employer, cost sharing plan
+
+</td>
+
+<td style="text-align:right;">
+
+25485000
+
+</td>
+
+<td style="text-align:right;">
+
+1530277
+
+</td>
+
+<td style="text-align:right;">
+
+0.064
+
+</td>
+
+<td style="text-align:right;">
+
+192395.7
+
+</td>
+
+<td style="text-align:right;">
+
+0.0532
+
+</td>
+
+<td style="text-align:right;">
+
+1239070000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0731
+
+</td>
+
+<td style="text-align:right;">
+
+2004
+
+</td>
+
+<td style="text-align:right;">
+
+2005
+
+</td>
+
+<td style="text-align:right;">
+
+0.03
 
 </td>
 
@@ -14667,25 +15254,639 @@ actual\_contribution\_rates
 
 <td style="text-align:right;">
 
-5152469
+100
 
 </td>
 
 <td style="text-align:right;">
 
-0.6875732
+0.03
 
 </td>
 
 <td style="text-align:right;">
 
-0.0894483
+0.0199
 
 </td>
 
 <td style="text-align:right;">
 
-0.0667947
+2964462
+
+</td>
+
+<td style="text-align:right;">
+
+0.1172
+
+</td>
+
+<td style="text-align:right;">
+
+1013189
+
+</td>
+
+<td style="text-align:right;">
+
+0.1371
+
+</td>
+
+<td style="text-align:left;">
+
+Plan covers teachers
+
+</td>
+
+<td style="text-align:right;">
+
+7953000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0425
+
+</td>
+
+<td style="text-align:left;">
+
+2004-08-31
+
+</td>
+
+<td style="text-align:right;">
+
+7953000
+
+</td>
+
+<td style="text-align:right;">
+
+0.9177874
+
+</td>
+
+<td style="text-align:right;">
+
+69.31284
+
+</td>
+
+<td style="text-align:right;">
+
+0.0075494
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2005
+
+</td>
+
+<td style="text-align:left;">
+
+Texas Teacher Retirement System
+
+</td>
+
+<td style="text-align:left;">
+
+Texas
+
+</td>
+
+<td style="text-align:right;">
+
+0.095
+
+</td>
+
+<td style="text-align:left;">
+
+Entry Age Normal
+
+</td>
+
+<td style="text-align:right;">
+
+0.871
+
+</td>
+
+<td style="text-align:right;">
+
+38595
+
+</td>
+
+<td style="text-align:right;">
+
+38595
+
+</td>
+
+<td style="text-align:right;">
+
+89299000
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+102495000
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+1801708659
+
+</td>
+
+<td style="text-align:right;">
+
+0.82
+
+</td>
+
+<td style="text-align:right;">
+
+\-25114.72
+
+</td>
+
+<td style="text-align:left;">
+
+Level Percent Open
+
+</td>
+
+<td style="text-align:left;">
+
+5-year smoothed market
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+Multiple employer, cost sharing plan
+
+</td>
+
+<td style="text-align:right;">
+
+25957000
+
+</td>
+
+<td style="text-align:right;">
+
+1578339
+
+</td>
+
+<td style="text-align:right;">
+
+0.064
+
+</td>
+
+<td style="text-align:right;">
+
+221158.9
+
+</td>
+
+<td style="text-align:right;">
+
+0.0400
+
+</td>
+
+<td style="text-align:right;">
+
+1241789000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0719
+
+</td>
+
+<td style="text-align:right;">
+
+2005
+
+</td>
+
+<td style="text-align:right;">
+
+2006
+
+</td>
+
+<td style="text-align:right;">
+
+0.03
+
+</td>
+
+<td style="text-align:right;">
+
+0.08
+
+</td>
+
+<td style="text-align:right;">
+
+30
+
+</td>
+
+<td style="text-align:right;">
+
+0.03
+
+</td>
+
+<td style="text-align:right;">
+
+0.0319
+
+</td>
+
+<td style="text-align:right;">
+
+3057170
+
+</td>
+
+<td style="text-align:right;">
+
+0.1040
+
+</td>
+
+<td style="text-align:right;">
+
+1009077
+
+</td>
+
+<td style="text-align:right;">
+
+0.1359
+
+</td>
+
+<td style="text-align:left;">
+
+Plan covers teachers
+
+</td>
+
+<td style="text-align:right;">
+
+13196000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0425
+
+</td>
+
+<td style="text-align:left;">
+
+2005-08-31
+
+</td>
+
+<td style="text-align:right;">
+
+13196000
+
+</td>
+
+<td style="text-align:right;">
+
+0.8712523
+
+</td>
+
+<td style="text-align:right;">
+
+69.41128
+
+</td>
+
+<td style="text-align:right;">
+
+0.0085202
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2006
+
+</td>
+
+<td style="text-align:left;">
+
+Texas Teacher Retirement System
+
+</td>
+
+<td style="text-align:left;">
+
+Texas
+
+</td>
+
+<td style="text-align:right;">
+
+0.104
+
+</td>
+
+<td style="text-align:left;">
+
+Entry Age Normal
+
+</td>
+
+<td style="text-align:right;">
+
+0.873
+
+</td>
+
+<td style="text-align:right;">
+
+38960
+
+</td>
+
+<td style="text-align:right;">
+
+38960
+
+</td>
+
+<td style="text-align:right;">
+
+94218000
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+107911000
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+1912840426
+
+</td>
+
+<td style="text-align:right;">
+
+0.83
+
+</td>
+
+<td style="text-align:right;">
+
+\-26444.40
+
+</td>
+
+<td style="text-align:left;">
+
+Level Percent Open
+
+</td>
+
+<td style="text-align:left;">
+
+5-year smoothed market
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+Multiple employer, cost sharing plan
+
+</td>
+
+<td style="text-align:right;">
+
+28397000
+
+</td>
+
+<td style="text-align:right;">
+
+1700415
+
+</td>
+
+<td style="text-align:right;">
+
+0.064
+
+</td>
+
+<td style="text-align:right;">
+
+267399.6
+
+</td>
+
+<td style="text-align:right;">
+
+0.0400
+
+</td>
+
+<td style="text-align:right;">
+
+1257672000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0702
+
+</td>
+
+<td style="text-align:right;">
+
+2006
+
+</td>
+
+<td style="text-align:right;">
+
+2007
+
+</td>
+
+<td style="text-align:right;">
+
+0.03
+
+</td>
+
+<td style="text-align:right;">
+
+0.08
+
+</td>
+
+<td style="text-align:right;">
+
+30
+
+</td>
+
+<td style="text-align:right;">
+
+0.03
+
+</td>
+
+<td style="text-align:right;">
+
+0.0302
+
+</td>
+
+<td style="text-align:right;">
+
+3299917
+
+</td>
+
+<td style="text-align:right;">
+
+0.1040
+
+</td>
+
+<td style="text-align:right;">
+
+1067126
+
+</td>
+
+<td style="text-align:right;">
+
+0.1342
+
+</td>
+
+<td style="text-align:left;">
+
+Plan covers teachers
+
+</td>
+
+<td style="text-align:right;">
+
+13694000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0425
+
+</td>
+
+<td style="text-align:left;">
+
+2006-08-31
+
+</td>
+
+<td style="text-align:right;">
+
+13693000
+
+</td>
+
+<td style="text-align:right;">
+
+0.8731084
+
+</td>
+
+<td style="text-align:right;">
+
+67.36065
+
+</td>
+
+<td style="text-align:right;">
+
+0.0094165
 
 </td>
 
@@ -14695,32 +15896,9 @@ actual\_contribution\_rates
 
 </table>
 
-### `reasonStyle()`
-
-5.  `reasonStyle()`: has no arguments and is added to the ggplot chain
-    after you have created a plot. What it does is generally makes text
-    size, font and colour, axis lines, axis text and many other standard
-    chart components into Reason style.
-
-The function is pretty basic and does not change or adapt based on the
-type of chart you are making, so in some cases you will need to make
-additional `theme` arguments in your ggplot chain if you want to make
-any additions or changes to the style, for example to add or remove
-gridlines etc. Also note that colours for lines in the case of a line
-chart or bars for a bar chart, do not come out of the box from the
-`reasonStyle` function, but need to be explicitly set in your other
-standard `ggplot` chart functions.
-
-Example of how it is used in a standard workflow:
-
-    line <- ggplot2(line_df, aes(x = year, y = lifeExp)) +
-    geom_line(colour = "#007f7f", size = 1) +
-    geom_hline(yintercept = 0, size = 1, colour="#333333") +
-    reasonStyle()
-
 ### `glPlot()`
 
-6.  `glPlot()`: creates the ‘Gain/Loss’ plot using a CSV file as an
+5.  `glPlot()`: creates the ‘Gain/Loss’ plot using a CSV file as an
     input. glPlot has two arguments:
 
 `glPlot(filename, ylab_unit)`
@@ -14737,7 +15915,7 @@ Example of how it is used in a standard workflow:
 
 ### `linePlot()`
 
-7.  `linePlot()`: creates a plot comparing two variables, such as ADEC
+6.  `linePlot()`: creates a plot comparing two variables, such as ADEC
     vs. Actual contributions. `linePlot()` has six arguments, with
     `data` being required:
 

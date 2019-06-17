@@ -51,5 +51,5 @@ linePlot <- function(data,
 
     labs(x = element_blank(), y = labelY) +
 
-    reasonStyle()
+    reasontheme::reasonStyle()
 }

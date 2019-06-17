@@ -68,7 +68,7 @@ debtPlot <- function(data) {
       expand = c(0, 0)) +
 
     # adds the Reason theme defined previously
-    reasonStyle() +
+    reasontheme::reasonStyle() +
 
     ggplot2::theme(legend.position = "none")
 }
@@ -86,7 +86,7 @@ debtTable <- function(data) {
     # give the columns pretty names
     dplyr::select(
       "Year" = .data$year,
-      "Actuarial Assets" = .data$actuarial_assets,
+      "Actuarial Assets" = .data$ava,
       "Actuarial Accrued Liabilities" = .data$aal,
       "Unfunded Actuarial Accrued Liabilities" = .data$uaal,
       "Funded Ratio" = .data$funded_ratio

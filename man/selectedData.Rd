@@ -4,40 +4,10 @@
 \alias{selectedData}
 \title{Selects the data used in several graphs.}
 \usage{
-selectedData(wide_data,
-  .date_var = "actuarial_valuation_date_for_gasb_assumptions",
-  .aal_var = "actuarial_accrued_liabilities_under_gasb_standards",
-  .mva_var = "beginning_market_assets_net",
-  .ava_var = "actuarial_assets_under_gasb_standards",
-  .tpl_var = "total_pension_liability",
-  .adec_var = "employer_annual_required_contribution",
-  .er_cont_var = "employer_contributions",
-  .ee_cont_var = "employee_contributions",
-  .payroll_var = "covered_payroll",
-  .arr_var = "investment_return_assumption_for_gasb_reporting")
+selectedData(wide_data)
 }
 \arguments{
 \item{wide_data}{a datasource in wide format}
-
-\item{.date_var}{column name for valuation date. Default: 'Actuarial Valuation Date For GASB Assumptions'}
-
-\item{.aal_var}{column name AAL. Default: 'Actuarial Accrued Liabilities Under GASB Standards'}
-
-\item{.mva_var}{column name for Market Value of Assets. Default: 'beginning_market_assets_net'}
-
-\item{.ava_var}{column name for Actuarial Assets. Default: 'Actuarial Assets under GASB standards'}
-
-\item{.tpl_var}{column name for Total Pension Liability. Default: "total_pension_liability",}
-
-\item{.adec_var}{column name for ADEC. Default: 'Employer Annual Required Contribution'}
-
-\item{.er_cont_var}{column name for employer contributions. Default: 'Employer Contributions'}
-
-\item{.ee_cont_var}{column name for employee contributions. Default: 'Employee Contributions'}
-
-\item{.payroll_var}{column name for payroll. Default: 'Covered Payroll'}
-
-\item{.arr_var}{column name for the Assumed Rate of Return. Default: 'investment_return_assumption_for_gasb_reporting'}
 }
 \value{
 A data frame containing the columns: year, valuation_date, actuarial_assets, aal, adec, er_cont, ee_cont, payroll, uaal, funded_ratio, adec_contribution_rates, actual_contribution_rates
@@ -47,17 +17,6 @@ Selects the data used in several graphs.
 }
 \examples{
 \dontrun{
-data <- selected_Data(wide_data,
-                 .date_var = 'Actuarial Valuation Date For GASB Assumptions',
-                 .aal_var = 'Actuarial Accrued Liabilities Under GASB Standards',
-                 .mva_var = 'beginning_market_assets_net',
-                 .ava_var = 'Actuarial Assets under GASB standards',
-                 .tpl_var = 'total_pension_liability',
-                 .adec_var = 'Employer Annual Required Contribution',
-                 .er_cont_var = 'Employer Contributions',
-                 .ee_cont_var = 'Employer Contributions',
-                 .payroll_var = 'Covered Payroll',
-                 .arr_var = 'investment_return_assumption_for_gasb_reporting'
-                 )
+data <- selected_Data(wide_data)
 }
 }
