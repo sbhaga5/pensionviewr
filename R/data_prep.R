@@ -120,83 +120,66 @@ loadData <- function(filename) {
 #' Selects the data used in several graphs.
 #'
 #' @param wide_data a datasource in wide format
-#' @param .date_var column name for valuation date. Default: 'Actuarial Valuation Date For GASB Assumptions'
-#' @param .aal_var column name AAL. Default: 'Actuarial Accrued Liabilities Under GASB Standards'
-#' @param .mva_var column name for Market Value of Assets. Default: 'beginning_market_assets_net'
-#' @param .ava_var column name for Actuarial Assets. Default: 'Actuarial Assets under GASB standards'
-#' @param .adec_var column name for ADEC. Default: 'Employer Annual Required Contribution'
-#' @param .tpl_var column name for Total Pension Liability. Default: "total_pension_liability",
-#' @param .er_cont_var column name for employer contributions. Default: 'Employer Contributions'
-#' @param .ee_cont_var column name for employee contributions. Default: 'Employee Contributions'
-#' @param .payroll_var column name for payroll. Default: 'Covered Payroll'
-#' @param .arr_var column name for the Assumed Rate of Return. Default: 'investment_return_assumption_for_gasb_reporting'
 #' @return A data frame containing the columns: year, valuation_date, actuarial_assets, aal, adec, er_cont, ee_cont, payroll, uaal, funded_ratio, adec_contribution_rates, actual_contribution_rates
 #' @export
 #' @examples
 #' \dontrun{
-#' data <- selected_Data(wide_data,
-#'                  .date_var = 'Actuarial Valuation Date For GASB Assumptions',
-#'                  .aal_var = 'Actuarial Accrued Liabilities Under GASB Standards',
-#'                  .mva_var = 'beginning_market_assets_net',
-#'                  .ava_var = 'Actuarial Assets under GASB standards',
-#'                  .tpl_var = 'total_pension_liability',
-#'                  .adec_var = 'Employer Annual Required Contribution',
-#'                  .er_cont_var = 'Employer Contributions',
-#'                  .ee_cont_var = 'Employer Contributions',
-#'                  .payroll_var = 'Covered Payroll',
-#'                  .arr_var = 'investment_return_assumption_for_gasb_reporting'
-#'                  )
+#' data <- selected_Data(wide_data)
 #' }
 
-selectedData <- function(wide_data,
-  .date_var = "actuarial_valuation_date_for_gasb_assumptions",
-  .aal_var = "actuarial_accrued_liabilities_under_gasb_standards",
-  .mva_var = "beginning_market_assets_net",
-  .ava_var = "actuarial_assets_under_gasb_standards",
-  .tpl_var = "total_pension_liability",
-  .adec_var = "employer_annual_required_contribution",
-  .er_cont_var = "employer_contributions",
-  .ee_cont_var = "employee_contributions",
-  .payroll_var = "covered_payroll",
-  .arr_var = "investment_return_assumption_for_gasb_reporting") {
+selectedData <- function(wide_data) {
 
-  date_var <- rlang::sym(.date_var)
-  aal_var <- rlang::sym(.aal_var)
-  mva_var <- rlang::sym(.mva_var)
-  ava_var <- rlang::sym(.ava_var)
-  tpl_var <- rlang::sym(.tpl_var)
-  adec_var <- rlang::sym(.adec_var)
-  er_cont_var <- rlang::sym(.er_cont_var)
-  ee_cont_var <- rlang::sym(.ee_cont_var)
-  payroll_var <- rlang::sym(.payroll_var)
-  arr_var <- rlang::sym(.arr_var)
-
-  wide_data %>%
-    dplyr::mutate(
-      date = !!date_var
-    ) %>%
-    dplyr::mutate(
-      year = lubridate::year(janitor::excel_numeric_to_date(as.numeric(.data$date))),
-      valuation_date = janitor::excel_numeric_to_date(as.numeric(.data$date))
-    ) %>%
+   wide_data %>%
     dplyr::select(
-      .data$year,
-      .data$valuation_date,
-      market_value_assets = !!mva_var,
-      actuarial_assets = !!ava_var,
-      aal = !!aal_var,
-      tpl = !!tpl_var,
-      adec = !!adec_var,
-      er_cont = !!er_cont_var,
-      ee_cont = !!ee_cont_var,
-      payroll = !!payroll_var,
-      assumed_rate_of_return = !!arr_var
+      year,
+      plan_name = display_name,
+      state,
+      return_1yr = x1_year_investment_return_percentage,
+      actuarial_cost_method_in_gasb_reporting,
+      funded_ratio = actuarial_funded_ratio_percentage,
+      actuarial_valuation_date_for_gasb_schedules,
+      actuarial_valuation_report_date,
+      ava = actuarial_value_of_assets_gasb_dollar,
+      mva = market_value_of_assets_dollar,
+      aal = actuarially_accrued_liabilities_dollar,
+      tpl = total_pension_liability_dollar,
+      adec = actuarially_required_contribution_dollar,
+      adec_paid_pct = actuarially_required_contribution_paid_percentage,
+      admin_exp = administrative_expense_dollar,
+      amortizaton_method,
+      asset_valuation_method_for_gasb_reporting,
+      benefit_payments = benefit_payments_dollar,
+      cost_structure,
+      payroll = covered_payroll_dollar,
+      ee_contribution = employee_contribution_dollar,
+      ee_nc_pct = employee_normal_cost_percentage,
+      er_contribution = employer_contribution_regular_dollar,
+      er_nc_pct = employer_normal_cost_percentage,
+      er_state_contribution = employer_state_contribution_dollar,
+      er_proj_adec_pct = employers_projected_actuarial_required_contribution_percentage_of_payroll,
+      fy = fiscal_year,
+      fy_contribution = fiscal_year_of_contribution,
+      inflation_assum = inflation_rate_assumption_for_gasb_reporting,
+      arr = investment_return_assumption_for_gasb_reporting,
+      number_of_years_remaining_on_amortization_schedule,
+      payroll_growth_assumption,
+      total_amortization_payment_pct = total_amortization_payment_percentage,
+      total_contribution = total_contribution_dollar,
+      total_nc_pct = total_normal_cost_percentage,
+      total_number_of_members,
+      total_proj_adec_pct = total_projected_actuarial_required_contribution_percentage_of_payroll,
+      type_of_employees_covered,
+      unfunded_actuarially_accrued_liabilities_dollar,
+      wage_inflation
+    ) %>%
+    mutate(
+      valuation_date = janitor::excel_numeric_to_date(as.numeric(.data$actuarial_valuation_date_for_gasb_schedules))
     ) %>%
     dplyr::mutate(
-      uaal = as.numeric(.data$aal) - as.numeric(.data$actuarial_assets),
-      funded_ratio = as.numeric(.data$actuarial_assets) / as.numeric(.data$aal),
+      uaal = as.numeric(.data$aal) - as.numeric(.data$ava),
+      funded_ratio_calc = as.numeric(.data$ava) / as.numeric(.data$aal),
       adec_contribution_rates = as.numeric(.data$adec) / as.numeric(.data$payroll),
-      actual_contribution_rates = as.numeric(.data$er_cont) / as.numeric(.data$payroll)
+      actual_contribution_rates = as.numeric(.data$er_contribution) / as.numeric(.data$payroll)
     ) %>%
     tidyr::drop_na()
 }
