@@ -180,7 +180,6 @@ selectedData <- function(wide_data) {
       funded_ratio_calc = as.numeric(.data$ava) / as.numeric(.data$aal),
       adec_contribution_rates = as.numeric(.data$adec) / as.numeric(.data$payroll),
       actual_contribution_rates = as.numeric(.data$er_contribution) / as.numeric(.data$payroll)
-    ) %>%
-    tidyr::drop_na()
+    )
 }
 
