@@ -1,7 +1,7 @@
 Package: pensionviewr
 Type: Package
 Title: Tools for pension data loading and visualization
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: person("Andrew", "Abbott", email = "andrew.abbott@reason.org", role = c("aut", "cre"))
 Description: Tools for loading, saving and visualizing pension data from Reason's pension database or external file.
 License: CC0
