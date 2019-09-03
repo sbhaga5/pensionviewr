@@ -31,7 +31,7 @@ debtPlot <- function(data) {
                        color = "#3300FF",
                        size = 1) +
     # axis labels
-    ggplot2::labs(y = "Unfunded Accrued Actuarial Liabilities", x = NULL) +
+    ggplot2::labs(y = "Unfunded Accrued Actuarial Liabilities (Millions)", x = NULL) +
 
     # colors assigned to pos, neg
     ggplot2::scale_fill_manual(
@@ -47,7 +47,7 @@ debtPlot <- function(data) {
       # changes the format to be dollars, without cents, scaled to be in billions
       labels = scales::dollar_format(
         prefix = "$",
-        scale = (1e-3),
+        scale = (1e-6),
         largest_with_cents = 1
       ),
       # defines the right side y-axis as a transformation of the left side axis, maximum UAAL = 100%, sets the breaks, labels
