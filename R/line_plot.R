@@ -21,6 +21,8 @@ linePlot <- function(data,
   lab1 <- rlang::sym(label1)
   lab2 <- rlang::sym(label2)
 
+  reasontheme::set_reason_theme(style = "slide")
+
   graph <- data %>%
     dplyr::select(
       .data$year,
@@ -49,7 +51,6 @@ linePlot <- function(data,
         expand = c(0, 0)
       ) +
 
-    labs(x = element_blank(), y = labelY) +
+    labs(x = element_blank(), y = labelY)
 
-    reasontheme::reasonStyle()
 }

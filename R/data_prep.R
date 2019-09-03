@@ -172,6 +172,7 @@ selectedData <- function(wide_data) {
       unfunded_actuarially_accrued_liabilities_dollar,
       wage_inflation
     ) %>%
+    dplyr::filter(year > 2000) %>%
     mutate(
       valuation_date = janitor::excel_numeric_to_date(as.numeric(.data$actuarial_valuation_date_for_gasb_schedules))
     ) %>%

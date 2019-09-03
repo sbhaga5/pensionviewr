@@ -40,7 +40,6 @@ glPlot <-
       ggplot2::scale_fill_manual(values = fill_colors) +
       ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(5), labels = scales::dollar_format(prefix = "$")) +
       ggplot2::ylab(ylab) +
-      reasontheme::reasonStyle() +
       ggplot2::theme(
         legend.position = "none",
         axis.ticks.x = ggplot2::element_blank(),

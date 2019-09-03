@@ -67,9 +67,6 @@ debtPlot <- function(data) {
     ggplot2::scale_x_continuous(breaks = round(seq(min(graph$year), max(graph$year), by = 1), 1),
       expand = c(0, 0)) +
 
-    # adds the Reason theme defined previously
-    reasontheme::reasonStyle() +
-
     ggplot2::theme(legend.position = "none")
 }
 

@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 library(pensionviewr)
 library(tidyverse)
 library(kableExtra)
+library(reasontheme)
 ```
 # pensionviewr
 
@@ -79,7 +80,7 @@ devtools::install_github("ReasonFoundation/pensionviewr")
 
 The package has four functions for data pulling and preparation: `planList()`, `pullData()`, `loadData()`, and `selectedData()`.
 
-The package has five functions for plots: `reasonStyle()`, `glPlot()`, `linePlot()`, `debtPlot()`, and `savePlot()`.
+The package has four functions for plots: `glPlot()`, `linePlot()`, `debtPlot()`, and `savePlot()`.
 
 A basic explanation and summary here:
 
@@ -107,21 +108,20 @@ pl %>%
 
 Example of how it is used in a standard workflow:
 
-The next step would be to load the data for the specific plan of interest. Let's use Texas Teacher Retirement System as an example. Let's first see what plans in Texas are available with the word "teacher' in the name:
+The next step would be to load the data for the specific plan of interest. Let's use the Vermont State Retirement System as an example. Let's first see what plans in Vermont are available:
 
 ```{r Kansas}
-TX <- pl %>% filter(state == 'Texas', str_detect(tolower(display_name), pattern = "teacher"))
-TX %>% 
-  head() %>%
+VT <- pl %>% filter(state == 'Vermont')
+VT %>% 
   kable() %>%
   kable_styling(full_width = FALSE, position = "left")
 ```
 
-The full plan name we are interested in is there listed as "Texas Teacher Retirement System". We can pull the data for it now:
+The full plan name we are interested in is there listed as "Vermon State Retirement System". We can pull the data for it now:
 
 ```{r pullData}
-ttrs_data <- pullData(pl, plan_name = "Texas Teacher Retirement System")
-ttrs_data %>% 
+vtsrs_data <- pullData(pl, plan_name = "Vermont State Retirement System")
+vtsrs_data %>% 
   head() %>%
   kable() %>%
   kable_styling(full_width = FALSE, position = "left")
@@ -150,7 +150,7 @@ data_from_file <- loadData('data/NorthCarolina_PensionDatabase_TSERS.xlsx')
 Back to the Kansas Public Employees' example. That is a lot of variables. The `selectedData()` function selects only a handful of needed variables:
 
 ```{r selectedData}
-df <- selectedData(ttrs_data)
+df <- selectedData(vtsrs_data)
 df %>% 
   head() %>%
   kable() %>%
