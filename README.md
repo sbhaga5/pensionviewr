@@ -16184,6 +16184,12 @@ linePlot(df)
   - `data`: a dataframe produced by the `selectedData()` function or in
     the same format containing year, uaal, funded ratio columns.
 
+<!-- end list -->
+
+``` r
+debtPlot(df)
+```
+
 <img src="man/figures/README-plot1-1.png" width="100%" />
 
 ### `savePlot()`

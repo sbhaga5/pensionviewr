@@ -78,9 +78,17 @@ devtools::install_github("ReasonFoundation/pensionviewr")
 
 ## Using the functions:
 
-The package has four functions for data pulling and preparation: `planList()`, `pullData()`, `loadData()`, and `selectedData()`.
+The package has four functions for data pulling and preparation: 
+`planList()`, 
+`pullData()`, 
+`loadData()`, and 
+`selectedData()`.
 
-The package has four functions for plots: `glPlot()`, `linePlot()`, `debtPlot()`, and `savePlot()`.
+The package has four functions for plots: 
+`glPlot()`, 
+`linePlot()`, 
+`debtPlot()`, and 
+`savePlot()`.
 
 A basic explanation and summary here:
 
@@ -186,7 +194,7 @@ glPlot(filename)
 * `label1` A label for the first variable.
 * `label2` A label for the second variable.
 
-```{r contributions}
+```{r contributions, fig.width = 9, fig.height = 5.33}
 linePlot(df)
 ```
 
@@ -198,9 +206,8 @@ linePlot(df)
 
 * `data`: a dataframe produced by the `selectedData()` function or in the same format containing year, uaal, funded ratio columns.
 
-```{r plot1, echo = FALSE}
-debt_plot <- debtPlot(df)
-debt_plot
+```{r plot1, fig.width=9, fig.height = 5.33}
+debtPlot(df)
 ```
 
 ### `savePlot()`
@@ -217,6 +224,7 @@ debt_plot
 ```
 savePlot(debt_plot, source = "Source: KPERS", save_filepath = "output/test.png")
 ```
+
 
 The BBC has created a wonderful data journalism cookbook for R graphics located here:
 https://bbc.github.io/rcookbook/
