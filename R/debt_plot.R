@@ -63,10 +63,6 @@ debtPlot <- function(data) {
       expand = c(0, 0)
     ) +
 
-    ggplot2::theme(
-      axis.title.y.right = element_text(angle = -90)
-          ) +
-
     # sets the x-axis scale
     ggplot2::scale_x_continuous(breaks = round(seq(min(graph$year), max(graph$year), by = 1), 1),
       expand = c(0, 0)) +
