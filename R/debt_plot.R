@@ -8,7 +8,7 @@
 #' @importFrom rlang .data
 debtPlot <- function(data) {
   data <- data %>%
-    dplyr::filter(data$aal != 0)
+    dplyr::filter(data$uaal != 0)
   # extrapolate between years linearly
   extrapo <- stats::approx(data$year, data$uaal, n = 10000)
   extrapo2 <- stats::approx(data$year, data$funded_ratio, n = 10000)
