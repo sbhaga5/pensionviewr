@@ -15,61 +15,6 @@ Pension Integrity Project team.
 `pensionviewr` is not on CRAN, so you will have to install it directly
 from Github using `devtools`.
 
-`devtools` calls the GitHub API (Application Programming Interface). And
-this requires that you authenticate yourself in a different way than the
-usual username and password. For the GitHub API, we use a personal
-access token (PAT), which is a convention followed by many other APIs.
-
-### Step-by-step
-
-source: <https://happygitwithr.com/github-pat.html>
-
-Login to your GitHub account. Go to
-<https://github.com/settings/tokens>.
-
-“Generate new token”. Give it a nickname that reminds you of the
-intended purpose, e.g., “devtools”.
-
-Pick scopes that confer the privileges you need. When in doubt, check
-the repo scope, which is required for typical devtools operations. There
-used to be a set of default scopes, but that no longer appears to be
-true.
-
-After you click “Generate token”, the token will be displayed. It’s a
-string of 40 random letters and digits. This is the last time you will
-see it SO COPY IT TO THE CLIPBOARD. Leave this window open until you’re
-done. If you somehow goof this up, just generate a new one and try
-again.
-
-Put your PAT in your .Renviron file. Have a line that looks like this:
-
-    GITHUB_PAT=8c70fd8419398999c9ac5bacf3192882193cadf2
-
-but with your PAT instead of mine. Don’t worry, I’ve revoked this one\!
-
-`.Renviron` is a hidden file that lives in your home directory. Not sure
-where that is? The easiest way to find and edit `.Renviron` is with a
-function from the `usethis` package. In R, do:
-
-    usethis::edit_r_environ()
-
-Your `.Renviron` file should pop up in your editor. Add your GITHUB\_PAT
-as above, save and close it.
-
-Put a line break at the end.
-
-Restart R (Session \> Restart R in the RStudio menu bar), as environment
-variables are loaded from `.Renviron` only at the start of an R session.
-Check that the PAT is now available like so:
-
-    Sys.getenv("GITHUB_PAT")
-
-You should see your PAT print to screen.
-
-Now commands you run from the `devtools` package, which consults
-`GITHUB_PAT` by default, will be able to access private GitHub
-repositories to which you have access.
-
 If you do not have the `devtools` package installed, you will have to
 run the first line in the code below as well.
 
@@ -12363,7 +12308,7 @@ NA
 
 <td style="text-align:right;">
 
-NA
+0.599
 
 </td>
 
@@ -12405,7 +12350,19 @@ NA
 
 <td style="text-align:right;">
 
+364628000
+
+</td>
+
+<td style="text-align:right;">
+
 NA
+
+</td>
+
+<td style="text-align:right;">
+
+609139000
 
 </td>
 
@@ -12429,25 +12386,13 @@ NA
 
 <td style="text-align:right;">
 
-NA
+25497000
 
 </td>
 
 <td style="text-align:right;">
 
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
+0.693
 
 </td>
 
@@ -12765,7 +12710,7 @@ NA
 
 <td style="text-align:right;">
 
-NA
+205627000
 
 </td>
 
@@ -12939,7 +12884,7 @@ NA
 
 <td style="text-align:right;">
 
-NA
+17669421
 
 </td>
 
@@ -14115,7 +14060,7 @@ NA
 
 <td style="text-align:right;">
 
-NA
+244511000
 
 </td>
 
@@ -14520,7 +14465,7 @@ Entry Age Frozen.
 
 <td style="text-align:right;">
 
-0.930
+0.9297249
 
 </td>
 
@@ -14609,7 +14554,7 @@ Multiple employer, cost sharing plan
 
 <td style="text-align:right;">
 
-10845315
+19549514
 
 </td>
 
@@ -14793,7 +14738,7 @@ Entry Age Frozen.
 
 <td style="text-align:right;">
 
-0.974
+0.9737703
 
 </td>
 
@@ -14882,7 +14827,7 @@ Multiple employer, cost sharing plan
 
 <td style="text-align:right;">
 
-11723858
+23787463
 
 </td>
 
@@ -15066,7 +15011,7 @@ Entry Age Frozen.
 
 <td style="text-align:right;">
 
-0.975
+0.9747767
 
 </td>
 
@@ -15155,7 +15100,7 @@ Multiple employer, cost sharing plan
 
 <td style="text-align:right;">
 
-12171186
+24394010
 
 </td>
 
@@ -15339,7 +15284,7 @@ Entry Age Frozen.
 
 <td style="text-align:right;">
 
-0.976
+0.9762783
 
 </td>
 
@@ -15428,7 +15373,7 @@ Multiple employer, cost sharing plan
 
 <td style="text-align:right;">
 
-13716264
+26646412
 
 </td>
 
@@ -15612,7 +15557,7 @@ Entry Age Frozen.
 
 <td style="text-align:right;">
 
-0.978
+0.9779638
 
 </td>
 
@@ -15701,7 +15646,7 @@ Multiple employer, cost sharing plan
 
 <td style="text-align:right;">
 
-15112105
+36494508
 
 </td>
 
@@ -15885,7 +15830,7 @@ Entry Age Normal
 
 <td style="text-align:right;">
 
-0.993
+0.9926613
 
 </td>
 
@@ -15933,7 +15878,7 @@ Entry Age Normal
 
 <td style="text-align:right;">
 
-0.9647
+0.9758
 
 </td>
 
@@ -15974,7 +15919,7 @@ Multiple employer, cost sharing plan
 
 <td style="text-align:right;">
 
-14561467
+37289908
 
 </td>
 
