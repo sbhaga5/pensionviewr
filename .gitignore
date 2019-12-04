@@ -4,4 +4,4 @@
 .Ruserdata
 .Rbuildignore
 data-raw
-pensionviewr.Rproj
+*.Rproj
