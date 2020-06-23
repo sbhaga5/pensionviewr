@@ -23,6 +23,9 @@ install.packages('devtools')
 devtools::install_github("ReasonFoundation/pensionviewr")
 ```
 
+Note:  If using Windows, it may also be necessary to download and install
+RTools40 and to manually install the package backports via RStudio.
+
 ## Using the functions:
 
 The package has four functions for data pulling and preparation:
