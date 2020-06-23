@@ -10,6 +10,20 @@ once installed locally, provides helpful functions for creating and
 exporting graphics made in ggplot in the style used by the Reason
 Pension Integrity Project team.
 
+## Create Token:
+To use devtools you'd need to authenticate yourself by
+creating Personal Access Tokens (PAT):
+
+  - Obtain a PAT by typing `usethis::browse_github_pat()`.
+Click "Generate token" and Copy to Clipboard the displayed string of 40 letters/digits.
+  - Find your .Renviron in your home directory by typing:
+`usethis::edit_r_environ()`
+  - Put your PAT in your .Renviron file. Have a line that looks like this:
+`GITHUB_PAT=8c70fd8419398999c9ac5bacf3192882193cadf2` (but use your own PAT instead)
+  - Save edited .Renviron file, and
+  - Lastly, restart R & check your PAT by typing:
+`Sys.getenv("GITHUB_PAT")`
+
 ## Installing pensionviewr
 
 `pensionviewr` is not on CRAN, so you will have to install it directly
