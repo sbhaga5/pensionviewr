@@ -6,6 +6,7 @@
 #' debtPlot(data)
 #' }
 #' @importFrom rlang .data
+'Test'
 debtPlot <- function(data) {
   data <- data %>%
     dplyr::filter(data$uaal != 0)
